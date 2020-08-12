@@ -1,0 +1,12 @@
+server:
+  port: 8099
+
+spring:
+  application:
+    name: Microsoft 365 Admin
+  profiles: # 默认的profile为dev
+    active: cit
+logging:
+  level:
+    global: debug
+

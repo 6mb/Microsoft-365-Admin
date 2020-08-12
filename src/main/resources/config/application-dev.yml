@@ -1,0 +1,43 @@
+#spring:
+#  redis:
+#    database: 0
+#    host: 127.0.0.1
+#    port: 6379
+
+# 程序自定义配置
+graph:
+  cache: file
+  configs:
+  - appName: mjj # 自定义该账号的类型（建议使用英文：默认域名前缀，必填）
+    appId: mjj # 应用程序(客户端) ID client（必填）
+    appTenant: mjj # 目录(租户) tenant（必填）
+    appSecret: mjj # secrets（必填）
+    admin: mjj # 全局管理员账号（可以为空）
+  - appName: mjj
+    appId: mjj
+    appTenant: mjj
+    appSecret: mjj
+    domain: mjj
+    admin: mjj
+  subscribed: # 订阅类型，自行添加其他
+  - skuName: STANDARDWOFFPACK_STUDENT
+    displayName: A1 学生版
+    skuId: 314c4481-f395-4525-be8b-2ec4bb1e9d91
+  - skuName: STANDARDWOFFPACK_FACULTY
+    displayName: A1 教师版
+    skuId: 94763226-9b3c-4e75-a931-5c89701abe66
+  - skuName: OFFICE_365_A1_PLUS_FOR_STUDENT
+    displayName: A1P 学生版
+    skuId: e82ae690-a2d5-4d76-8d30-7c6e01e6022e
+  - skuName: OFFICE_365_A1_PLUS_FOR_FACULTY
+    displayName: A1P 教师版
+    skuId: 78e66a63-337a-4a9a-8959-41c6654dfb56
+  - skuName: M365EDU_A3_STUUSEBNFT_RPA1
+    displayName: A3 无人值守版
+    skuId: 1aa94593-ca12-4254-a738-81a5972958e8
+  - skuName: Office_365_E3Y
+    displayName: E3Y
+    skuId: 6fd2c87f-b296-42f0-b197-1e91e994b900
+
+
+

@@ -1,0 +1,1070 @@
+{
+	"info": {
+		"_postman_id": "b52460a7-9957-4aaa-a064-d2ea1c60dc1c",
+		"name": "Microsoft 365 Admin",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "v2.1",
+			"item": [
+				{
+					"name": "查询首页信息",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}:{{port}}/microsoft/365/homePage?appName=mjj",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"microsoft",
+								"365",
+								"homePage"
+							],
+							"query": [
+								{
+									"key": "appName",
+									"value": "mjj",
+									"description": "组织类型"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "查询首页信息",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{host}}:{{port}}/microsoft/365/homePage?appName=LAZY_EDU",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"microsoft",
+										"365",
+										"homePage"
+									],
+									"query": [
+										{
+											"key": "appName",
+											"value": "LAZY_EDU",
+											"description": "组织类型：[ TELEP; LAZY_EDU;  A1P1;  A1P2; A1 ]"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=UTF-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 11 Aug 2020 03:39:44 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"message\": \"操作成功\",\n    \"data\": {\n        \"statisticsVo\": {\n            \"productSubs\": 1,\n            \"licenses\": 5000,\n            \"allocatedLicenses\": 4969,\n            \"availableLicenses\": 31,\n            \"users\": 4992,\n            \"allowedUsers\": 4988,\n            \"biddenUsers\": 4,\n            \"unauthorizedUsers\": 0\n        },\n        \"noLandingUsers\": [\n            {\n                \"userId\": \"d06e1bb1-f364-445d-a4e6-748c4c33dd3e\",\n                \"skuId\": null,\n                \"skuType\": null,\n                \"surname\": null,\n                \"givenName\": null,\n                \"displayName\": \"LazyEdu\",\n                \"mailNickname\": \"admin\",\n                \"userPrincipalName\": \"admin@lazyedu.onmicrosoft.com\",\n                \"password\": null,\n                \"passwordPolicies\": \"DisablePasswordExpiration, DisableStrongPassword\",\n                \"mobilePhone\": null,\n                \"mail\": null,\n                \"companyName\": null,\n                \"usageLocation\": \"CN\",\n                \"streetAddress\": null,\n                \"city\": null,\n                \"state\": null,\n                \"country\": \"CN\",\n                \"accountEnabled\": false,\n                \"createdDateTime\": \"2020-05-09T02:09:22Z\",\n                \"appName\": null,\n                \"needDeleted\": null,\n                \"top\": 999,\n                \"skuVos\": null\n            },\n            {\n                \"userId\": \"b28945cc-8f8f-4dcf-a300-11dbea59e434\",\n                \"skuId\": null,\n                \"skuType\": null,\n                \"surname\": null,\n                \"givenName\": null,\n                \"displayName\": \"Info\",\n                \"mailNickname\": \"info\",\n                \"userPrincipalName\": \"info@anran.dovedaleprimaryschool.org.uk\",\n                \"password\": null,\n                \"passwordPolicies\": \"DisablePasswordExpiration, DisableStrongPassword\",\n                \"mobilePhone\": null,\n                \"mail\": null,\n                \"companyName\": null,\n                \"usageLocation\": \"CN\",\n                \"streetAddress\": null,\n                \"city\": null,\n                \"state\": null,\n                \"country\": null,\n                \"accountEnabled\": false,\n                \"createdDateTime\": \"2020-05-28T14:34:04Z\",\n                \"appName\": null,\n                \"needDeleted\": null,\n                \"top\": 999,\n                \"skuVos\": null\n            },\n            {\n                \"userId\": \"432fec36-5db9-4a43-8f74-5be28fa229d5\",\n                \"skuId\": null,\n                \"skuType\": null,\n                \"surname\": null,\n                \"givenName\": null,\n                \"displayName\": \"privilege\",\n                \"mailNickname\": \"privilege\",\n                \"userPrincipalName\": \"privilege@lazyedu.onmicrosoft.com\",\n                \"password\": null,\n                \"passwordPolicies\": \"DisablePasswordExpiration, DisableStrongPassword\",\n                \"mobilePhone\": null,\n                \"mail\": null,\n                \"companyName\": null,\n                \"usageLocation\": null,\n                \"streetAddress\": null,\n                \"city\": null,\n                \"state\": null,\n                \"country\": null,\n                \"accountEnabled\": false,\n                \"createdDateTime\": \"2020-06-04T02:15:55Z\",\n                \"appName\": null,\n                \"needDeleted\": null,\n                \"top\": 999,\n                \"skuVos\": null\n            },\n            {\n                \"userId\": \"bb56d509-2613-4f57-9cf2-fb163f268491\",\n                \"skuId\": null,\n                \"skuType\": null,\n                \"surname\": null,\n                \"givenName\": null,\n                \"displayName\": \"special\",\n                \"mailNickname\": \"special\",\n                \"userPrincipalName\": \"special@lazyedu.onmicrosoft.com\",\n                \"password\": null,\n                \"passwordPolicies\": \"DisablePasswordExpiration, DisableStrongPassword\",\n                \"mobilePhone\": null,\n                \"mail\": null,\n                \"companyName\": null,\n                \"usageLocation\": null,\n                \"streetAddress\": null,\n                \"city\": null,\n                \"state\": null,\n                \"country\": null,\n                \"accountEnabled\": false,\n                \"createdDateTime\": \"2020-06-04T02:13:52Z\",\n                \"appName\": null,\n                \"needDeleted\": null,\n                \"top\": 999,\n                \"skuVos\": null\n            }\n        ],\n        \"unauthorizedUsers\": null\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "查询许可统计",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}:{{port}}/microsoft/365/getLicenseStatistics?appName=mjj",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"microsoft",
+								"365",
+								"getLicenseStatistics"
+							],
+							"query": [
+								{
+									"key": "appName",
+									"value": "mjj",
+									"description": "组织类型"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "查询首页信息",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{host}}:{{port}}/microsoft/365/homePage?appName=LAZY_EDU",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"microsoft",
+										"365",
+										"homePage"
+									],
+									"query": [
+										{
+											"key": "appName",
+											"value": "LAZY_EDU",
+											"description": "组织类型：[ TELEP; LAZY_EDU;  A1P1;  A1P2; A1 ]"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=UTF-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 11 Aug 2020 03:39:44 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"message\": \"操作成功\",\n    \"data\": {\n        \"statisticsVo\": {\n            \"productSubs\": 1,\n            \"licenses\": 5000,\n            \"allocatedLicenses\": 4969,\n            \"availableLicenses\": 31,\n            \"users\": 4992,\n            \"allowedUsers\": 4988,\n            \"biddenUsers\": 4,\n            \"unauthorizedUsers\": 0\n        },\n        \"noLandingUsers\": [\n            {\n                \"userId\": \"d06e1bb1-f364-445d-a4e6-748c4c33dd3e\",\n                \"skuId\": null,\n                \"skuType\": null,\n                \"surname\": null,\n                \"givenName\": null,\n                \"displayName\": \"LazyEdu\",\n                \"mailNickname\": \"admin\",\n                \"userPrincipalName\": \"admin@lazyedu.onmicrosoft.com\",\n                \"password\": null,\n                \"passwordPolicies\": \"DisablePasswordExpiration, DisableStrongPassword\",\n                \"mobilePhone\": null,\n                \"mail\": null,\n                \"companyName\": null,\n                \"usageLocation\": \"CN\",\n                \"streetAddress\": null,\n                \"city\": null,\n                \"state\": null,\n                \"country\": \"CN\",\n                \"accountEnabled\": false,\n                \"createdDateTime\": \"2020-05-09T02:09:22Z\",\n                \"appName\": null,\n                \"needDeleted\": null,\n                \"top\": 999,\n                \"skuVos\": null\n            },\n            {\n                \"userId\": \"b28945cc-8f8f-4dcf-a300-11dbea59e434\",\n                \"skuId\": null,\n                \"skuType\": null,\n                \"surname\": null,\n                \"givenName\": null,\n                \"displayName\": \"Info\",\n                \"mailNickname\": \"info\",\n                \"userPrincipalName\": \"info@anran.dovedaleprimaryschool.org.uk\",\n                \"password\": null,\n                \"passwordPolicies\": \"DisablePasswordExpiration, DisableStrongPassword\",\n                \"mobilePhone\": null,\n                \"mail\": null,\n                \"companyName\": null,\n                \"usageLocation\": \"CN\",\n                \"streetAddress\": null,\n                \"city\": null,\n                \"state\": null,\n                \"country\": null,\n                \"accountEnabled\": false,\n                \"createdDateTime\": \"2020-05-28T14:34:04Z\",\n                \"appName\": null,\n                \"needDeleted\": null,\n                \"top\": 999,\n                \"skuVos\": null\n            },\n            {\n                \"userId\": \"432fec36-5db9-4a43-8f74-5be28fa229d5\",\n                \"skuId\": null,\n                \"skuType\": null,\n                \"surname\": null,\n                \"givenName\": null,\n                \"displayName\": \"privilege\",\n                \"mailNickname\": \"privilege\",\n                \"userPrincipalName\": \"privilege@lazyedu.onmicrosoft.com\",\n                \"password\": null,\n                \"passwordPolicies\": \"DisablePasswordExpiration, DisableStrongPassword\",\n                \"mobilePhone\": null,\n                \"mail\": null,\n                \"companyName\": null,\n                \"usageLocation\": null,\n                \"streetAddress\": null,\n                \"city\": null,\n                \"state\": null,\n                \"country\": null,\n                \"accountEnabled\": false,\n                \"createdDateTime\": \"2020-06-04T02:15:55Z\",\n                \"appName\": null,\n                \"needDeleted\": null,\n                \"top\": 999,\n                \"skuVos\": null\n            },\n            {\n                \"userId\": \"bb56d509-2613-4f57-9cf2-fb163f268491\",\n                \"skuId\": null,\n                \"skuType\": null,\n                \"surname\": null,\n                \"givenName\": null,\n                \"displayName\": \"special\",\n                \"mailNickname\": \"special\",\n                \"userPrincipalName\": \"special@lazyedu.onmicrosoft.com\",\n                \"password\": null,\n                \"passwordPolicies\": \"DisablePasswordExpiration, DisableStrongPassword\",\n                \"mobilePhone\": null,\n                \"mail\": null,\n                \"companyName\": null,\n                \"usageLocation\": null,\n                \"streetAddress\": null,\n                \"city\": null,\n                \"state\": null,\n                \"country\": null,\n                \"accountEnabled\": false,\n                \"createdDateTime\": \"2020-06-04T02:13:52Z\",\n                \"appName\": null,\n                \"needDeleted\": null,\n                \"top\": 999,\n                \"skuVos\": null\n            }\n        ],\n        \"unauthorizedUsers\": null\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "查询用户统计",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}:{{port}}/microsoft/365/getUsersStatistics?appName=mjj",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"microsoft",
+								"365",
+								"getUsersStatistics"
+							],
+							"query": [
+								{
+									"key": "appName",
+									"value": "mjj",
+									"description": "组织类型"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "查询首页信息",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{host}}:{{port}}/microsoft/365/homePage?appName=LAZY_EDU",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"microsoft",
+										"365",
+										"homePage"
+									],
+									"query": [
+										{
+											"key": "appName",
+											"value": "LAZY_EDU",
+											"description": "组织类型：[ TELEP; LAZY_EDU;  A1P1;  A1P2; A1 ]"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=UTF-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 11 Aug 2020 03:39:44 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"message\": \"操作成功\",\n    \"data\": {\n        \"statisticsVo\": {\n            \"productSubs\": 1,\n            \"licenses\": 5000,\n            \"allocatedLicenses\": 4969,\n            \"availableLicenses\": 31,\n            \"users\": 4992,\n            \"allowedUsers\": 4988,\n            \"biddenUsers\": 4,\n            \"unauthorizedUsers\": 0\n        },\n        \"noLandingUsers\": [\n            {\n                \"userId\": \"d06e1bb1-f364-445d-a4e6-748c4c33dd3e\",\n                \"skuId\": null,\n                \"skuType\": null,\n                \"surname\": null,\n                \"givenName\": null,\n                \"displayName\": \"LazyEdu\",\n                \"mailNickname\": \"admin\",\n                \"userPrincipalName\": \"admin@lazyedu.onmicrosoft.com\",\n                \"password\": null,\n                \"passwordPolicies\": \"DisablePasswordExpiration, DisableStrongPassword\",\n                \"mobilePhone\": null,\n                \"mail\": null,\n                \"companyName\": null,\n                \"usageLocation\": \"CN\",\n                \"streetAddress\": null,\n                \"city\": null,\n                \"state\": null,\n                \"country\": \"CN\",\n                \"accountEnabled\": false,\n                \"createdDateTime\": \"2020-05-09T02:09:22Z\",\n                \"appName\": null,\n                \"needDeleted\": null,\n                \"top\": 999,\n                \"skuVos\": null\n            },\n            {\n                \"userId\": \"b28945cc-8f8f-4dcf-a300-11dbea59e434\",\n                \"skuId\": null,\n                \"skuType\": null,\n                \"surname\": null,\n                \"givenName\": null,\n                \"displayName\": \"Info\",\n                \"mailNickname\": \"info\",\n                \"userPrincipalName\": \"info@anran.dovedaleprimaryschool.org.uk\",\n                \"password\": null,\n                \"passwordPolicies\": \"DisablePasswordExpiration, DisableStrongPassword\",\n                \"mobilePhone\": null,\n                \"mail\": null,\n                \"companyName\": null,\n                \"usageLocation\": \"CN\",\n                \"streetAddress\": null,\n                \"city\": null,\n                \"state\": null,\n                \"country\": null,\n                \"accountEnabled\": false,\n                \"createdDateTime\": \"2020-05-28T14:34:04Z\",\n                \"appName\": null,\n                \"needDeleted\": null,\n                \"top\": 999,\n                \"skuVos\": null\n            },\n            {\n                \"userId\": \"432fec36-5db9-4a43-8f74-5be28fa229d5\",\n                \"skuId\": null,\n                \"skuType\": null,\n                \"surname\": null,\n                \"givenName\": null,\n                \"displayName\": \"privilege\",\n                \"mailNickname\": \"privilege\",\n                \"userPrincipalName\": \"privilege@lazyedu.onmicrosoft.com\",\n                \"password\": null,\n                \"passwordPolicies\": \"DisablePasswordExpiration, DisableStrongPassword\",\n                \"mobilePhone\": null,\n                \"mail\": null,\n                \"companyName\": null,\n                \"usageLocation\": null,\n                \"streetAddress\": null,\n                \"city\": null,\n                \"state\": null,\n                \"country\": null,\n                \"accountEnabled\": false,\n                \"createdDateTime\": \"2020-06-04T02:15:55Z\",\n                \"appName\": null,\n                \"needDeleted\": null,\n                \"top\": 999,\n                \"skuVos\": null\n            },\n            {\n                \"userId\": \"bb56d509-2613-4f57-9cf2-fb163f268491\",\n                \"skuId\": null,\n                \"skuType\": null,\n                \"surname\": null,\n                \"givenName\": null,\n                \"displayName\": \"special\",\n                \"mailNickname\": \"special\",\n                \"userPrincipalName\": \"special@lazyedu.onmicrosoft.com\",\n                \"password\": null,\n                \"passwordPolicies\": \"DisablePasswordExpiration, DisableStrongPassword\",\n                \"mobilePhone\": null,\n                \"mail\": null,\n                \"companyName\": null,\n                \"usageLocation\": null,\n                \"streetAddress\": null,\n                \"city\": null,\n                \"state\": null,\n                \"country\": null,\n                \"accountEnabled\": false,\n                \"createdDateTime\": \"2020-06-04T02:13:52Z\",\n                \"appName\": null,\n                \"needDeleted\": null,\n                \"top\": 999,\n                \"skuVos\": null\n            }\n        ],\n        \"unauthorizedUsers\": null\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "查询订阅信息",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{host}}:{{port}}/microsoft/365/listLicense?appName=mjj",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"microsoft",
+								"365",
+								"listLicense"
+							],
+							"query": [
+								{
+									"key": "appName",
+									"value": "mjj",
+									"description": "组织类型"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "查询订阅信息",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{host}}:{{port}}/microsoft/365/listLicense?appName=LAZY_EDU",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"microsoft",
+										"365",
+										"listLicense"
+									],
+									"query": [
+										{
+											"key": "appName",
+											"value": "LAZY_EDU",
+											"description": "组织类型：[ TELEP; LAZY_EDU;  A1P1;  A1P2; A1 ]"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=UTF-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 11 Aug 2020 05:40:46 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"message\": \"操作成功\",\n    \"data\": [\n        {\n            \"id\": \"afa95aab-2f8d-4f57-a568-834179d069af_94763226-9b3c-4e75-a931-5c89701abe66\",\n            \"skuId\": \"94763226-9b3c-4e75-a931-5c89701abe66\",\n            \"capabilityStatus\": \"Enabled\",\n            \"consumedUnits\": 4969,\n            \"skuPartNumber\": \"STANDARDWOFFPACK_FACULTY\",\n            \"enabled\": 5000,\n            \"suspended\": 0,\n            \"warning\": 0,\n            \"skuName\": \"A1 教师版\",\n            \"displayStatus\": \"启用\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "查询域名信息",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{host}}:{{port}}/microsoft/365/getDomains?appName=mjj",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"microsoft",
+								"365",
+								"getDomains"
+							],
+							"query": [
+								{
+									"key": "appName",
+									"value": "mjj",
+									"description": "组织类型"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "查询用户信息",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}:{{port}}/microsoft/365/getUser?appName=mjj&userId=wuren@mjj.com",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"microsoft",
+								"365",
+								"getUser"
+							],
+							"query": [
+								{
+									"key": "appName",
+									"value": "mjj",
+									"description": "组织类型mjj"
+								},
+								{
+									"key": "userId",
+									"value": "wuren@mjj.com",
+									"description": "用户id或账户邮箱"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "查询用户信息",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{host}}:{{port}}/microsoft/365/getUser?appName=LAZY_EDU&userId=wuren@office.neton.ml",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"microsoft",
+										"365",
+										"getUser"
+									],
+									"query": [
+										{
+											"key": "appName",
+											"value": "LAZY_EDU",
+											"description": "组织类型：[ TELEP; LAZY_EDU;  A1P1;  A1P2; A1 ]"
+										},
+										{
+											"key": "userId",
+											"value": "wuren@office.neton.ml"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=UTF-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 11 Aug 2020 03:50:30 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"message\": \"操作成功\",\n    \"data\": {\n        \"userId\": \"1994e87b-3e13-434a-ad09-71bbe472a478\",\n        \"skuId\": null,\n        \"skuType\": null,\n        \"surname\": \"仁\",\n        \"givenName\": \"吴\",\n        \"displayName\": \"吴仁\",\n        \"mailNickname\": \"wuren\",\n        \"userPrincipalName\": \"wuren@office.neton.ml\",\n        \"password\": null,\n        \"passwordPolicies\": \"DisablePasswordExpiration, DisableStrongPassword\",\n        \"mobilePhone\": null,\n        \"mail\": null,\n        \"companyName\": null,\n        \"usageLocation\": \"HK\",\n        \"streetAddress\": \"乐清市 智仁乡\",\n        \"city\": \"温州市\",\n        \"state\": \"温州市\",\n        \"country\": \"中国\",\n        \"accountEnabled\": true,\n        \"createdDateTime\": \"2020-05-30T07:09:57Z\",\n        \"appName\": null,\n        \"needDeleted\": null,\n        \"top\": 999,\n        \"skuVos\": [\n            {\n                \"skuId\": \"94763226-9b3c-4e75-a931-5c89701abe66\",\n                \"skuType\": \"STANDARDWOFFPACK_FACULTY\",\n                \"skuName\": \"A1 教师版\"\n            }\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "查询用户信息（条件）",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{host}}:{{port}}/microsoft/365/getUsers?appName=mjj&pageIndex=1&pageSize=10&userPrincipalName=wuren@mjj.com&mailNickname=wuren&displayName=吴仁&accountEnabled=false",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"microsoft",
+								"365",
+								"getUsers"
+							],
+							"query": [
+								{
+									"key": "appName",
+									"value": "mjj",
+									"description": "组织类型"
+								},
+								{
+									"key": "pageIndex",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "10"
+								},
+								{
+									"key": "userPrincipalName",
+									"value": "wuren@mjj.com",
+									"description": "用户id或账户邮箱"
+								},
+								{
+									"key": "mailNickname",
+									"value": "wuren",
+									"description": "邮箱前缀搜索"
+								},
+								{
+									"key": "displayName",
+									"value": "吴仁",
+									"description": "显示名称搜索"
+								},
+								{
+									"key": "accountEnabled",
+									"value": "false",
+									"description": "是否启用"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "查询用户信息（条件）",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{host}}:{{port}}/microsoft/365/getUsers?appName=LAZY_EDU&pageIndex=1&pageSize=10&displayName=吴仁",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"microsoft",
+										"365",
+										"getUsers"
+									],
+									"query": [
+										{
+											"key": "appName",
+											"value": "LAZY_EDU",
+											"description": "组织类型：[ TELEP; LAZY_EDU;  A1P1;  A1P2; A1 ]"
+										},
+										{
+											"key": "pageIndex",
+											"value": "1"
+										},
+										{
+											"key": "pageSize",
+											"value": "10"
+										},
+										{
+											"key": "userPrincipalName",
+											"value": "wuren@office.neton.ml",
+											"disabled": true
+										},
+										{
+											"key": "mailNickname",
+											"value": "wuren",
+											"disabled": true
+										},
+										{
+											"key": "displayName",
+											"value": "吴仁"
+										},
+										{
+											"key": "accountEnabled",
+											"value": "false",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=UTF-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 11 Aug 2020 03:52:16 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"message\": \"操作成功\",\n    \"data\": {\n        \"total\": 1,\n        \"list\": [\n            {\n                \"userId\": \"1994e87b-3e13-434a-ad09-71bbe472a478\",\n                \"skuId\": null,\n                \"skuType\": null,\n                \"surname\": \"仁\",\n                \"givenName\": \"吴\",\n                \"displayName\": \"吴仁\",\n                \"mailNickname\": \"wuren\",\n                \"userPrincipalName\": \"wuren@office.neton.ml\",\n                \"password\": null,\n                \"passwordPolicies\": \"DisablePasswordExpiration, DisableStrongPassword\",\n                \"mobilePhone\": null,\n                \"mail\": null,\n                \"companyName\": null,\n                \"usageLocation\": \"HK\",\n                \"streetAddress\": \"乐清市 智仁乡\",\n                \"city\": \"温州市\",\n                \"state\": \"温州市\",\n                \"country\": \"中国\",\n                \"accountEnabled\": true,\n                \"createdDateTime\": \"2020-05-30T07:09:57Z\",\n                \"appName\": null,\n                \"needDeleted\": null,\n                \"top\": 999,\n                \"skuVos\": [\n                    {\n                        \"skuId\": \"94763226-9b3c-4e75-a931-5c89701abe66\",\n                        \"skuType\": \"STANDARDWOFFPACK_FACULTY\",\n                        \"skuName\": \"A1 教师版\"\n                    }\n                ]\n            }\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "查询用户信息（全部）",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{host}}:{{port}}/microsoft/365/getUsersAll?appName=mjj&pageIndex=2&pageSize=10",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"microsoft",
+								"365",
+								"getUsersAll"
+							],
+							"query": [
+								{
+									"key": "appName",
+									"value": "mjj",
+									"description": "组织类型"
+								},
+								{
+									"key": "pageIndex",
+									"value": "2"
+								},
+								{
+									"key": "pageSize",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "查询用户信息（全部）",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{host}}:{{port}}/microsoft/365/getUsersAll?appName=LAZY_EDU&pageIndex=2&pageSize=10",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"microsoft",
+										"365",
+										"getUsersAll"
+									],
+									"query": [
+										{
+											"key": "appName",
+											"value": "LAZY_EDU",
+											"description": "组织类型：[ TELEP; LAZY_EDU;  A1P1;  A1P2; A1 ]"
+										},
+										{
+											"key": "pageIndex",
+											"value": "2"
+										},
+										{
+											"key": "pageSize",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=UTF-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 11 Aug 2020 03:52:32 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"message\": \"操作成功\",\n    \"data\": {\n        \"total\": 4992,\n        \"list\": [\n            {\n                \"userId\": \"f251cdcf-0ca3-447d-80a7-82f1689c144a\",\n                \"skuId\": null,\n                \"skuType\": null,\n                \"surname\": \"珴\",\n                \"givenName\": \"白\",\n                \"displayName\": \"白珴\",\n                \"mailNickname\": \"baie\",\n                \"userPrincipalName\": \"baie@office.neton.ml\",\n                \"password\": null,\n                \"passwordPolicies\": \"DisablePasswordExpiration, DisableStrongPassword\",\n                \"mobilePhone\": null,\n                \"mail\": null,\n                \"companyName\": null,\n                \"usageLocation\": \"HK\",\n                \"streetAddress\": \"北票市 下府经济开发区\",\n                \"city\": \"朝阳市\",\n                \"state\": \"朝阳市\",\n                \"country\": \"中国\",\n                \"accountEnabled\": true,\n                \"createdDateTime\": \"2020-05-30T07:30:41Z\",\n                \"appName\": null,\n                \"needDeleted\": null,\n                \"top\": 999,\n                \"skuVos\": [\n                    {\n                        \"skuId\": \"94763226-9b3c-4e75-a931-5c89701abe66\",\n                        \"skuType\": \"STANDARDWOFFPACK_FACULTY\",\n                        \"skuName\": \"A1 教师版\"\n                    }\n                ]\n            },\n            {\n                \"userId\": \"b0859e20-3a93-4180-8eb9-a636f82c237b\",\n                \"skuId\": null,\n                \"skuType\": null,\n                \"surname\": \"芬\",\n                \"givenName\": \"白\",\n                \"displayName\": \"白芬\",\n                \"mailNickname\": \"baifen\",\n                \"userPrincipalName\": \"baifen@office.neton.ml\",\n                \"password\": null,\n                \"passwordPolicies\": \"DisablePasswordExpiration, DisableStrongPassword\",\n                \"mobilePhone\": null,\n                \"mail\": null,\n                \"companyName\": null,\n                \"usageLocation\": \"HK\",\n                \"streetAddress\": \"营山县 绥安街道办事处\",\n                \"city\": \"南充市\",\n                \"state\": \"南充市\",\n                \"country\": \"中国\",\n                \"accountEnabled\": true,\n                \"createdDateTime\": \"2020-05-30T07:39:41Z\",\n                \"appName\": null,\n                \"needDeleted\": null,\n                \"top\": 999,\n                \"skuVos\": [\n                    {\n                        \"skuId\": \"94763226-9b3c-4e75-a931-5c89701abe66\",\n                        \"skuType\": \"STANDARDWOFFPACK_FACULTY\",\n                        \"skuName\": \"A1 教师版\"\n                    }\n                ]\n            },\n            {\n                \"userId\": \"502fd844-0c39-4fa1-bc86-ccfdd0a50beb\",\n                \"skuId\": null,\n                \"skuType\": null,\n                \"surname\": \"峰\",\n                \"givenName\": \"白\",\n                \"displayName\": \"白峰\",\n                \"mailNickname\": \"baifeng\",\n                \"userPrincipalName\": \"baifeng@office.neton.ml\",\n                \"password\": null,\n                \"passwordPolicies\": \"DisablePasswordExpiration, DisableStrongPassword\",\n                \"mobilePhone\": null,\n                \"mail\": null,\n                \"companyName\": null,\n                \"usageLocation\": \"HK\",\n                \"streetAddress\": \"岳普湖县 岳普湖镇\",\n                \"city\": \"喀什地区\",\n                \"state\": \"喀什地区\",\n                \"country\": \"中国\",\n                \"accountEnabled\": true,\n                \"createdDateTime\": \"2020-05-30T07:43:58Z\",\n                \"appName\": null,\n                \"needDeleted\": null,\n                \"top\": 999,\n                \"skuVos\": [\n                    {\n                        \"skuId\": \"94763226-9b3c-4e75-a931-5c89701abe66\",\n                        \"skuType\": \"STANDARDWOFFPACK_FACULTY\",\n                        \"skuName\": \"A1 教师版\"\n                    }\n                ]\n            },\n            {\n                \"userId\": \"34ed9772-8281-43e1-98c0-c0df0e92e1cd\",\n                \"skuId\": null,\n                \"skuType\": null,\n                \"surname\": \"姑\",\n                \"givenName\": \"白\",\n                \"displayName\": \"白姑\",\n                \"mailNickname\": \"baigu\",\n                \"userPrincipalName\": \"baigu@office.neton.ml\",\n                \"password\": null,\n                \"passwordPolicies\": \"DisablePasswordExpiration, DisableStrongPassword\",\n                \"mobilePhone\": null,\n                \"mail\": null,\n                \"companyName\": null,\n                \"usageLocation\": \"HK\",\n                \"streetAddress\": \"郑州航空港经济综合实验区 龙港办事处\",\n                \"city\": \"郑州市\",\n                \"state\": \"郑州市\",\n                \"country\": \"中国\",\n                \"accountEnabled\": true,\n                \"createdDateTime\": \"2020-05-30T07:31:34Z\",\n                \"appName\": null,\n                \"needDeleted\": null,\n                \"top\": 999,\n                \"skuVos\": [\n                    {\n                        \"skuId\": \"94763226-9b3c-4e75-a931-5c89701abe66\",\n                        \"skuType\": \"STANDARDWOFFPACK_FACULTY\",\n                        \"skuName\": \"A1 教师版\"\n                    }\n                ]\n            },\n            {\n                \"userId\": \"ae5c3896-a086-4c68-a2d7-178ca786cd79\",\n                \"skuId\": null,\n                \"skuType\": null,\n                \"surname\": \"冠\",\n                \"givenName\": \"白\",\n                \"displayName\": \"白冠\",\n                \"mailNickname\": \"baiguan\",\n                \"userPrincipalName\": \"baiguan@office.neton.ml\",\n                \"password\": null,\n                \"passwordPolicies\": \"DisablePasswordExpiration, DisableStrongPassword\",\n                \"mobilePhone\": null,\n                \"mail\": null,\n                \"companyName\": null,\n                \"usageLocation\": \"HK\",\n                \"streetAddress\": \"隆回县 三阁司镇\",\n                \"city\": \"邵阳市\",\n                \"state\": \"邵阳市\",\n                \"country\": \"中国\",\n                \"accountEnabled\": true,\n                \"createdDateTime\": \"2020-05-30T08:06:27Z\",\n                \"appName\": null,\n                \"needDeleted\": null,\n                \"top\": 999,\n                \"skuVos\": [\n                    {\n                        \"skuId\": \"94763226-9b3c-4e75-a931-5c89701abe66\",\n                        \"skuType\": \"STANDARDWOFFPACK_FACULTY\",\n                        \"skuName\": \"A1 教师版\"\n                    }\n                ]\n            },\n            {\n                \"userId\": \"7bc388bf-a3e7-4757-9de3-2f084a24bc16\",\n                \"skuId\": null,\n                \"skuType\": null,\n                \"surname\": \"广\",\n                \"givenName\": \"白\",\n                \"displayName\": \"白广\",\n                \"mailNickname\": \"baiguang\",\n                \"userPrincipalName\": \"baiguang@office.neton.ml\",\n                \"password\": null,\n                \"passwordPolicies\": \"DisablePasswordExpiration, DisableStrongPassword\",\n                \"mobilePhone\": null,\n                \"mail\": null,\n                \"companyName\": null,\n                \"usageLocation\": \"HK\",\n                \"streetAddress\": \"兴和县 大同夭乡\",\n                \"city\": \"乌兰察布市\",\n                \"state\": \"乌兰察布市\",\n                \"country\": \"中国\",\n                \"accountEnabled\": true,\n                \"createdDateTime\": \"2020-05-30T07:21:54Z\",\n                \"appName\": null,\n                \"needDeleted\": null,\n                \"top\": 999,\n                \"skuVos\": [\n                    {\n                        \"skuId\": \"94763226-9b3c-4e75-a931-5c89701abe66\",\n                        \"skuType\": \"STANDARDWOFFPACK_FACULTY\",\n                        \"skuName\": \"A1 教师版\"\n                    }\n                ]\n            },\n            {\n                \"userId\": \"144ccb00-a02f-416d-9d87-273a9e0c873d\",\n                \"skuId\": null,\n                \"skuType\": null,\n                \"surname\": \"国\",\n                \"givenName\": \"白\",\n                \"displayName\": \"白国\",\n                \"mailNickname\": \"baiguo\",\n                \"userPrincipalName\": \"baiguo@office.neton.ml\",\n                \"password\": null,\n                \"passwordPolicies\": \"DisablePasswordExpiration, DisableStrongPassword\",\n                \"mobilePhone\": null,\n                \"mail\": null,\n                \"companyName\": null,\n                \"usageLocation\": \"HK\",\n                \"streetAddress\": \"怀柔区 宝山镇\",\n                \"city\": \"市辖区\",\n                \"state\": \"市辖区\",\n                \"country\": \"中国\",\n                \"accountEnabled\": true,\n                \"createdDateTime\": \"2020-05-30T07:43:51Z\",\n                \"appName\": null,\n                \"needDeleted\": null,\n                \"top\": 999,\n                \"skuVos\": [\n                    {\n                        \"skuId\": \"94763226-9b3c-4e75-a931-5c89701abe66\",\n                        \"skuType\": \"STANDARDWOFFPACK_FACULTY\",\n                        \"skuName\": \"A1 教师版\"\n                    }\n                ]\n            },\n            {\n                \"userId\": \"34c9ce71-e28f-40c1-a17e-2b7fae3f8ae0\",\n                \"skuId\": null,\n                \"skuType\": null,\n                \"surname\": \"浩\",\n                \"givenName\": \"白\",\n                \"displayName\": \"白浩\",\n                \"mailNickname\": \"baihao\",\n                \"userPrincipalName\": \"baihao@office.neton.ml\",\n                \"password\": null,\n                \"passwordPolicies\": \"DisablePasswordExpiration, DisableStrongPassword\",\n                \"mobilePhone\": null,\n                \"mail\": null,\n                \"companyName\": null,\n                \"usageLocation\": \"HK\",\n                \"streetAddress\": \"江油市 贯山镇\",\n                \"city\": \"绵阳市\",\n                \"state\": \"绵阳市\",\n                \"country\": \"中国\",\n                \"accountEnabled\": true,\n                \"createdDateTime\": \"2020-05-30T07:21:11Z\",\n                \"appName\": null,\n                \"needDeleted\": null,\n                \"top\": 999,\n                \"skuVos\": [\n                    {\n                        \"skuId\": \"94763226-9b3c-4e75-a931-5c89701abe66\",\n                        \"skuType\": \"STANDARDWOFFPACK_FACULTY\",\n                        \"skuName\": \"A1 教师版\"\n                    }\n                ]\n            },\n            {\n                \"userId\": \"8fda8242-e8b4-4662-a240-64382471f6a7\",\n                \"skuId\": null,\n                \"skuType\": null,\n                \"surname\": \"厚\",\n                \"givenName\": \"白\",\n                \"displayName\": \"白厚\",\n                \"mailNickname\": \"baihou\",\n                \"userPrincipalName\": \"baihou@office.neton.ml\",\n                \"password\": null,\n                \"passwordPolicies\": \"DisablePasswordExpiration, DisableStrongPassword\",\n                \"mobilePhone\": null,\n                \"mail\": null,\n                \"companyName\": null,\n                \"usageLocation\": \"HK\",\n                \"streetAddress\": \"正阳县 皮店乡\",\n                \"city\": \"驻马店市\",\n                \"state\": \"驻马店市\",\n                \"country\": \"中国\",\n                \"accountEnabled\": true,\n                \"createdDateTime\": \"2020-05-30T07:40:56Z\",\n                \"appName\": null,\n                \"needDeleted\": null,\n                \"top\": 999,\n                \"skuVos\": [\n                    {\n                        \"skuId\": \"94763226-9b3c-4e75-a931-5c89701abe66\",\n                        \"skuType\": \"STANDARDWOFFPACK_FACULTY\",\n                        \"skuName\": \"A1 教师版\"\n                    }\n                ]\n            },\n            {\n                \"userId\": \"eb54008b-ff6c-4fa6-9e2d-7fa3cbae0380\",\n                \"skuId\": null,\n                \"skuType\": null,\n                \"surname\": \"花\",\n                \"givenName\": \"白\",\n                \"displayName\": \"白花\",\n                \"mailNickname\": \"baihua\",\n                \"userPrincipalName\": \"baihua@office.neton.ml\",\n                \"password\": null,\n                \"passwordPolicies\": \"DisablePasswordExpiration, DisableStrongPassword\",\n                \"mobilePhone\": null,\n                \"mail\": null,\n                \"companyName\": null,\n                \"usageLocation\": \"HK\",\n                \"streetAddress\": \"洱源县 乔后镇\",\n                \"city\": \"大理白族自治州\",\n                \"state\": \"大理白族自治州\",\n                \"country\": \"中国\",\n                \"accountEnabled\": true,\n                \"createdDateTime\": \"2020-05-30T07:44:07Z\",\n                \"appName\": null,\n                \"needDeleted\": null,\n                \"top\": 999,\n                \"skuVos\": [\n                    {\n                        \"skuId\": \"94763226-9b3c-4e75-a931-5c89701abe66\",\n                        \"skuType\": \"STANDARDWOFFPACK_FACULTY\",\n                        \"skuName\": \"A1 教师版\"\n                    }\n                ]\n            }\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "新增用户账号",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "appName",
+									"value": "mjj",
+									"description": "组织类型",
+									"type": "text"
+								},
+								{
+									"key": "displayName",
+									"value": "app12",
+									"description": "显示名称",
+									"type": "text"
+								},
+								{
+									"key": "mailNickname",
+									"value": "app12",
+									"description": "邮箱前缀",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "mjj..",
+									"description": "密码",
+									"type": "text"
+								},
+								{
+									"key": "skuType",
+									"value": "STANDARDWOFFPACK_FACULTY",
+									"description": "[Office 365 A1 学生版: STANDARDWOFFPACK_STUDENT]; [Office 365 A1 教师版: STANDARDWOFFPACK_FACULTY]; [Office 365 A1P 学生版: STANDARDWOFFPACK_IW_STUDENT]; [Office 365 A1P 教师版: STANDARDWOFFPACK_IW_FACULTY]; [Microsoft 365 A3 - 适用于学生使用权益的无人参与许可: M365EDU_A3_STUUSEBNFT_RPA1]; ",
+									"type": "text"
+								},
+								{
+									"key": "domain",
+									"value": "mjj.com",
+									"description": "域名",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {}
+							}
+						},
+						"url": {
+							"raw": "{{host}}:{{port}}/microsoft/365/addUser",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"microsoft",
+								"365",
+								"addUser"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "新增用户账号",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "token",
+										"value": "{{token}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "appName",
+											"value": "A1P2",
+											"description": "组织类型：[ TELEP; LAZY_EDU;  A1P1;  A1P2; A1 ]",
+											"type": "text"
+										},
+										{
+											"key": "displayName",
+											"value": "app1",
+											"description": "显示名称",
+											"type": "text"
+										},
+										{
+											"key": "mailNickname",
+											"value": "app1",
+											"description": "邮箱前缀",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "Test123456..",
+											"description": "密码",
+											"type": "text"
+										},
+										{
+											"key": "skuType",
+											"value": "OFFICE_365_A1_PLUS_FOR_FACULTY",
+											"description": "[Office 365 A1 学生版: STANDARDWOFFPACK_STUDENT]; [Office 365 A1 教师版: STANDARDWOFFPACK_FACULTY]; [Office 365 A1P 学生版: STANDARDWOFFPACK_IW_STUDENT]; [Office 365 A1P 教师版: STANDARDWOFFPACK_IW_FACULTY]; [Microsoft 365 A3 - 适用于学生使用权益的无人参与许可: M365EDU_A3_STUUSEBNFT_RPA1]; ",
+											"type": "text"
+										}
+									],
+									"options": {
+										"raw": {}
+									}
+								},
+								"url": {
+									"raw": "{{host}}:{{port}}/office/addUser",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"office",
+										"addUser"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=UTF-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 06 Aug 2020 05:53:55 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"message\": \"操作成功\",\n    \"data\": {\n        \"userId\": \"d6f61a50-36df-449f-b347-da08fa1b3e5b\",\n        \"skuId\": \"78e66a63-337a-4a9a-8959-41c6654dfb56\",\n        \"skuType\": null,\n        \"surname\": null,\n        \"givenName\": null,\n        \"displayName\": \"app1\",\n        \"mailNickname\": \"app1\",\n        \"userPrincipalName\": \"app1@365.itbat.cn\",\n        \"password\": \"Test123456..\",\n        \"passwordPolicies\": \"DisablePasswordExpiration, DisableStrongPassword\",\n        \"mobilePhone\": null,\n        \"mail\": null,\n        \"companyName\": null,\n        \"usageLocation\": \"CN\",\n        \"streetAddress\": \"安岳县 偏岩乡\",\n        \"city\": \"资阳市\",\n        \"state\": \"资阳市\",\n        \"country\": \"中国\",\n        \"accountEnabled\": true,\n        \"createdDateTime\": null\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "启用禁用账户",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "appName",
+									"value": "mjj",
+									"description": "组织类型",
+									"type": "text"
+								},
+								{
+									"key": "userId",
+									"value": "mjj@mjj.com",
+									"description": "用户邮箱/userId",
+									"type": "text"
+								},
+								{
+									"key": "accountEnabled",
+									"value": "1",
+									"description": "1：启用；0：禁用",
+									"type": "text"
+								}
+							],
+							"options": {
+								"formdata": {}
+							}
+						},
+						"url": {
+							"raw": "{{host}}:{{port}}/microsoft/365/enableDisableUser",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"microsoft",
+								"365",
+								"enableDisableUser"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "删除用户账户",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "appName",
+									"value": "mjj",
+									"description": "组织类型",
+									"type": "text"
+								},
+								{
+									"key": "userId",
+									"value": "mjj@mjj.com",
+									"description": "用户邮箱/userId",
+									"type": "text"
+								}
+							],
+							"options": {
+								"formdata": {}
+							}
+						},
+						"url": {
+							"raw": "{{host}}:{{port}}/microsoft/365/deletedUser",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"microsoft",
+								"365",
+								"deletedUser"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "刷新缓存（异步）",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}:{{port}}/microsoft/365/refresh?appName=mjj&type=2",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"microsoft",
+								"365",
+								"refresh"
+							],
+							"query": [
+								{
+									"key": "appName",
+									"value": "mjj",
+									"description": "组织类型"
+								},
+								{
+									"key": "type",
+									"value": "2",
+									"description": "1：用户；2：订阅；3：域名"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "查询首页信息",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{host}}:{{port}}/microsoft/365/homePage?appName=LAZY_EDU",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"microsoft",
+										"365",
+										"homePage"
+									],
+									"query": [
+										{
+											"key": "appName",
+											"value": "LAZY_EDU",
+											"description": "组织类型：[ TELEP; LAZY_EDU;  A1P1;  A1P2; A1 ]"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=UTF-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 11 Aug 2020 03:39:44 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"message\": \"操作成功\",\n    \"data\": {\n        \"statisticsVo\": {\n            \"productSubs\": 1,\n            \"licenses\": 5000,\n            \"allocatedLicenses\": 4969,\n            \"availableLicenses\": 31,\n            \"users\": 4992,\n            \"allowedUsers\": 4988,\n            \"biddenUsers\": 4,\n            \"unauthorizedUsers\": 0\n        },\n        \"noLandingUsers\": [\n            {\n                \"userId\": \"d06e1bb1-f364-445d-a4e6-748c4c33dd3e\",\n                \"skuId\": null,\n                \"skuType\": null,\n                \"surname\": null,\n                \"givenName\": null,\n                \"displayName\": \"LazyEdu\",\n                \"mailNickname\": \"admin\",\n                \"userPrincipalName\": \"admin@lazyedu.onmicrosoft.com\",\n                \"password\": null,\n                \"passwordPolicies\": \"DisablePasswordExpiration, DisableStrongPassword\",\n                \"mobilePhone\": null,\n                \"mail\": null,\n                \"companyName\": null,\n                \"usageLocation\": \"CN\",\n                \"streetAddress\": null,\n                \"city\": null,\n                \"state\": null,\n                \"country\": \"CN\",\n                \"accountEnabled\": false,\n                \"createdDateTime\": \"2020-05-09T02:09:22Z\",\n                \"appName\": null,\n                \"needDeleted\": null,\n                \"top\": 999,\n                \"skuVos\": null\n            },\n            {\n                \"userId\": \"b28945cc-8f8f-4dcf-a300-11dbea59e434\",\n                \"skuId\": null,\n                \"skuType\": null,\n                \"surname\": null,\n                \"givenName\": null,\n                \"displayName\": \"Info\",\n                \"mailNickname\": \"info\",\n                \"userPrincipalName\": \"info@anran.dovedaleprimaryschool.org.uk\",\n                \"password\": null,\n                \"passwordPolicies\": \"DisablePasswordExpiration, DisableStrongPassword\",\n                \"mobilePhone\": null,\n                \"mail\": null,\n                \"companyName\": null,\n                \"usageLocation\": \"CN\",\n                \"streetAddress\": null,\n                \"city\": null,\n                \"state\": null,\n                \"country\": null,\n                \"accountEnabled\": false,\n                \"createdDateTime\": \"2020-05-28T14:34:04Z\",\n                \"appName\": null,\n                \"needDeleted\": null,\n                \"top\": 999,\n                \"skuVos\": null\n            },\n            {\n                \"userId\": \"432fec36-5db9-4a43-8f74-5be28fa229d5\",\n                \"skuId\": null,\n                \"skuType\": null,\n                \"surname\": null,\n                \"givenName\": null,\n                \"displayName\": \"privilege\",\n                \"mailNickname\": \"privilege\",\n                \"userPrincipalName\": \"privilege@lazyedu.onmicrosoft.com\",\n                \"password\": null,\n                \"passwordPolicies\": \"DisablePasswordExpiration, DisableStrongPassword\",\n                \"mobilePhone\": null,\n                \"mail\": null,\n                \"companyName\": null,\n                \"usageLocation\": null,\n                \"streetAddress\": null,\n                \"city\": null,\n                \"state\": null,\n                \"country\": null,\n                \"accountEnabled\": false,\n                \"createdDateTime\": \"2020-06-04T02:15:55Z\",\n                \"appName\": null,\n                \"needDeleted\": null,\n                \"top\": 999,\n                \"skuVos\": null\n            },\n            {\n                \"userId\": \"bb56d509-2613-4f57-9cf2-fb163f268491\",\n                \"skuId\": null,\n                \"skuType\": null,\n                \"surname\": null,\n                \"givenName\": null,\n                \"displayName\": \"special\",\n                \"mailNickname\": \"special\",\n                \"userPrincipalName\": \"special@lazyedu.onmicrosoft.com\",\n                \"password\": null,\n                \"passwordPolicies\": \"DisablePasswordExpiration, DisableStrongPassword\",\n                \"mobilePhone\": null,\n                \"mail\": null,\n                \"companyName\": null,\n                \"usageLocation\": null,\n                \"streetAddress\": null,\n                \"city\": null,\n                \"state\": null,\n                \"country\": null,\n                \"accountEnabled\": false,\n                \"createdDateTime\": \"2020-06-04T02:13:52Z\",\n                \"appName\": null,\n                \"needDeleted\": null,\n                \"top\": 999,\n                \"skuVos\": null\n            }\n        ],\n        \"unauthorizedUsers\": null\n    }\n}"
+						}
+					]
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
