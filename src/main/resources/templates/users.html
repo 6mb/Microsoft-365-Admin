@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>订阅管理</title>
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="../static/css/style.min.css" rel="stylesheet">
+    <!--对话框-->
+    <link href="../static/js/jconfirm/jquery-confirm.min.css" rel="stylesheet">
+    <link href="../static/css/style.min.css" rel="stylesheet" rel="stylesheet">
+</head>
+<body>
+<div class="lyear-layout-web">
+    <div class="lyear-layout-container">
+        <!--左侧导航-->
+        <aside class="lyear-layout-sidebar">
+
+            <!-- logo -->
+            <div id="logo" class="sidebar-header">
+                <a href="index.html"><img src="../static/images/logo-sidebar.png" title="LightYear"
+                                          alt="LightYear"/></a>
+            </div>
+            <div class="lyear-layout-sidebar-scroll">
+                <nav class="sidebar-main">
+                    <ul class="nav nav-drawer">
+                        <li class="nav-item nav-item-has-subnav">
+                            <a href="index.html"><i class="mdi mdi-home"></i> 后台首页</a>
+                        </li>
+                        <li class="nav-item nav-item-has-subnav ">
+                            <a href="licenses.html"><i class="mdi mdi-shape-rectangle-plus"></i>订阅管理</a>
+                        </li>
+                        <li class="nav-item nav-item-has-subnav active">
+                            <a href="users.html"><i class="mdi mdi-account-multiple"></i>用户管理</a>
+                        </li>
+
+                    </ul>
+                </nav>
+            </div>
+
+        </aside>
+        <!--End 左侧导航-->
+
+        <!--头部信息-->
+        <div class="headerPage"></div>
+        <!--End 头部信息-->
+
+        <!--页面主要内容-->
+        <main class="lyear-layout-content">
+            <div class="container-fluid">
+                <!-- 用户-->
+                <div class="row">
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="card ">
+                            <div class="card-body clearfix">
+                                <div class="pull-right">
+                                    <p class="h6 m-t-0">总用户数</p>
+                                    <p class="h3 m-b-0" id="users">102,125.00</p>
+                                </div>
+                                <div class="pull-left"><span class="img-avatar img-avatar-48 bg-translucent"><i
+                                        class="mdi mdi-currency-cny fa-1-5x"></i></span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="card ">
+                            <div class="card-body clearfix">
+                                <div class="pull-right">
+                                    <p class="h6  m-t-0">允许登陆用户</p>
+                                    <p class="h3  m-b-0" id="allowedUsers">920,000</p>
+                                </div>
+                                <div class="pull-left"><span class="img-avatar img-avatar-48 bg-translucent"><i
+                                        class="mdi mdi-account fa-1-5x"></i></span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="card ">
+                            <div class="card-body clearfix">
+                                <div class="pull-right">
+                                    <p class="h6 m-t-0">禁止登陆用户</p>
+                                    <p class="h3 m-b-0" id="biddenUsers">34,005,000</p>
+                                </div>
+                                <div class="pull-left"><span class="img-avatar img-avatar-48 bg-translucent"><i
+                                        class="mdi mdi-arrow-down-bold fa-1-5x"></i></span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="card">
+                            <div class="card-body clearfix">
+                                <div class="pull-right">
+                                    <p class="h6 m-t-0">未授权用户</p>
+                                    <p class="h3 m-b-0" id="unauthorizedUsers">153 条</p>
+                                </div>
+                                <div class="pull-left"><span class="img-avatar img-avatar-48 bg-translucent"><i
+                                        class="mdi mdi-comment-outline fa-1-5x"></i></span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 搜索框-->
+                <div class="row">
+                    <form>
+                        <div class="col-xs-2">
+                            <label for="usersLicenseSelect"></label>
+                            <select class="form-control" id="usersLicenseSelect" name="license-select" size="1">
+                                <option disabled selected hidden>请选择订阅类型</option>
+                            </select>
+                        </div>
+                        <div class="col-xs-2">
+                            <label for="usersLoginSelect"></label>
+                            <select class="form-control" id="usersLoginSelect" name="login-select" size="1" >
+                                <option disabled selected hidden>是否允许登录</option>
+                                <option value="0">是</option>
+                                <option value="0">否</option>
+                            </select>
+                        </div>
+                        <div class="col-xs-2">
+                            <label for="usersAuthSelect"></label>
+                            <select class="form-control" id="usersAuthSelect" name="auth-select" size="1">
+                                <option disabled selected hidden>是否授权</option>
+                                <option value="0">是</option>
+                                <option value="0">否</option>
+                            </select>
+                        </div>
+
+                        <div class="col-xs-2">
+                            <label for="account-text-input"></label>
+                            <input class="form-control" type="text" id="account-text-input"
+                                   name="account-text-input"
+                                   style="height: 33px"
+                                   placeholder="请输入账号">
+                        </div>
+                        <div class="col-xs-2">
+                            <label for="display-name-text-input"></label>
+                            <input class="form-control" type="text" id="display-name-text-input"
+                                   name="display-name-text-input"
+                                   style="height: 33px"
+                                   placeholder="请输入姓名">
+                        </div>
+                        <div class="col-xs-2">
+                            <button class="btn btn-info"
+                                    style="margin:21px auto auto auto; height: 33px"
+                                    type="submit">搜索
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <br>
+                <!-- 表单-->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-toolbar clearfix">
+                                <!-- 操作按钮-->
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <div class="toolbar-btn-action" style=" height: 33px">
+                                            <a class="btn m-r-10" data-toggle="modal"
+                                               data-target=".bs-add-modal-lg">
+                                                <i class="mdi mdi-plus"></i> 新增
+                                            </a>
+                                            <a class="btn m-r-10 enable-account-p" href="#!"><i
+                                                    class="mdi mdi-check"></i> 启用</a>
+                                            <a class="btn m-r-10 disable-account-p" href="#!"><i
+                                                    class="mdi mdi-block-helper"></i> 禁用</a>
+                                            <a class="btn m-r-10 deleted-account-p" href="#!"><i
+                                                    class="mdi mdi-window-close"></i> 删除</a>
+                                            <a class="btn m-r-10" data-toggle="modal"
+                                               data-target=".bs-auth-modal-lg">
+                                                <i class="mdi mdi-office"></i> 授权
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="modal fade bs-add-modal-lg" tabindex="-1" role="dialog"
+                                     aria-labelledby="addLabel">
+                                    <div class="modal-dialog modal-lg" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close"><span
+                                                        aria-hidden="true">×</span></button>
+                                                <h4 class="modal-title" id="addLabel">新增账户</h4>
+                                            </div>
+                                            <div class="modal-body col-xs-12">
+                                                <div class="col-xs-6">
+                                                    <div class="input-group m-b-10">
+                                                        <span class="input-group-addon"
+                                                              id="add-display-name">显示姓名</span>
+                                                        <input type="text" class="form-control" placeholder=""
+                                                               aria-describedby="add-display-name-input">
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <label for="add-license-select"></label>
+                                                    <select class="form-control" id="add-license-select"
+                                                            style="height: 38px"
+                                                            name="license-select" size="1">
+                                                        <option value="0">请选择许可证</option>
+                                                        <option value="1">选项 #1</option>
+                                                        <option value="2">选项 #2</option>
+                                                        <option value="3">选项 #3</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <div class="input-group m-b-10">
+                                                        <span class="input-group-addon"
+                                                              id="add-mail_nickname">邮箱前缀</span>
+                                                        <input type="text" class="form-control" placeholder=""
+                                                               aria-describedby="add-mail_nickname_input">
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <label for="add-domain-select"></label>
+                                                    <select class="form-control" id="add-domain-select"
+                                                            style="height: 38px"
+                                                            name="license-select" size="1">
+                                                        <option value="0">请选择域名后缀</option>
+                                                        <option value="1">选项 #1</option>
+                                                        <option value="2">选项 #2</option>
+                                                        <option value="3">选项 #3</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <div class="input-group m-b-10">
+                                                        <span class="input-group-addon" id="add-password">密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码</span>
+                                                        <input type="text" class="form-control" placeholder=""
+                                                               aria-describedby="add-password-input">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                                </button>
+                                                <button type="button" class="btn btn-primary">保存</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal fade bs-auth-modal-lg" tabindex="-1" role="dialog"
+                                     aria-labelledby="authLabel">
+                                    <div class="modal-dialog modal-lg" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close"><span
+                                                        aria-hidden="true">×</span></button>
+                                                <h4 class="modal-title" id="authLabel">分配许可证</h4>
+                                            </div>
+                                            <div class="modal-body col-xs-12">
+                                                <div class="col-xs-6">
+                                                    <label for="license-select-modal"></label>
+                                                    <select class="form-control" id="license-select-modal"
+                                                            style="height: 38px"
+                                                            name="license-select" size="1">
+                                                        <option value="0">请选择许可证</option>
+                                                        <option value="1">选项 #1</option>
+                                                        <option value="2">选项 #2</option>
+                                                        <option value="3">选项 #3</option>
+                                                    </select>
+                                                </div>
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                                </button>
+                                                <button type="button" class="btn btn-primary">保存</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="usersTable" class="table table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th>
+                                                <label class="lyear-checkbox checkbox-primary">
+                                                    <input type="checkbox" id="check-all"><span></span>
+                                                </label>
+                                            </th>
+                                            <th>邮箱</th>
+                                            <th>姓名</th>
+                                            <th>状态</th>
+                                            <th>订阅</th>
+                                            <th>地区</th>
+                                            <th>创建时间</th>
+                                        </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                                <ul class="pagination">
+                                    <li class="disabled"><span>«</span></li>
+                                    <li class="active"><span>1</span></li>
+                                    <li><a href="#1">2</a></li>
+                                    <li><a href="#1">3</a></li>
+                                    <li><a href="#1">4</a></li>
+                                    <li><a href="#1">5</a></li>
+                                    <li><a href="#1">6</a></li>
+                                    <li><a href="#1">7</a></li>
+                                    <li><a href="#1">8</a></li>
+                                    <li class="disabled"><span>...</span></li>
+                                    <li><a href="#!">14452</a></li>
+                                    <li><a href="#!">14453</a></li>
+                                    <li><a href="#!">»</a></li>
+                                </ul>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- 表单-->
+            </div>
+
+        </main>
+        <!--End 页面主要内容-->
+    </div>
+</div>
+<script type="text/javascript" src="../static/js/jquery.min.js"></script>
+<script type="text/javascript" src="../static/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../static/js/perfect-scrollbar.min.js"></script>
+<script type="text/javascript" src="../static/js/main.min.js"></script>
+<script type="text/javascript" src="../static/js/jconfirm/jquery-confirm.min.js"></script>
+<script type="text/javascript" src="../static/js/main.min.js"></script>
+<script type="text/javascript" src="../static/js/bootstrap-notify.min.js"></script>
+<script type="text/javascript" src="../static/js/lightyear.js"></script>
+
+
+<script type="text/javascript" src="../static/js/common.js"></script>
+<script type="text/javascript" src="../static/js/users.js"></script>
+</body>
+<script>
+    $(function () {
+        $(".headerPage").load("common/header.html");
+        // $(".footerpage").load("footer.html");
+    });
+    // 确认提示框
+    $('.enable-account-p').on('click', function (userPrincipalName) {
+        $.alert({
+            title: '启用账户',
+            content: '这是对用户的简单提示框。 <br> 一些 <strong>HTML</strong> <em>内容</em>',
+            buttons: {
+                confirm: {
+                    text: '确认',
+                    btnClass: 'btn-primary',
+                    action: function () {
+                        lightyear.loading('show');
+                        // 假设ajax提交操作
+                        setTimeout(function () {
+                            lightyear.loading('hide');
+                            lightyear.notify('账户启用成功！', 'success', 1000);
+                        }, 1e3)
+                    }
+                },
+                cancel: {
+                    text: '取消'
+                }
+            }
+        });
+    });
+    $('.disable-account-p').on('click', function () {
+        $.alert({
+            title: '禁用账户',
+            content: '这是对用户的简单提示框。 <br> 一些 <strong>HTML</strong> <em>内容</em>',
+            buttons: {
+                confirm: {
+                    text: '确认',
+                    btnClass: 'btn-primary',
+                    action: function () {
+                        lightyear.loading('show');
+                        // 假设ajax提交操作
+                        setTimeout(function () {
+                            lightyear.loading('hide');
+                            lightyear.notify('账户禁用成功！', 'success', 1000);
+                        }, 1e3)
+                    }
+                },
+                cancel: {
+                    text: '取消'
+                }
+            }
+        });
+    });
+    $('.deleted-account-p').on('click', function () {
+        $.alert({
+            title: '删除账户',
+            content: '这是对用户的简单提示框。 <br> 一些 <strong>HTML</strong> <em>内容</em>',
+            buttons: {
+                confirm: {
+                    text: '确认',
+                    btnClass: 'btn-primary',
+                    action: function () {
+                        lightyear.loading('show');
+                        // 假设ajax提交操作
+                        setTimeout(function () {
+                            lightyear.loading('hide');
+                            lightyear.notify('账户删除成功！', 'success', 1000);
+                        }, 1e3)
+                    }
+                },
+                cancel: {
+                    text: '取消'
+                }
+            }
+        });
+    });
+</script>
+
+</html>

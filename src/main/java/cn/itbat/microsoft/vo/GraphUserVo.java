@@ -38,6 +38,11 @@ public class GraphUserVo extends GraphUser {
     private String skuName;
 
     /**
+     * 是否分配许可证
+     */
+    private Boolean assignLicense;
+
+    /**
      * 查询大小，默认999
      */
     @Builder.Default

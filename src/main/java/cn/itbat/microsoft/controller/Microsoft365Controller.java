@@ -37,6 +37,16 @@ public class Microsoft365Controller {
     private GraphProperties graphProperties;
 
     /**
+     * 查询组织类型
+     *
+     * @return 组织类型
+     */
+    @GetMapping("/getAppName")
+    public BaseResultVo getAppName() {
+        return BaseResultVo.success(graphProperties.getConfigs().stream().map(GraphProperties.GraphConfig::getAppName));
+    }
+
+    /**
      * 查询绑定域名
      *
      * @param appName 组织类型

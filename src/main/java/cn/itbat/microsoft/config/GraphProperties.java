@@ -124,7 +124,7 @@ public class GraphProperties {
                 return maConfig.getDisplayName();
             }
         }
-        return skuId;
+        return null;
     }
 
 

@@ -130,7 +130,8 @@ public class Microsoft365ServiceImpl implements Microsoft365Service {
         subscribedSkuVo.setSuspended(suspended);
         subscribedSkuVo.setWarning(warning);
         subscribedSkuVo.setDisplayStatus(CapabilityStatusEnum.getName(subscribedSkuVo.getCapabilityStatus()));
-        subscribedSkuVo.setSkuName(graphProperties.getSubConfigDisplayName(subscribedSkuVo.getSkuId()));
+        String displayName = graphProperties.getSubConfigDisplayName(subscribedSkuVo.getSkuId());
+        subscribedSkuVo.setSkuName(StringUtils.isEmpty(displayName) ? subscribedSkuVo.getSkuPartNumber() : displayName);
         subscribedSkuVo.setAppName(appName);
         return subscribedSkuVo;
     }
@@ -171,18 +172,20 @@ public class Microsoft365ServiceImpl implements Microsoft365Service {
     @Override
     public PageInfo<GraphUserVo> getGraphUserVos(GraphUserVo graphUserVo, Pager pager) {
         // 判断是否有条件
-        if (StringUtils.isEmpty(graphUserVo.getDisplayName()) && StringUtils.isEmpty(graphUserVo.getUserPrincipalName()) && graphUserVo.getAccountEnabled() == null) {
-            return this.getGraphUserVos(graphUserVo.getAppName(), pager);
+        List<User> users = new ArrayList<>();
+        if (StringUtils.isEmpty(graphUserVo.getDisplayName()) && StringUtils.isEmpty(graphUserVo.getUserPrincipalName())) {
+            users = usersCache.getUnchecked(graphUserVo.getAppName());
+        } else {
+            users = graphService.getUsers(graphUserVo);
         }
         // 判断是启用禁用的情况
-        if (graphUserVo.getAccountEnabled() != null && StringUtils.isEmpty(graphUserVo.getDisplayName()) && StringUtils.isEmpty(graphUserVo.getUserPrincipalName())) {
-            List<User> users = usersCache.getUnchecked(graphUserVo.getAppName());
-            if (CollectionUtils.isEmpty(users)) {
-                return new PageInfo<>();
-            }
-            return new PageInfo<>(users.stream().filter(l -> l.accountEnabled.equals(graphUserVo.getAccountEnabled())).map(this::getGraphUserVo).collect(Collectors.toList()), pager);
+        if (graphUserVo.getAccountEnabled() != null) {
+            users = users.stream().filter(l -> l.accountEnabled.equals(graphUserVo.getAccountEnabled())).collect(Collectors.toList());
         }
-        List<User> users = graphService.getUsers(graphUserVo);
+        // 判断是否授权的情况
+        if (graphUserVo.getAssignLicense() != null && StringUtils.isEmpty(graphUserVo.getDisplayName()) && StringUtils.isEmpty(graphUserVo.getUserPrincipalName())) {
+            users = users.stream().filter(l -> graphUserVo.getAssignLicense() != CollectionUtils.isEmpty(l.assignedLicenses)).collect(Collectors.toList());
+        }
         if (CollectionUtils.isEmpty(users)) {
             return new PageInfo<>();
         }
@@ -190,6 +193,7 @@ public class Microsoft365ServiceImpl implements Microsoft365Service {
     }
 
     private GraphUserVo getGraphUserVo(User user) {
+        // 过滤掉admin 用户
         GraphUserVo graphUserVo = new GraphUserVo();
         graphUserVo.setUserId(user.id);
         graphUserVo.setSurname(user.surname);
@@ -366,8 +370,12 @@ public class Microsoft365ServiceImpl implements Microsoft365Service {
         graphUserVo.setTop(10);
         graphUserVo.setAccountEnabled(false);
         homePageVo.setNoLandingUsers(this.getGraphUserVos(graphUserVo, new Pager(1, 10)).getList());
+        graphUserVo.setAccountEnabled(null);
+        graphUserVo.setAssignLicense(false);
+        homePageVo.setUnauthorizedUsers(this.getGraphUserVos(graphUserVo, new Pager(1, 10)).getList());
         return homePageVo;
     }
+
 
     private void getLicensesStatisticsVo(String appName, StatisticsVo statisticsVo) {
         List<SubscribedSkuVo> subscribedSkuVos = this.getSubscribed(appName);
