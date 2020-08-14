@@ -189,7 +189,12 @@ public class Microsoft365ServiceImpl implements Microsoft365Service {
         if (CollectionUtils.isEmpty(users)) {
             return new PageInfo<>();
         }
-        return new PageInfo<>(users.stream().map(this::getGraphUserVo).collect(Collectors.toList()), pager);
+        List<GraphUserVo> graphUserVos = users.stream().map(this::getGraphUserVo).collect(Collectors.toList());
+        // 过滤出许可证
+        if (!StringUtils.isEmpty(graphUserVo.getSkuId())) {
+            graphUserVos.removeIf(vo -> CollectionUtils.isEmpty(vo.getSkuVos()) || !vo.getSkuVos().stream().map(SkuVo::getSkuId).collect(Collectors.toList()).contains(graphUserVo.getSkuId()));
+        }
+        return new PageInfo<>(graphUserVos, pager);
     }
 
     private GraphUserVo getGraphUserVo(User user) {
@@ -394,7 +399,7 @@ public class Microsoft365ServiceImpl implements Microsoft365Service {
             statisticsVo.setUsers(users.size());
             statisticsVo.setAllowedUsers(users.stream().filter(l -> l.accountEnabled).collect(Collectors.toList()).size());
             statisticsVo.setBiddenUsers(users.stream().filter(l -> !l.accountEnabled).collect(Collectors.toList()).size());
-            statisticsVo.setUnauthorizedUsers(statisticsVo.getUsers() - statisticsVo.getAllowedUsers() - statisticsVo.getBiddenUsers());
+            statisticsVo.setUnauthorizedUsers(users.stream().filter(l -> CollectionUtils.isEmpty(l.assignedLicenses)).collect(Collectors.toList()).size());
         }
     }
 

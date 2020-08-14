@@ -104,51 +104,54 @@
                 </div>
                 <!-- 搜索框-->
                 <div class="row">
-                    <form>
-                        <div class="col-xs-2">
-                            <label for="usersLicenseSelect"></label>
-                            <select class="form-control" id="usersLicenseSelect" name="license-select" size="1">
-                                <option disabled selected hidden>请选择订阅类型</option>
-                            </select>
-                        </div>
-                        <div class="col-xs-2">
-                            <label for="usersLoginSelect"></label>
-                            <select class="form-control" id="usersLoginSelect" name="login-select" size="1" >
-                                <option disabled selected hidden>是否允许登录</option>
-                                <option value="0">是</option>
-                                <option value="0">否</option>
-                            </select>
-                        </div>
-                        <div class="col-xs-2">
-                            <label for="usersAuthSelect"></label>
-                            <select class="form-control" id="usersAuthSelect" name="auth-select" size="1">
-                                <option disabled selected hidden>是否授权</option>
-                                <option value="0">是</option>
-                                <option value="0">否</option>
-                            </select>
-                        </div>
 
-                        <div class="col-xs-2">
-                            <label for="account-text-input"></label>
-                            <input class="form-control" type="text" id="account-text-input"
-                                   name="account-text-input"
-                                   style="height: 33px"
-                                   placeholder="请输入账号">
-                        </div>
-                        <div class="col-xs-2">
-                            <label for="display-name-text-input"></label>
-                            <input class="form-control" type="text" id="display-name-text-input"
-                                   name="display-name-text-input"
-                                   style="height: 33px"
-                                   placeholder="请输入姓名">
-                        </div>
-                        <div class="col-xs-2">
-                            <button class="btn btn-info"
-                                    style="margin:21px auto auto auto; height: 33px"
-                                    type="submit">搜索
-                            </button>
-                        </div>
-                    </form>
+                    <div class="col-xs-2">
+                        <label for="license"></label>
+                        <select class="form-control" id="license" name="license-select" size="1">
+                            <option value="" disabled selected hidden>请选择订阅类型</option>
+                            <option value="">不限制</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="accountEnabled"></label>
+                        <select class="form-control" id="accountEnabled" name="login-select" size="1">
+                            <option value="" disabled selected hidden>是否允许登录</option>
+                            <option value="">不限制</option>
+                            <option value="1">是</option>
+                            <option value="0">否</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="assignLicense"></label>
+                        <select class="form-control" id="assignLicense" name="auth-select" size="1">
+                            <option value="" disabled selected hidden>是否授权</option>
+                            <option value="">不限制</option>
+                            <option value="1">是</option>
+                            <option value="0">否</option>
+                        </select>
+                    </div>
+
+                    <div class="col-xs-2">
+                        <label for="userPrincipalName"></label>
+                        <input class="form-control" type="text" id="userPrincipalName"
+                               name="account-text-input"
+                               style="height: 33px"
+                               placeholder="请输入账号">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="displayName"></label>
+                        <input class="form-control" type="text" id="displayName"
+                               name="display-name-text-input"
+                               style="height: 33px"
+                               placeholder="请输入姓名">
+                    </div>
+                    <div class="col-xs-2">
+                        <button class="btn btn-info"
+                                style="margin:21px auto auto auto; height: 33px"
+                                type="submit" onclick="searchUsers()">搜索
+                        </button>
+                    </div>
+
                 </div>
                 <br>
                 <!-- 表单-->
@@ -286,6 +289,7 @@
                                                     <input type="checkbox" id="check-all"><span></span>
                                                 </label>
                                             </th>
+                                            <th>编号</th>
                                             <th>邮箱</th>
                                             <th>姓名</th>
                                             <th>状态</th>
@@ -296,22 +300,15 @@
                                         </thead>
                                     </table>
                                 </div>
-                                <ul class="pagination">
-                                    <li class="disabled"><span>«</span></li>
-                                    <li class="active"><span>1</span></li>
-                                    <li><a href="#1">2</a></li>
-                                    <li><a href="#1">3</a></li>
-                                    <li><a href="#1">4</a></li>
-                                    <li><a href="#1">5</a></li>
-                                    <li><a href="#1">6</a></li>
-                                    <li><a href="#1">7</a></li>
-                                    <li><a href="#1">8</a></li>
-                                    <li class="disabled"><span>...</span></li>
-                                    <li><a href="#!">14452</a></li>
-                                    <li><a href="#!">14453</a></li>
-                                    <li><a href="#!">»</a></li>
-                                </ul>
 
+                                <ul class="pagination" id="pagination">
+                                    <li class="" onclick="pageOnclick(0)"><span>上一页</span></li>
+                                    <li class="disabled">
+                                        <span id="usersIndex"></span>
+                                        <span id="usersTotal"></span>
+                                    </li>
+                                    <li class="" onclick="pageOnclick(1)"><span>下一页</span></li>
+                                </ul>
                             </div>
                         </div>
 
@@ -329,17 +326,15 @@
 <script type="text/javascript" src="js/perfect-scrollbar.min.js"></script>
 <script type="text/javascript" src="js/main.min.js"></script>
 <script type="text/javascript" src="js/jconfirm/jquery-confirm.min.js"></script>
-<script type="text/javascript" src="js/main.min.js"></script>
 <script type="text/javascript" src="js/bootstrap-notify.min.js"></script>
 <script type="text/javascript" src="js/lightyear.js"></script>
-
 
 <script type="text/javascript" src="js/common.js"></script>
 <script type="text/javascript" src="js/users.js"></script>
 </body>
 <script>
     $(function () {
-        $(".headerPage").load("common/header.html");
+        $(".headerPage").load("header.html");
         // $(".footerpage").load("footer.html");
     });
     // 确认提示框

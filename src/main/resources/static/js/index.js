@@ -1,8 +1,10 @@
 $(window).on("load", function () {
     lightyear.loading('show');
     // 设置组织类型
-    setAppName();
-    homePage();
+    var success = setAppName();
+    if (success) {
+        homePage();
+    }
     lightyear.loading('hide');
 });
 
@@ -16,7 +18,7 @@ function homePage() {
         dataType: "json",
         success: function (r) {
             if (r.status !== 200) {
-                lightyear.notify(r.message, 'error', 1000);
+                lightyear.notify(r.message, 'danger', 100);
             } else {
                 $("#productSubs").text(r.data.statisticsVo.productSubs);
                 $("#licenses").text(r.data.statisticsVo.licenses);
@@ -63,6 +65,10 @@ function homePage() {
                     $("#unauthorizedUsersTable").append('<tr>' + tr + '</tr>')
                 }
             }
+        },
+        error: function () {
+            /*错误信息处理*/
+            lightyear.notify("服务器错误，请稍后再试~", 'danger', 100);
         }
     });
 }
