@@ -1,4 +1,5 @@
 var licenseList;
+var domianList;
 var pageITotal;
 var pageIndex = 1;
 
@@ -14,6 +15,7 @@ $(window).on("load", function () {
         listUsers(obj);
         // 许可证
         listLicense();
+        listDomain();
         setCookie("pageIndex", 1)
     }
     lightyear.loading('hide');
@@ -152,6 +154,7 @@ function listLicense() {
             } else {
                 licenseList = r.data;
                 setLicense("license");
+                setLicense("addLicenseSelect");
             }
         },
         error: function () {
@@ -161,9 +164,78 @@ function listLicense() {
     });
 }
 
+function listDomain() {
+    $.ajax({
+        type: "get",
+        url: path + "/getDomains",
+        data: {
+            "appName": getAppName()
+        },
+        dataType: "json",
+        success: function (r) {
+            if (r.status !== 200) {
+                lightyear.notify(r.message, 'danger', 1000);
+            } else {
+                domianList = r.data;
+                setDomain("addDomainSelect");
+            }
+        },
+        error: function () {
+            /*错误信息处理*/
+            lightyear.notify("服务器错误，请稍后再试~", 'danger', 100);
+        }
+    });
+}
+
+function addUserClick() {
+    lightyear.loading('show');
+    // 参数获取
+    var displayName = getInput("#addDisplayName");
+    var skuId = getSelect("#addLicenseSelect");
+    var mailNickname = getInput("#addMailNickname");
+    var domain = getSelect("#addDomainSelect");
+    var password = getInput("#addPassword");
+    // 参数校验
+
+
+    // 提交请求
+    // $.ajax({
+    //     type: "post",
+    //     url: path + "/addUser",
+    //     data: {
+    //         "appName": getAppName(),
+    //         "displayName": displayName,
+    //         "skuId": skuId,
+    //         "mailNickname": mailNickname,
+    //         "domain": domain,
+    //         "password": password
+    //     },
+    //     dataType: "json",
+    //     success: function (r) {
+    //         if (r.status !== 200) {
+    //             lightyear.notify(r.message, 'danger', 1000);
+    //         } else {
+    //             console.log(r)
+    //         }
+    //     },
+    //     error: function () {
+    //         /*错误信息处理*/
+    //         lightyear.notify("服务器错误，请稍后再试~", 'danger', 100);
+    //     }
+    // });
+    lightyear.loading('hide');
+}
+
 function setLicense(id) {
     for (i in licenseList) {
         var option = "<option value=" + licenseList[i].skuId + ">" + licenseList[i].skuName + "</option>";
+        $("#" + id).append(option);
+    }
+}
+
+function setDomain(id) {
+    for (i in domianList) {
+        var option = "<option value=" + domianList[i].id + ">" + domianList[i].id + "</option>";
         $("#" + id).append(option);
     }
 }

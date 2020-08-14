@@ -20,6 +20,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.microsoft.graph.models.extensions.AssignedLicense;
 import com.microsoft.graph.models.extensions.Domain;
@@ -213,7 +214,8 @@ public class Microsoft365ServiceImpl implements Microsoft365Service {
         graphUserVo.setStreetAddress(user.streetAddress);
         graphUserVo.setAccountEnabled(user.accountEnabled);
         graphUserVo.setDisplayAccountEnable(AccountStatusEnum.getName(graphUserVo.getAccountEnabled()));
-        graphUserVo.setCreatedDateTime(user.getRawObject().get("createdDateTime").getAsString());
+        JsonElement createdDateTime = user.getRawObject().get("createdDateTime");
+        graphUserVo.setCreatedDateTime(createdDateTime == null ? "" : createdDateTime.getAsString());
         List<AssignedLicense> assignedLicenses = user.assignedLicenses;
         if (!CollectionUtils.isEmpty(assignedLicenses)) {
             List<SkuVo> skuVos = new ArrayList<>();
@@ -237,7 +239,7 @@ public class Microsoft365ServiceImpl implements Microsoft365Service {
                 .mailNickname(graphUserVo.getMailNickname())
                 .userPrincipalName(graphUserVo.getMailNickname() + "@" + graphUserVo.getDomain())
                 .password(graphUserVo.getPassword() == null ? "" : graphUserVo.getPassword())
-                .skuId(graphProperties.getSubConfig(graphUserVo.getSkuType()).getSkuId())
+                .skuId(StringUtils.isEmpty(graphUserVo.getSkuId()) ? graphProperties.getSubConfig(graphUserVo.getSkuType()).getSkuId() : graphUserVo.getSkuId())
                 .build();
         log.info("【Office】创建用户开始：" + JSONObject.toJSONString(graphUser));
         // 调用api创建用户

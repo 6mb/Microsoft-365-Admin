@@ -55,7 +55,7 @@
                             <div class="card-body clearfix">
                                 <div class="pull-right">
                                     <p class="h6 m-t-0">总用户数</p>
-                                    <p class="h3 m-b-0" id="users">102,125.00</p>
+                                    <p class="h3 m-b-0" id="users">0</p>
                                 </div>
                                 <div class="pull-left"><span class="img-avatar img-avatar-48 bg-translucent"><i
                                         class="mdi mdi-currency-cny fa-1-5x"></i></span></div>
@@ -68,7 +68,7 @@
                             <div class="card-body clearfix">
                                 <div class="pull-right">
                                     <p class="h6  m-t-0">允许登陆用户</p>
-                                    <p class="h3  m-b-0" id="allowedUsers">920,000</p>
+                                    <p class="h3  m-b-0" id="allowedUsers">0</p>
                                 </div>
                                 <div class="pull-left"><span class="img-avatar img-avatar-48 bg-translucent"><i
                                         class="mdi mdi-account fa-1-5x"></i></span></div>
@@ -81,7 +81,7 @@
                             <div class="card-body clearfix">
                                 <div class="pull-right">
                                     <p class="h6 m-t-0">禁止登陆用户</p>
-                                    <p class="h3 m-b-0" id="biddenUsers">34,005,000</p>
+                                    <p class="h3 m-b-0" id="biddenUsers">0</p>
                                 </div>
                                 <div class="pull-left"><span class="img-avatar img-avatar-48 bg-translucent"><i
                                         class="mdi mdi-arrow-down-bold fa-1-5x"></i></span></div>
@@ -94,7 +94,7 @@
                             <div class="card-body clearfix">
                                 <div class="pull-right">
                                     <p class="h6 m-t-0">未授权用户</p>
-                                    <p class="h3 m-b-0" id="unauthorizedUsers">153 条</p>
+                                    <p class="h3 m-b-0" id="unauthorizedUsers">0</p>
                                 </div>
                                 <div class="pull-left"><span class="img-avatar img-avatar-48 bg-translucent"><i
                                         class="mdi mdi-comment-outline fa-1-5x"></i></span></div>
@@ -108,7 +108,7 @@
                     <div class="col-xs-2">
                         <label for="license"></label>
                         <select class="form-control" id="license" name="license-select" size="1">
-                            <option value="" disabled selected hidden>请选择订阅类型</option>
+                            <option value="" disabled selected hidden>请选择许可证</option>
                             <option value="">不限制</option>
                         </select>
                     </div>
@@ -165,7 +165,7 @@
                                         <div class="toolbar-btn-action" style=" height: 33px">
                                             <a class="btn m-r-10" data-toggle="modal"
                                                data-target=".bs-add-modal-lg">
-                                                <i class="mdi mdi-plus"></i> 新增
+                                                <i class="mdi mdi-plus" id="add"></i> 新增
                                             </a>
                                             <a class="btn m-r-10 enable-account-p" href="#!"><i
                                                     class="mdi mdi-check"></i> 启用</a>
@@ -197,43 +197,39 @@
                                                         <span class="input-group-addon"
                                                               id="add-display-name">显示姓名</span>
                                                         <input type="text" class="form-control" placeholder=""
+                                                               id="addDisplayName"
                                                                aria-describedby="add-display-name-input">
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-6">
-                                                    <label for="add-license-select"></label>
-                                                    <select class="form-control" id="add-license-select"
+                                                    <label for="addLicenseSelect"></label>
+                                                    <select class="form-control" id="addLicenseSelect"
                                                             style="height: 38px"
                                                             name="license-select" size="1">
-                                                        <option value="0">请选择许可证</option>
-                                                        <option value="1">选项 #1</option>
-                                                        <option value="2">选项 #2</option>
-                                                        <option value="3">选项 #3</option>
+                                                        <option value="" disabled selected hidden>请选择许可证</option>
                                                     </select>
                                                 </div>
                                                 <div class="col-xs-6">
                                                     <div class="input-group m-b-10">
-                                                        <span class="input-group-addon"
-                                                              id="add-mail_nickname">邮箱前缀</span>
+                                                        <span class="input-group-addon">邮箱前缀</span>
                                                         <input type="text" class="form-control" placeholder=""
-                                                               aria-describedby="add-mail_nickname_input">
+                                                               id="addMailNickname"
+                                                               aria-describedby="addMailNickname">
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-6">
-                                                    <label for="add-domain-select"></label>
-                                                    <select class="form-control" id="add-domain-select"
+                                                    <label for="addDomainSelect"></label>
+                                                    <select class="form-control" id="addDomainSelect"
                                                             style="height: 38px"
                                                             name="license-select" size="1">
-                                                        <option value="0">请选择域名后缀</option>
-                                                        <option value="1">选项 #1</option>
-                                                        <option value="2">选项 #2</option>
-                                                        <option value="3">选项 #3</option>
+                                                        <option value="" disabled selected hidden>请选择域名后缀</option>
                                                     </select>
                                                 </div>
                                                 <div class="col-xs-6">
                                                     <div class="input-group m-b-10">
                                                         <span class="input-group-addon" id="add-password">密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码</span>
                                                         <input type="text" class="form-control" placeholder=""
+                                                               id="addPassword"
                                                                aria-describedby="add-password-input">
                                                     </div>
                                                 </div>
@@ -241,7 +237,10 @@
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭
                                                 </button>
-                                                <button type="button" class="btn btn-primary">保存</button>
+                                                <button type="button" class="btn btn-primary" id="addUserClick"
+                                                        data-dismiss="modal"
+                                                        onclick="addUserClick()">保存
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -262,10 +261,8 @@
                                                     <select class="form-control" id="license-select-modal"
                                                             style="height: 38px"
                                                             name="license-select" size="1">
-                                                        <option value="0">请选择许可证</option>
-                                                        <option value="1">选项 #1</option>
-                                                        <option value="2">选项 #2</option>
-                                                        <option value="3">选项 #3</option>
+                                                        <option value="" disabled selected hidden>请选择许可证</option>
+                                                        <option value="">不限制</option>
                                                     </select>
                                                 </div>
 
@@ -273,7 +270,8 @@
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭
                                                 </button>
-                                                <button type="button" class="btn btn-primary">保存</button>
+                                                <button type="button" class="btn btn-primary" data-dismiss="modal">保存
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
