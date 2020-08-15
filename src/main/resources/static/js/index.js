@@ -1,11 +1,11 @@
 $(window).on("load", function () {
+    $('#titleName').html(" 后台首页 ");
     lightyear.loading('show');
     // 设置组织类型
     var success = setAppName();
     if (success) {
         homePage();
     }
-    lightyear.loading('hide');
 });
 
 function homePage() {
@@ -38,7 +38,8 @@ function homePage() {
                             skuName = skuName + noLandingUsers[i].skuVos[j].skuName;
                         }
                     }
-                    var tr = '<td>' + i + '</td>'
+                    var tr = '<td>' + (parseInt(i) + 1) + '</td>'
+                        + '<td hidden>' + noLandingUsers[i].userId + '</td>'
                         + '<td>' + noLandingUsers[i].userPrincipalName + '</td>'
                         + '<td>' + noLandingUsers[i].displayName + '</td>'
                         + '<td>' + skuName + '</td>'
@@ -57,7 +58,8 @@ function homePage() {
                     } else {
                         skuName = "无";
                     }
-                    var tr = '<td>' + i + '</td>'
+                    var tr = '<td>' + (parseInt(i) + 1) + '</td>'
+                        + '<td hidden>' + unauthorizedUsers[i].userId + '</td>'
                         + '<td>' + unauthorizedUsers[i].userPrincipalName + '</td>'
                         + '<td>' + unauthorizedUsers[i].displayName + '</td>'
                         + '<td>' + skuName + '</td>'
@@ -65,8 +67,10 @@ function homePage() {
                     $("#unauthorizedUsersTable").append('<tr>' + tr + '</tr>')
                 }
             }
+            lightyear.loading('hide');
         },
         error: function () {
+            lightyear.loading('hide');
             /*错误信息处理*/
             lightyear.notify("服务器错误，请稍后再试~", 'danger', 100);
         }

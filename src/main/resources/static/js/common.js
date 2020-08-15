@@ -2,6 +2,7 @@ var path = "http://127.0.0.1:8099/microsoft/365";
 var appNameList;
 $.ajax({
     type: "get",
+    async: false,
     url: path + "/getAppName",
     data: {},
     dataType: "json",
@@ -17,6 +18,31 @@ $.ajax({
         lightyear.notify("服务器错误，请稍后再试~", 'danger', 100);
     }
 });
+
+function refreshCache() {
+    lightyear.loading('show');
+    $.ajax({
+        type: "get",
+        url: path + "/refresh",
+        data: {
+            "appName": getAppName()
+        },
+        dataType: "json",
+        success: function (r) {
+            lightyear.loading('hide');
+            if (r.status !== 200) {
+                lightyear.notify(r.message, 'danger', 200);
+            } else {
+                lightyear.notify("刷新缓存成功！", 'success', 200);
+            }
+        },
+        error: function () {
+            /*错误信息处理*/
+            lightyear.notify("服务器错误，请稍后再试~", 'danger', 200);
+        }
+
+    });
+}
 
 function reloadPage() {
     lightyear.loading('show');

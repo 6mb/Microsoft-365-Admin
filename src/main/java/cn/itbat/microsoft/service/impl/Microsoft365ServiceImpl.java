@@ -59,7 +59,7 @@ public class Microsoft365ServiceImpl implements Microsoft365Service {
     private GraphProperties graphProperties;
 
     private LoadingCache<String, List<User>> usersCache = CacheBuilder.newBuilder()
-            .expireAfterWrite(1, TimeUnit.HOURS)
+            .expireAfterWrite(1, TimeUnit.DAYS)
             .build(new CacheLoader<String, List<User>>() {
                 @Override
                 public List<User> load(@NonNull String key) {
@@ -145,6 +145,9 @@ public class Microsoft365ServiceImpl implements Microsoft365Service {
         }
         List<DomainVo> domainVos = new ArrayList<>();
         for (Domain domain : domains) {
+            if (!domain.isVerified) {
+                continue;
+            }
             DomainVo domainVo = new DomainVo();
             domainVo.setId(domain.id);
             domainVo.setIsDefault(domain.isDefault);
@@ -303,7 +306,7 @@ public class Microsoft365ServiceImpl implements Microsoft365Service {
                 continue;
             }
             try {
-                Thread.sleep(100);
+                Thread.sleep(50);
                 graphService.deletedUser(appName, user.id);
             } catch (Exception e) {
                 log.error("【Office】删除用户失败：" + user.userPrincipalName);
@@ -313,7 +316,7 @@ public class Microsoft365ServiceImpl implements Microsoft365Service {
 
     @Async("asyncPoolTaskExecutor")
     @Override
-    public void createBatch(Integer num, String appName, String region, String skuType) {
+    public void createBatch(Integer num, String appName, String region, String skuId) {
         //
         String s = HttpClientUtils.sendGet("http://api.neton.ml/api", "amount=" + num + "&region=" + region + "&ext");
         List<UserVo> userVoList = JSON.parseArray(s, UserVo.class);
@@ -352,7 +355,7 @@ public class Microsoft365ServiceImpl implements Microsoft365Service {
                     .mobilePhone(userVo.getPhone())
                     .userPrincipalName(mailNickname + "@" + domain)
                     .password("P" + new PasswordGenerator(6, 3).generateRandomPassword() + "&")
-                    .skuId(graphProperties.getSubConfig(skuType).getSkuId()).build();
+                    .skuId(skuId).build();
             log.info("【Office】创建用户开始：" + JSONObject.toJSONString(graphUser));
             try {
                 User user = graphService.createUser(appName, graphUser);

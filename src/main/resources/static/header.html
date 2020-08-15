@@ -9,7 +9,7 @@
                     <span class="lyear-toggler-bar"></span>
                     <span class="lyear-toggler-bar"></span>
                 </div>
-                <span class="navbar-page-title"> 后台首页 </span>
+                <span class="navbar-page-title" id="titleName"> 后台首页 </span>
             </div>
 
             <ul class="topbar-right">
@@ -140,15 +140,19 @@
                     </ul>
                 </li>
                 <!--切换主题配色-->
+
                 <!-- 切换组织类型-->
                 <div class="form-group">
                     <div class="col-xs-12">
-                        <label  for="appNameSelect"></label>
-                        <select id="appNameSelect" class="form-control" name="app-select" size="1" onchange="reloadPage()">
+                        <label for="appNameSelect"></label>
+                        <select id="appNameSelect" class="form-control" name="app-select" size=""
+                                onchange="reloadPage()">
                         </select>
                     </div>
                 </div>
-
+                <div class="col-xs-5">
+                    <button class="btn btn-label" id="clearCache" onclick="refreshCache()"><label><i class="mdi mdi-cached"></i></label>刷新缓存</button>
+                </div>
             </ul>
 
         </div>

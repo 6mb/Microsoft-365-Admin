@@ -1,4 +1,5 @@
 $(window).load(function () {
+    $('#titleName').html(" 许可管理 ");
     lightyear.loading('show');
     // 设置组织类型
     var success = setAppName();
