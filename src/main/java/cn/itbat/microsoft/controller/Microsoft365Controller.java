@@ -97,6 +97,7 @@ public class Microsoft365Controller {
      */
     @GetMapping("/listLicense")
     public BaseResultVo listLicense(String appName, String skuId) {
+
         if (graphProperties.getConfig(appName) == null) {
             return BaseResultVo.error("组织类型不存在！");
         }

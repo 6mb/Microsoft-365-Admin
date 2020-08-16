@@ -66,7 +66,7 @@ public class GraphProperties {
                 return maConfig;
             }
         }
-        return configs.get(0);
+        return null;
     }
 
     /**
