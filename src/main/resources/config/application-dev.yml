@@ -13,7 +13,7 @@ graph:
     appTenant: mjj # 目录(租户) tenant（必填）
     appSecret: mjj # secrets（必填）
     admin: mjj # 全局管理员账号（可以为空）
-  - appName: mjj
+  - appName: mjj # 账号2配置，如果不需要请删除
     appId: mjj
     appTenant: mjj
     appSecret: mjj
