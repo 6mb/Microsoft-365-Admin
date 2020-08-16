@@ -52,17 +52,66 @@
         <main class="lyear-layout-content">
 
             <div class="container-fluid">
-                <div class="col-xs-12">
+
+                <div class="col-lg-12">
                     <div class="card">
-                        <div class="card-header">
-                            <h4>系统信息</h4>
-                        </div>
+                        <div class="card-header"><h3>系统信息</h3></div>
                         <div class="card-body">
-                            <p>基于 SpringBoot 2.1.3 开发</p>
-                            <p><a href="Microsoft 365 Admin.html" target="_blank">Microsoft 365 Admin API 文档</a> | <a
-                                    href="https://raw.githubusercontent.com/6mb/Microsoft-365-Admin/master/.github/Microsoft%20365%20Admin.rp">Microsoft
-                                365 Admin 原型 文档</a></p>
-                            <p></p>
+
+                            <div class="row">
+                                <!--系统架构-->
+                                <div class="col-md-6">
+                                    <h4>基于 SpringBoot 2.1.3 开发</h4>
+                                    <br>
+                                    <p>
+                                        此系统是一个基于 Azure API 管理 Microsoft 365 用户的程序, 支持<strong> A1、A1P、A3、E3、E5</strong>
+                                        等订阅类型
+                                    </p>
+                                    <p style="color: red">
+                                        支持多个管理账号切换
+                                    </p>
+                                    <p>需要API权限：Directory.ReadWrite.All 以及 User.ReadWrite.All</p>
+                                    <hr>
+                                    <h4> 原型设计及接口文档</h4>
+                                    <br>
+                                    <p><a href="Microsoft 365 Admin.html" target="_blank">Microsoft 365 Admin API 文档</a>
+                                        &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;
+                                        <a href="https://raw.githubusercontent.com/6mb/Microsoft-365-Admin/master/.github/Microsoft%20365%20Admin.postman_collection.json">
+                                            Postman 接口数据示例</a>
+                                        &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;
+                                        <a href="https://raw.githubusercontent.com/6mb/Microsoft-365-Admin/master/.github/Microsoft%20365%20Admin.rp">
+                                            Microsoft 365 Admin 原型 文档</a>
+                                    </p>
+                                </div>
+                                <!--监控信息-->
+                                <div class="col-md-3">
+
+                                    <div class="table-responsive">
+                                        <table id="systemTable" class="table">
+                                            <thead>
+                                            <tr>
+                                                <th>系统属性</th>
+                                                <th>值</th>
+
+                                            </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+
+                                    <div class="table-responsive">
+                                        <table id="jvmTable" class="table">
+                                            <thead>
+                                            <tr>
+                                                <th>JVM属性</th>
+                                                <th>值</th>
+                                            </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -112,7 +161,6 @@
                     </div>
                 </div>
             </div>
-
         </main>
         <!--End 页面主要内容-->
     </div>

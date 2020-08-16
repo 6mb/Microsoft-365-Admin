@@ -34,6 +34,7 @@ function refreshCache() {
                 lightyear.notify(r.message, 'danger', 200);
             } else {
                 lightyear.notify("刷新缓存成功！", 'success', 200);
+                window.location.reload();
             }
         },
         error: function () {
