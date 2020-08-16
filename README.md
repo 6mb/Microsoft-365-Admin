@@ -7,9 +7,8 @@
 
 后端基于SpringBoot，使用 msal4j 和 microsoft-graph sdk 开发完成
 
-前端？**嗯，能力不足，恳请各位大佬帮忙支持一下**
+前端？**嗯，能力不足，瞎写的，不要在意代码**
 
-<font color="#ff0000">【注意】该项目只完成了后端接口开发，暂无界面，需要直接调用接口</font>
 
 ## 系统功能
 
@@ -17,6 +16,14 @@
 - 许可查询：查询每个订阅的许可证信息
 - 用户管理：查询，新增，删除，分配许可证等
 - 多账户切换
+
+## 运行
+
+下载最新版本的额jar包，然后在同目录新建config目录，下载 [application-dev.yml](https://github.com/6mb/Microsoft-365-Admin/blob/master/src/main/resources/config/application-dev.yml)文件放到该目录。
+
+按照格式修改配置文件
+
+java -jar microsoft-0.0.1-SNAPSHOT.jar 启动，端口：8099
 
 ## API接口
 
@@ -49,10 +56,13 @@
 ![image](https://github.com/6mb/Microsoft-365-Admin/blob/master/.github/接口.png)
 
 
-## 原型文档
+## 界面
 
-[原型截图](https://github.com/6mb/Microsoft-365-Admin/blob/master/Azure.md)
+![image](https://github.com/6mb/Microsoft-365-Admin/blob/master/.github/首页.png)
 
-具体文稿，请下载 [Microsoft 365 Admin.rp](https://raw.githubusercontent.com/6mb/Microsoft-365-Admin/master/.github/Microsoft%20365%20Admin.rp) 文件
+![image](https://github.com/6mb/Microsoft-365-Admin/blob/master/.github/订阅管理.png)
 
+![image](https://github.com/6mb/Microsoft-365-Admin/blob/master/.github/用户管理.png)
+
+![image](https://github.com/6mb/Microsoft-365-Admin/blob/master/.github/关于.png)
 ## 
