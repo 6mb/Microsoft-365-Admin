@@ -182,6 +182,7 @@ public class Microsoft365ServiceImpl implements Microsoft365Service {
         } else {
             users = graphService.getUsers(graphUserVo);
         }
+        users = users.stream().filter(l -> !l.userPrincipalName.contains("admin")).collect(Collectors.toList());
         // 判断是启用禁用的情况
         if (graphUserVo.getAccountEnabled() != null) {
             users = users.stream().filter(l -> l.accountEnabled.equals(graphUserVo.getAccountEnabled())).collect(Collectors.toList());
