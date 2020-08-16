@@ -235,6 +235,9 @@ public class Microsoft365ServiceImpl implements Microsoft365Service {
 
     @Override
     public GraphUserVo create(GraphUserVo graphUserVo) {
+        if (StringUtils.isEmpty(graphUserVo.getDomain())) {
+            graphUserVo.setDomain(domainCache.getUnchecked(graphUserVo.getAppName()).stream().filter(l -> l.isDefault).collect(Collectors.toList()).get(0).id);
+        }
         // 构建用户对象
         GraphUser graphUser = GraphUser.builder()
                 .country("中国")
@@ -316,14 +319,16 @@ public class Microsoft365ServiceImpl implements Microsoft365Service {
 
     @Async("asyncPoolTaskExecutor")
     @Override
-    public void createBatch(Integer num, String appName, String region, String skuId) {
+    public void createBatch(Integer num, String appName, String region, String skuId, String domain) {
         //
         String s = HttpClientUtils.sendGet("http://api.neton.ml/api", "amount=" + num + "&region=" + region + "&ext");
         List<UserVo> userVoList = JSON.parseArray(s, UserVo.class);
         if (CollectionUtils.isEmpty(userVoList)) {
             return;
         }
-        String domain = domainCache.getUnchecked(appName).stream().filter(l -> l.isDefault).collect(Collectors.toList()).get(0).id;
+        if (StringUtils.isEmpty(domain)) {
+            domain = domainCache.getUnchecked(appName).stream().filter(l -> l.isDefault).collect(Collectors.toList()).get(0).id;
+        }
         List<UserVo> unique = userVoList.stream().collect(Collectors.collectingAndThen(
                 Collectors.toCollection(
                         () -> new TreeSet<>((o1, o2) -> {

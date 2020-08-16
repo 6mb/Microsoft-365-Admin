@@ -52,7 +52,7 @@
         <main class="lyear-layout-content">
 
             <div class="container-fluid">
-
+                <!--系统信息-->
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header"><h3>系统信息</h3></div>
@@ -115,6 +115,115 @@
                         </div>
                     </div>
                 </div>
+                <!--教程-->
+                <div class="col-xs-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>操作教程</h3>
+                        </div>
+                        <div class="card-body">
+
+                            <ul class="nav nav-tabs nav-justified">
+                                <li class="active">
+                                    <a data-toggle="tab" href="#select-appName" aria-expanded="false">选择组织</a>
+                                </li>
+                                <li class="nav-item ">
+                                    <a data-toggle="tab" href="#refresh-cache" aria-expanded="true">缓存刷新</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a data-toggle="tab" href="#add-user" aria-expanded="false">新增</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a data-toggle="tab" href="#enable-disable" aria-expanded="false">启用禁用</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a data-toggle="tab" href="#deleted-user" aria-expanded="false">删除</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a data-toggle="tab" href="#add-license" aria-expanded="false">授权</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a data-toggle="tab" href="#add-batch" aria-expanded="false">批量创建</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a data-toggle="tab" href="#deleted-batch" aria-expanded="false">批量删除</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane fade active in" id="select-appName">
+                                    <p>
+                                        <strong>解释：</strong>切换不同的全局账号（即在配置文件中配置的组织类型）。
+                                    </p>
+                                    <p>
+                                        <strong>操作：</strong>右上角【下拉选择】不同的组织进行切换操作（后台首页、订阅管理、用户管理）。
+                                    </p>
+                                    <p></p>
+                                </div>
+                                <div class="tab-pane fade" id="refresh-cache">
+                                    <p>
+                                        <strong>解释：</strong>顾名思义，刷新【用户缓存、订阅缓存、域名缓存】。由于调用微软API比较耗时，第一次查询时将需要的数据拉取到本地缓存，可以在配置文件配置是【否开启缓存】和配置【缓存失效时间】（默认即可）。
+                                    </p>
+                                    <p>
+                                        <strong>操作：</strong>右上角点击【刷新缓存】按钮（后台首页、订阅管理、用户管理），<span style="color: red">切勿重复点击</span>。
+                                    </p>
+                                </div>
+                                <div class="tab-pane fade" id="add-user">
+                                    <p>
+                                        <strong>解释：</strong> 新增账户。
+                                    </p>
+                                    <p>
+                                        <strong>操作：</strong>【用户管理】界面，点击【新增按钮】，填写【显示名称、邮箱前缀、密码】选择【域名后缀、许可类型】点击保存即可（未进行参数校验）。
+                                    </p>
+                                    <p> </p>
+                                </div>
+                                <div class="tab-pane fade" id="enable-disable">
+                                    <p>
+                                        <strong>解释：</strong> 允许账户登录或禁止账户登录。
+                                    </p>
+                                    <p>
+                                        <strong>操作：</strong>【用户管理】界面，选择一个账户点击【启用/禁用按钮】，点击确认即可（未进行参数校验）。
+                                    </p>
+                                </div>
+                                <div class="tab-pane fade" id="deleted-user">
+                                    <p>
+                                        <strong>解释：</strong> 删除账户。
+                                    </p>
+                                    <p>
+                                        <strong>操作：</strong>【用户管理】界面，选择一个账户点击【删除按钮】，点击确认即可（未进行参数校验）。
+                                    </p>
+                                </div>
+
+                                <div class="tab-pane fade" id="add-license">
+                                    <p>
+                                        <strong>解释：</strong> 分配许可给账户
+                                    </p>
+                                    <p>
+                                        <strong>操作：</strong>【用户管理】界面，选择一个账户点击【授权按钮】，点击确认即可（未进行参数校验）。
+                                    </p>
+                                </div>
+                                <div class="tab-pane fade" id="add-batch">
+                                    <p>
+                                        <strong>解释：</strong>批量创建用户，显示名称随机，邮箱前缀随机。
+                                    </p>
+                                    <p>
+                                        <strong>操作：</strong>【用户管理】界面，点击【批量创建按钮】，输入创建数量，选择许可证，选择域名，点击确认即可（未进行参数校验）。
+                                    </p>
+                                </div>
+                                <div class="tab-pane fade" id="deleted-batch">
+                                    <p>
+                                        <strong>解释：</strong>删除全部非管理员账户（管理员账户无权删除）。
+                                    </p>
+                                    <p>
+                                        <strong>操作：</strong>【用户管理】界面，点击【全部删除按钮】，点击确认即可（未进行参数校验），<span style="color: red; font-size: 20px">谨慎操作</span>。
+                                    </p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- 版权-->
                 <div class="col-xs-6">
                     <div class="card">
                         <div class="card-header">
@@ -144,19 +253,6 @@
                             <p>光年后台管理模板(Light Year Admin)是一个基于Bootstrap v3.3.7的后台HTML模板。</p>
                             <p>码云下载地址：<a href="https://gitee.com/yinqi/Light-Year-Admin-Template" target="_blank">https://gitee.com/yinqi/Light-Year-Admin-Template</a>
                             </p>
-
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xs-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4>操作</h4>
-                        </div>
-                        <div class="card-body">
-
-
                         </div>
                     </div>
                 </div>

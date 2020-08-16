@@ -149,8 +149,9 @@ public interface Microsoft365Service {
      * @param appName 组织类型
      * @param region  国家
      * @param skuId 订阅
+     * @param domain 域名后缀
      */
-    void createBatch(Integer num, String appName, String region, String skuId);
+    void createBatch(Integer num, String appName, String region, String skuId, String domain);
 
 
     /**

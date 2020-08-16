@@ -274,6 +274,7 @@ public class Microsoft365Controller {
         microsoft365Service.refresh(appName, type);
         return BaseResultVo.success();
     }
+
     @PostMapping("/deletedUserBatch")
     public BaseResultVo deletedUserBatch(String appName) {
         microsoft365Service.deletedUsers(appName);
@@ -285,25 +286,21 @@ public class Microsoft365Controller {
      *
      * @param num     数量
      * @param appName 组织名称
-     * @param skuId 订阅
+     * @param skuId   订阅
      * @return 成功
      */
     @GetMapping("/createUserBatch")
-    public BaseResultVo createUserBatch(String appName, Integer num, String skuId) {
-        if (num == null || StringUtils.isBlank(appName) || StringUtils.isBlank(skuId)) {
+    public BaseResultVo createUserBatch(String appName, Integer num, String skuId, String domain) {
+        if (num == null || StringUtils.isBlank(appName) || StringUtils.isBlank(domain)) {
             return BaseResultVo.error("参数为空！");
         }
         if (graphProperties.getConfig(appName) == null) {
             return BaseResultVo.error("组织类型不存在！");
         }
-        if (graphProperties.getSubConfigName(skuId) == null) {
-            return BaseResultVo.error("许可证不存在！");
-        }
-
         if (num > NUM) {
             for (int i = 0; i < num / NUM; i++) {
 
-                microsoft365Service.createBatch(NUM, appName, "china", skuId);
+                microsoft365Service.createBatch(NUM, appName, "china", skuId, domain);
                 try {
                     Thread.sleep(3000);
                 } catch (InterruptedException e) {
@@ -311,7 +308,7 @@ public class Microsoft365Controller {
                 }
             }
         } else {
-            microsoft365Service.createBatch(num, appName, "china", skuId);
+            microsoft365Service.createBatch(num, appName, "china", skuId, domain);
         }
         return BaseResultVo.success();
     }

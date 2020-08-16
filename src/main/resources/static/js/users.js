@@ -2,6 +2,7 @@ let licenseList;
 let domainList;
 let pageITotal;
 let pageIndex = 1;
+let delay = 2000;
 
 $(window).on("load", function () {
     $('#titleName').html(" 用户管理 ");
@@ -49,7 +50,7 @@ function getUsersStatistics() {
         dataType: "json",
         success: function (r) {
             if (r.status !== 200) {
-                lightyear.notify(r.message, 'danger', 200);
+                lightyear.notify(r.message, 'danger', delay);
             } else {
                 $("#users").text(r.data.users);
                 $("#allowedUsers").text(r.data.allowedUsers);
@@ -59,7 +60,7 @@ function getUsersStatistics() {
         },
         error: function () {
             /*错误信息处理*/
-            lightyear.notify("服务器错误，请稍后再试~", 'danger', 200);
+            lightyear.notify("服务器错误，请稍后再试~", 'danger', delay);
         }
     });
 }
@@ -90,7 +91,7 @@ function listUsers(obj) {
         dataType: "json",
         success: function (r) {
             if (r.status !== 200) {
-                lightyear.notify(r.message, 'danger', 200);
+                lightyear.notify(r.message, 'danger', delay);
             } else {
                 // 表格
                 let usersTable = r.data.list;
@@ -126,7 +127,7 @@ function listUsers(obj) {
         error: function () {
             lightyear.loading('hide');
             /*错误信息处理*/
-            lightyear.notify("服务器错误，请稍后再试~", 'danger', 200);
+            lightyear.notify("服务器错误，请稍后再试~", 'danger', delay);
         }
     });
 
@@ -143,16 +144,17 @@ function listLicense() {
         dataType: "json",
         success: function (r) {
             if (r.status !== 200) {
-                lightyear.notify(r.message, 'danger', 200);
+                lightyear.notify(r.message, 'danger', delay);
             } else {
                 licenseList = r.data;
                 setLicense("license");
                 setLicense("addLicenseSelect");
+                setLicense("licenseSelectModalBatch");
             }
         },
         error: function () {
             /*错误信息处理*/
-            lightyear.notify("服务器错误，请稍后再试~", 'danger', 200);
+            lightyear.notify("服务器错误，请稍后再试~", 'danger', delay);
         }
     });
 }
@@ -167,15 +169,16 @@ function listDomain() {
         dataType: "json",
         success: function (r) {
             if (r.status !== 200) {
-                lightyear.notify(r.message, 'danger', 200);
+                lightyear.notify(r.message, 'danger', delay);
             } else {
                 domainList = r.data;
                 setDomain("addDomainSelect");
+                setDomain("domainSelectModalBatch");
             }
         },
         error: function () {
             /*错误信息处理*/
-            lightyear.notify("服务器错误，请稍后再试~", 'danger', 200);
+            lightyear.notify("服务器错误，请稍后再试~", 'danger', delay);
         }
     });
 }
@@ -219,7 +222,7 @@ function addUserClick() {
         dataType: "json",
         success: function (r) {
             if (r.status !== 200) {
-                lightyear.notify(r.message, 'danger', 200);
+                lightyear.notify(r.message, 'danger', delay);
             } else {
                 console.log(r);
                 let userInfo = '名称：' + r.data.displayName + '<br>账号：' + r.data.userPrincipalName + '<br>密码：' + r.data.password;
@@ -241,7 +244,7 @@ function addUserClick() {
         error: function () {
             lightyear.loading('hide');
             /*错误信息处理*/
-            lightyear.notify("服务器错误，请稍后再试~", 'danger', 200);
+            lightyear.notify("服务器错误，请稍后再试~", 'danger', delay);
         }
     });
 
@@ -264,16 +267,16 @@ function addLicenseClick() {
         success: function (r) {
             if (r.status !== 200) {
                 lightyear.loading('hide');
-                lightyear.notify(r.message, 'danger', 200);
+                lightyear.notify(r.message, 'danger', delay);
             } else {
                 console.log(r);
                 lightyear.loading('hide');
-                lightyear.notify("添加许可证成功！", 'success', 200)
+                lightyear.notify("添加许可证成功！", 'success', delay)
             }
         },
         error: function () {
             /*错误信息处理*/
-            lightyear.notify("服务器错误，请稍后再试~", 'danger', 200);
+            lightyear.notify("服务器错误，请稍后再试~", 'danger', delay);
             lightyear.loading('hide');
         }
     });
@@ -293,16 +296,16 @@ function enableUserClick(userId) {
         success: function (r) {
             if (r.status !== 200) {
                 lightyear.loading('hide');
-                lightyear.notify(r.message, 'danger', 200);
+                lightyear.notify(r.message, 'danger', delay);
             } else {
                 console.log(r);
                 lightyear.loading('hide');
-                lightyear.notify('账户启用成功！', 'success', 200);
+                lightyear.notify('账户启用成功！', 'success', delay);
             }
         },
         error: function () {
             /*错误信息处理*/
-            lightyear.notify("服务器错误，请稍后再试~", 'danger', 200);
+            lightyear.notify("服务器错误，请稍后再试~", 'danger', delay);
             lightyear.loading('hide');
         }
     });
@@ -322,16 +325,16 @@ function disableUserClick(userId) {
         success: function (r) {
             if (r.status !== 200) {
                 lightyear.loading('hide');
-                lightyear.notify(r.message, 'danger', 200);
+                lightyear.notify(r.message, 'danger', delay);
             } else {
                 console.log(r);
                 lightyear.loading('hide');
-                lightyear.notify('账户禁用成功！', 'success', 200);
+                lightyear.notify('账户禁用成功！', 'success', delay);
             }
         },
         error: function () {
             /*错误信息处理*/
-            lightyear.notify("服务器错误，请稍后再试~", 'danger', 200);
+            lightyear.notify("服务器错误，请稍后再试~", 'danger', delay);
             lightyear.loading('hide');
         }
     });
@@ -350,45 +353,49 @@ function deletedUserClick(userId) {
         success: function (r) {
             if (r.status !== 200) {
                 lightyear.loading('hide');
-                lightyear.notify(r.message, 'danger', 200);
+                lightyear.notify(r.message, 'danger', delay);
             } else {
                 console.log(r);
                 lightyear.loading('hide');
-                lightyear.notify('账户删除成功！', 'success', 200);
+                lightyear.notify('账户删除成功！', 'success', delay);
             }
         },
         error: function () {
             /*错误信息处理*/
-            lightyear.notify("服务器错误，请稍后再试~", 'danger', 200);
+            lightyear.notify("服务器错误，请稍后再试~", 'danger', delay);
             lightyear.loading('hide');
         }
     });
 }
 
 function addUserBatchClick() {
+    let num = $("#addUserBatchNum").val();
+    let skuId = getSelect("#licenseSelectModalBatch");
+    let domain = getSelect("#domainSelectModalBatch");
     // 提交请求
     $.ajax({
-        type: "post",
+        type: "get",
         url: path + "/createUserBatch",
         data: {
             "appName": getAppName(),
             "num": num,
-            "skuName": num
+            "skuId": skuId,
+            "domain": domain
         },
         dataType: "json",
         success: function (r) {
             if (r.status !== 200) {
                 lightyear.loading('hide');
-                lightyear.notify(r.message, 'danger', 100);
+                lightyear.notify(r.message, 'danger', delay);
             } else {
                 console.log(r);
                 lightyear.loading('hide');
-                lightyear.notify('账户删除成功！', 'success', 200);
+                lightyear.notify('正在创建账户中，请等待！', 'success', delay);
             }
         },
         error: function () {
             /*错误信息处理*/
-            lightyear.notify("服务器错误，请稍后再试~", 'danger', 200);
+            lightyear.notify("服务器错误，请稍后再试~", 'danger', delay);
             lightyear.loading('hide');
         }
     });
@@ -406,16 +413,16 @@ function deletedUserBatchClick() {
         success: function (r) {
             if (r.status !== 200) {
                 lightyear.loading('hide');
-                lightyear.notify(r.message, 'danger', 100);
+                lightyear.notify(r.message, 'danger', delay);
             } else {
                 console.log(r);
                 lightyear.loading('hide');
-                lightyear.notify('账户删除成功！', 'success', 200);
+                lightyear.notify('账户删除成功！', 'success', delay);
             }
         },
         error: function () {
             /*错误信息处理*/
-            lightyear.notify("服务器错误，请稍后再试~", 'danger', 200);
+            lightyear.notify("服务器错误，请稍后再试~", 'danger', delay);
             lightyear.loading('hide');
         }
     });

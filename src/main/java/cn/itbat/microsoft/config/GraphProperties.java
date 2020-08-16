@@ -126,6 +126,4 @@ public class GraphProperties {
         }
         return null;
     }
-
-
 }
