@@ -17,6 +17,12 @@
 - 用户管理：查询，新增，删除，分配许可证等
 - 多账户切换
 
+**注意：出现执行新增/删除账户，启用禁用账户，授权账户等操作后，查询结果不变，请右上角点击刷新缓存，或列表中搜索该用户**
+
+原因：调用微软API比较耗时，第一次查询时将需要的数据拉取到本地缓存（暂无设置缓存失效时间功能）。
+
+具体功能查看关于界面【操作教程】
+
 ## 运行
 
 下载最新版本的额jar包，然后在同目录新建config目录，下载 [application-dev.yml](https://github.com/6mb/Microsoft-365-Admin/blob/master/src/main/resources/config/application-dev.yml)文件放到该目录。
