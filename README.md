@@ -25,6 +25,18 @@
 
 java -jar microsoft-0.0.1-SNAPSHOT.jar 启动，端口：8099
 
+
+
+## 界面
+
+![image](https://github.com/6mb/Microsoft-365-Admin/blob/master/.github/首页.png)
+
+![image](https://github.com/6mb/Microsoft-365-Admin/blob/master/.github/订阅管理.png)
+
+![image](https://github.com/6mb/Microsoft-365-Admin/blob/master/.github/用户管理.png)
+
+![image](https://github.com/6mb/Microsoft-365-Admin/blob/master/.github/关于.png)
+
 ## API接口
 
 [接口文档](https://github.com/6mb/Microsoft-365-Admin/blob/master/Microsoft%20365%20Admin.md)
@@ -54,15 +66,3 @@ java -jar microsoft-0.0.1-SNAPSHOT.jar 启动，端口：8099
 请自行设置 .evn  {host} 和 {port}
 
 ![image](https://github.com/6mb/Microsoft-365-Admin/blob/master/.github/接口.png)
-
-
-## 界面
-
-![image](https://github.com/6mb/Microsoft-365-Admin/blob/master/.github/首页.png)
-
-![image](https://github.com/6mb/Microsoft-365-Admin/blob/master/.github/订阅管理.png)
-
-![image](https://github.com/6mb/Microsoft-365-Admin/blob/master/.github/用户管理.png)
-
-![image](https://github.com/6mb/Microsoft-365-Admin/blob/master/.github/关于.png)
-## 
