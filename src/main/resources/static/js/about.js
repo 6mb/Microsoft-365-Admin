@@ -1,4 +1,4 @@
-let path = "http://127.0.0.1:8099";
+let path = url;
 
 $(window).on("load", function () {
     $('#titleName').html(" 关于平台 ");

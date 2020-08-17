@@ -1,4 +1,5 @@
-var path = "http://127.0.0.1:8099/microsoft/365";
+
+var path = url + "/microsoft/365";
 var appNameList;
 $.ajax({
     type: "get",
