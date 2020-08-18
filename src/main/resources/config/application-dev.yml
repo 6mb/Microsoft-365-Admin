@@ -38,6 +38,8 @@ graph:
   - skuName: Office_365_E3Y
     displayName: E3Y
     skuId: 6fd2c87f-b296-42f0-b197-1e91e994b900
-
+  - skuName: DEVELOPERPACK_E5
+    displayName: E5
+    skuId: c42b9cae-ea4f-4ab7-9717-81576235ccac
 
 
