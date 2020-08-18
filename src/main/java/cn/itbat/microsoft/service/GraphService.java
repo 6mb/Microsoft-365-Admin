@@ -84,7 +84,7 @@ public interface GraphService {
      * @param userId  用户
      * @return User
      */
-    User addLicense(String appName, String skuId, String userId);
+    User addLicense(String appName, String userId, String skuId);
 
 
     /**

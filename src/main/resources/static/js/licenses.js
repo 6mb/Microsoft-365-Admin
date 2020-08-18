@@ -13,6 +13,7 @@ $(window).load(function () {
 function getLicenseStatistics() {
     $.ajax({
         type: "get",
+        async: false,
         url: path + "/getLicenseStatistics",
         data: {
             "appName": getAppName()
@@ -38,6 +39,7 @@ function getLicenseStatistics() {
 function listLicense() {
     $.ajax({
         type: "get",
+        async: false,
         url: path + "/listLicense",
         data: {
             "appName": getAppName()

@@ -344,6 +344,11 @@
                                                data-target=".bs-auth-modal-lg">
                                                 <i class="mdi mdi-office"></i> 授权
                                             </a>
+                                            <a class="btn m-r-10 dis-license-account-p disabled" id="disLicenseAccount"
+                                               data-toggle="modal"
+                                               data-target=".bs-dis-auth-modal-lg">
+                                                <i class="mdi mdi-office"></i> 取消授权
+                                            </a>
                                             <a class="btn m-r-10 deleted-account-p-batch pull-right"
                                                id="deletedAccountBatch" href="#!"><i class="mdi mdi-delete"></i>
                                                 全部删除</a>
@@ -450,6 +455,36 @@
                                                 </button>
                                                 <button type="button" class="btn btn-primary" data-dismiss="modal"
                                                         onclick="addLicenseClick()">保存
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal fade bs-dis-auth-modal-lg" tabindex="-1" role="dialog"
+                                     id="disLicenseModal"
+                                     aria-labelledby="authLabel">
+                                    <div class="modal-dialog modal-lg" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close"><span
+                                                        aria-hidden="true">×</span></button>
+                                                <h4 class="modal-title" id="disAuthLabel">取消许可证</h4>
+                                            </div>
+                                            <div class="modal-body col-xs-12">
+                                                <div class="col-xs-6">
+                                                    <label for="licenseSelectModal"></label>
+                                                    <div class="alert alert-success" role="alert" id="disLicenseUser">
+                                                    </div>
+                                                    <span id="disLicenseSelectModalUserId" hidden></span>
+                                                </div>
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                                </button>
+                                                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                                                        onclick="cancelLicenseClick()">保存
                                                 </button>
                                             </div>
                                         </div>
@@ -679,7 +714,22 @@
             $('#licenseSelectModalUserId').html(userId);
             $('#addLicenseUser').html("你将为：" + userPrincipalName + " 账号添加订阅！");
             setLicense("licenseSelectModal");
+        });
+        $('#disLicenseModal').on('show.bs.modal', function () {
+            var userPrincipalName;
+            var userId;
+            $('input[name="userIds"]:checked').each(function () {//遍历每一个名字为interest的复选框，其中选中的执行函数
+                var row = $(this).parent("label").parent("td").parent("tr");//获取选中行
+                userId = row.find("[name='userId']").html();//获取name='Sid'的值
+                userPrincipalName = row.find("[name='userPrincipalName']").html();
+            });
+            $('#disLicenseSelectModalUserId').html(userId);
+            $('#disLicenseUser').html("你取消：" + userPrincipalName + " 账号订阅！");
         })
+
+
+
+
     });
 
 

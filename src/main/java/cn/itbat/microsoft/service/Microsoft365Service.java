@@ -85,7 +85,7 @@ public interface Microsoft365Service {
      * @param userId  用户
      * @return 用户信息
      */
-    GraphUserVo cancelLicense(String appName, String skuId, String userId);
+    GraphUserVo cancelLicense(String appName, String userId, String skuId);
 
     /**
      * 重置密码
@@ -148,8 +148,8 @@ public interface Microsoft365Service {
      * @param num     num
      * @param appName 组织类型
      * @param region  国家
-     * @param skuId 订阅
-     * @param domain 域名后缀
+     * @param skuId   订阅
+     * @param domain  域名后缀
      */
     void createBatch(Integer num, String appName, String region, String skuId, String domain);
 

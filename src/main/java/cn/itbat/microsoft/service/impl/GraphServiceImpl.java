@@ -148,7 +148,7 @@ public class GraphServiceImpl implements GraphService {
     }
 
     @Override
-    public User addLicense(String appName, String skuId, String userId) {
+    public User addLicense(String appName, String userId, String skuId) {
         LinkedList<AssignedLicense> addLicensesList = new LinkedList<AssignedLicense>();
         AssignedLicense addLicenses = new AssignedLicense();
         addLicenses.skuId = UUID.fromString(skuId);
@@ -162,7 +162,7 @@ public class GraphServiceImpl implements GraphService {
     @Override
     public User cancelLicense(String appName, String skuId, String userId) {
         return GraphConfiguration.getGraphClient(appName).users(userId)
-                .assignLicense(null, Collections.singletonList(UUID.fromString(skuId)))
+                .assignLicense(new ArrayList<>(), Collections.singletonList(UUID.fromString(skuId)))
                 .buildRequest()
                 .post();
     }

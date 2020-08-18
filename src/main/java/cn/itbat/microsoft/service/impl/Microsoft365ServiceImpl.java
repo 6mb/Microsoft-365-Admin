@@ -224,10 +224,14 @@ public class Microsoft365ServiceImpl implements Microsoft365Service {
         if (!CollectionUtils.isEmpty(assignedLicenses)) {
             List<SkuVo> skuVos = new ArrayList<>();
             for (AssignedLicense assignedLicense : assignedLicenses) {
+                String skuName = graphProperties.getSubConfigDisplayName(assignedLicense.skuId.toString());
+                if (StringUtils.isEmpty(skuName)) {
+                  skuName = "存在订阅";
+                }
                 skuVos.add(SkuVo.builder()
                         .skuId(assignedLicense.skuId.toString())
                         .skuType(graphProperties.getSubConfigName(assignedLicense.skuId.toString()))
-                        .skuName(graphProperties.getSubConfigDisplayName(assignedLicense.skuId.toString())).build());
+                        .skuName(skuName).build());
             }
             graphUserVo.setSkuVos(skuVos);
         }
@@ -279,7 +283,18 @@ public class Microsoft365ServiceImpl implements Microsoft365Service {
     }
 
     @Override
-    public GraphUserVo cancelLicense(String appName, String skuId, String userId) {
+    public GraphUserVo cancelLicense(String appName, String userId, String skuId) {
+        if (StringUtils.isEmpty(skuId)) {
+            // 取消所有订阅
+            User user = graphService.getUser(appName, userId);
+            List<AssignedLicense> assignedLicenses = user.assignedLicenses;
+            if (!CollectionUtils.isEmpty(assignedLicenses)) {
+                for (AssignedLicense assignedLicens : assignedLicenses) {
+                    graphService.cancelLicense(appName, assignedLicens.skuId.toString(), userId);
+                }
+            }
+            return null;
+        }
         User user = graphService.cancelLicense(appName, userId, skuId);
         log.info("【Office】组织：" + appName + " 取消" + userId + "订阅" + skuId + "成功");
         return this.getGraphUserVo(user);

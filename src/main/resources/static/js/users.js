@@ -282,6 +282,36 @@ function addLicenseClick() {
     });
 }
 
+function cancelLicenseClick() {
+    lightyear.loading('show');
+    let userId = $('#disLicenseSelectModalUserId').html();
+    // 提交请求
+    $.ajax({
+        type: "post",
+        url: path + "/cancelLicense",
+        data: {
+            "appName": getAppName(),
+            "userId": userId
+        },
+        dataType: "json",
+        success: function (r) {
+            if (r.status !== 200) {
+                lightyear.loading('hide');
+                lightyear.notify(r.message, 'danger', delay);
+            } else {
+                console.log(r);
+                lightyear.loading('hide');
+                lightyear.notify("取消许可证成功！", 'success', delay)
+            }
+        },
+        error: function () {
+            /*错误信息处理*/
+            lightyear.notify("服务器错误，请稍后再试~", 'danger', delay);
+            lightyear.loading('hide');
+        }
+    });
+}
+
 function enableUserClick(userId) {
     // 提交请求
     $.ajax({
@@ -469,11 +499,13 @@ function checkBoxClick(data) {
         $('#disableAccount').removeClass("disabled");
         $('#deletedAccount').removeClass("disabled");
         $('#addLicenseAccount').removeClass("disabled");
+        $('#disLicenseAccount').removeClass("disabled");
     } else {
         $('#enableAccount').addClass("disabled");
         $('#disableAccount').addClass("disabled");
         $('#deletedAccount').addClass("disabled");
         $('#addLicenseAccount').addClass("disabled");
+        $('#disLicenseAccount').addClass("disabled");
     }
 
 }
