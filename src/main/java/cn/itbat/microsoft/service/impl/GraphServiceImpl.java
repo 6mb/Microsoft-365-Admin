@@ -141,7 +141,7 @@ public class GraphServiceImpl implements GraphService {
                 .post(user);
         // if skuId is not null, add skuId license
         if (StringUtils.isNotBlank(graphUser.getSkuId())) {
-            User license = this.addLicense(appName, graphUser.getSkuId(), user.userPrincipalName);
+            User license = this.addLicense(appName, user.userPrincipalName, graphUser.getSkuId());
         }
         return userResult;
 
