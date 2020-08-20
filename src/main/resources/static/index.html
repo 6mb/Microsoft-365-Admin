@@ -44,7 +44,7 @@
         <!--End 左侧导航-->
 
         <!--头部信息-->
-<!--        <div class="headerPage"></div>-->
+        <!--        <div class="headerPage"></div>-->
         <header class="lyear-layout-header">
 
             <nav class="navbar navbar-default">
@@ -60,6 +60,7 @@
                     </div>
 
                     <ul class="topbar-right">
+
                         <!--切换主题配色-->
                         <li class="dropdown dropdown-skin">
                             <span data-toggle="dropdown" class="icon-palette"><i class="mdi mdi-palette"></i></span>
@@ -188,18 +189,32 @@
                         </li>
                         <!--切换主题配色-->
 
+                        <!--<div class="form-group">-->
+                        <!--<div class="col-xs-6" style=" height: 33px">-->
+                        <!--<button class="btn m-r-10 " id="clearCache" onclick="refreshCache()"><label><i-->
+                        <!--class="mdi mdi-cached"></i></label>刷新缓存-->
+                        <!--</button>-->
+                        <!--</div>-->
+                        <!--</div>-->
                         <!-- 切换组织类型-->
                         <div class="form-group">
                             <div class="col-xs-12">
                                 <label for="appNameSelect"></label>
-                                <select id="appNameSelect" class="form-control" name="app-select" size=""
-                                        onchange="reloadPage()">
+                                <select id="appNameSelect" class="form-control" name="app-select" size="" onchange="reloadPage()">
                                 </select>
+
+
                             </div>
+
+
                         </div>
-                        <div class="col-xs-5">
-                            <button class="btn btn-label" id="clearCache" onclick="refreshCache()"><label><i class="mdi mdi-cached"></i></label>刷新缓存</button>
-                        </div>
+                        <label for="addUserBatchLabel"></label>
+                        <a class="btn m-r-10  bs-user-batch-modal-lg pull-right" id="addUserBatchLabel" data-toggle="modal"  onclick="refreshCache()">
+                            <i class="mdi mdi-cached"></i> 刷新缓存
+                        </a>
+
+
+
                     </ul>
 
                 </div>
