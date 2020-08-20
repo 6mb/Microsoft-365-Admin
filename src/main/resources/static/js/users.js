@@ -399,6 +399,7 @@ function deletedUserClick(userId) {
 }
 
 function addUserBatchClick() {
+    lightyear.loading('show');
     let num = $("#addUserBatchNum").val();
     let skuId = getSelect("#licenseSelectModalBatch");
     let domain = getSelect("#domainSelectModalBatch");
