@@ -43,7 +43,7 @@ docker run -d --name=microsoft-admin \
     -v /home/microsoft/config:/config \
     logr/microsoft:latest
 ```
-然后下载 [application-dev.yml](https://github.com/6mb/Microsoft-365-Admin/blob/master/src/main/resources/config/application-dev.yml)文件放到该目录。
+然后下载 [application-dev.yml](https://github.com/6mb/Microsoft-365-Admin/blob/master/src/main/resources/config/application-dev.yml)文件放到config目录。
 
 按照格式修改配置文件
 
