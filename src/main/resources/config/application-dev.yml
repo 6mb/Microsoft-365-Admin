@@ -6,7 +6,7 @@
 
 # 程序自定义配置
 graph:
-  cache: file
+  cache: default # token 缓存方式默认内存，redis 方式 需要配置 redis
   userName: root # 登陆账户
   password: 123456 # 登陆密码
   configs:
