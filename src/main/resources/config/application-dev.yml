@@ -7,6 +7,8 @@
 # 程序自定义配置
 graph:
   cache: file
+  userName: root # 登陆账户
+  password: 123456 # 登陆密码
   configs:
   - appName: mjj # 自定义该账号的类型（建议使用英文：默认域名前缀，必填）
     appId: mjj # 应用程序(客户端) ID client（必填）

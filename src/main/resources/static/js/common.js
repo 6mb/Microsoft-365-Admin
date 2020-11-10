@@ -1,4 +1,3 @@
-
 var path = url + "/microsoft/365";
 var appNameList;
 $.ajax({
@@ -14,9 +13,15 @@ $.ajax({
             appNameList = r.data;
         }
     },
-    error: function () {
-        /*错误信息处理*/
-        lightyear.notify("服务器错误，请稍后再试~", 'danger', 100);
+    error: function (r) {
+        console.log(r)
+        if (r.status === 401) {
+            lightyear.notify(r.message, 'error', 200);
+            window.location.href = "login.html";
+        } else {
+            /*错误信息处理*/
+            lightyear.notify("服务器错误，请稍后再试~", 'danger', 100);
+        }
     }
 });
 

@@ -222,19 +222,21 @@ function addUserClick() {
         dataType: "json",
         success: function (r) {
             if (r.status !== 200) {
+                lightyear.loading('hide');
                 lightyear.notify(r.message, 'danger', delay);
             } else {
                 console.log(r);
                 let userInfo = '名称：' + r.data.displayName + '<br>账号：' + r.data.userPrincipalName + '<br>密码：' + r.data.password;
                 lightyear.loading('hide');
                 $.alert({
-                    title: '添加成功',
+                    title: '添加成功；请刷新缓存！',
                     content: '新增账号成功：<br><br><strong>' + userInfo + '</strong><br><br>',
                     buttons: {
                         confirm: {
                             text: '确认',
                             btnClass: 'btn-primary',
                             action: function () {
+                                window.location.reload();
                             }
                         }
                     }

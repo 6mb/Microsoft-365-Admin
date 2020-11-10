@@ -21,6 +21,16 @@ public class GraphProperties {
     private String cache;
 
     /**
+     * 用户名
+     */
+    private String userName;
+
+    /**
+     * 密码
+     */
+    private String password;
+
+    /**
      * 小程序配置
      */
     private List<GraphConfig> configs;

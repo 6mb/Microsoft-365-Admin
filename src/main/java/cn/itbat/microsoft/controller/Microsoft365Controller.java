@@ -224,7 +224,7 @@ public class Microsoft365Controller {
         if (graphProperties.getConfig(appName) == null) {
             return BaseResultVo.error("组织类型不存在！");
         }
-        return BaseResultVo.success(microsoft365Service.addLicense(appName, userId, skuId));
+        return BaseResultVo.success(microsoft365Service.addLicense(appName, userId.trim(), skuId));
     }
 
     /**
@@ -240,7 +240,7 @@ public class Microsoft365Controller {
         if (graphProperties.getConfig(appName) == null) {
             return BaseResultVo.error("组织类型不存在！");
         }
-        return BaseResultVo.success(microsoft365Service.cancelLicense(appName, userId, skuId));
+        return BaseResultVo.success(microsoft365Service.cancelLicense(appName, userId.trim(), skuId));
     }
 
     /**
@@ -256,7 +256,7 @@ public class Microsoft365Controller {
         if (graphProperties.getConfig(appName) == null) {
             return BaseResultVo.error("组织类型不存在！");
         }
-        microsoft365Service.enableDisableUser(appName, userId, accountEnabled);
+        microsoft365Service.enableDisableUser(appName, userId.trim(), accountEnabled);
         return BaseResultVo.success();
     }
 

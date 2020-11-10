@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 /**
- * 系统监控 Controller
+ * 系统 Controller
  *
  * @author mjj
  * @date 2020年08月11日 09:50:37
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/system")
 public class SystemController {
-
 
     /**
      * 获取系统监控信息
