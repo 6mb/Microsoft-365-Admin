@@ -36,6 +36,11 @@
 
 #### Docker 安装 （推荐）
 
+
+然后下载 [application-dev.yml](https://github.com/6mb/Microsoft-365-Admin/blob/master/src/main/resources/config/application-dev.yml)文件放到config目录。
+
+按照格式修改配置文件
+
 ```shell script
 docker pull logr/microsoft:latest
 
@@ -44,9 +49,6 @@ docker run -d --name=microsoft-admin \
     -v /home/microsoft/config:/config \
     logr/microsoft:latest
 ```
-然后下载 [application-dev.yml](https://github.com/6mb/Microsoft-365-Admin/blob/master/src/main/resources/config/application-dev.yml)文件放到config目录。
-
-按照格式修改配置文件
 
 ### 注意：如果前端文件单独部署（~~不建议部署到公网，没有登陆功能~~），请并修改config.js中的请求地址。
 
