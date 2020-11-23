@@ -204,6 +204,7 @@ function addUserClick() {
     let mailNickname = getInput("#addMailNickname");
     let domain = getSelect("#addDomainSelect");
     let password = getInput("#addPassword");
+    let mailbox = getInput("#addMail");
     // 参数校验
 
 
@@ -217,7 +218,8 @@ function addUserClick() {
             "skuId": skuId,
             "mailNickname": mailNickname,
             "domain": domain,
-            "password": password
+            "password": password,
+            "mailbox": mailbox
         },
         dataType: "json",
         success: function (r) {

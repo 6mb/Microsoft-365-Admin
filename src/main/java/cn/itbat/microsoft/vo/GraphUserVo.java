@@ -43,6 +43,16 @@ public class GraphUserVo extends GraphUser {
     private Boolean assignLicense;
 
     /**
+     * 是否发送邮件
+     */
+    private Boolean sendMail;
+
+    /**
+     * 邮箱
+     */
+    private String mailbox;
+
+    /**
      * 查询大小，默认999
      */
     @Builder.Default

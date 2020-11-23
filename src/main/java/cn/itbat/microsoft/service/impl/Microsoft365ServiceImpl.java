@@ -8,6 +8,7 @@ import cn.itbat.microsoft.enums.RefreshTypeEnum;
 import cn.itbat.microsoft.model.GraphUser;
 import cn.itbat.microsoft.model.Pager;
 import cn.itbat.microsoft.service.GraphService;
+import cn.itbat.microsoft.service.MailService;
 import cn.itbat.microsoft.service.Microsoft365Service;
 import cn.itbat.microsoft.utils.HttpClientUtils;
 import cn.itbat.microsoft.utils.PageInfo;
@@ -54,6 +55,9 @@ public class Microsoft365ServiceImpl implements Microsoft365Service {
 
     @Resource
     private GraphService graphService;
+
+    @Resource
+    private MailService mailService;
 
     @Resource
     private GraphProperties graphProperties;
@@ -226,7 +230,7 @@ public class Microsoft365ServiceImpl implements Microsoft365Service {
             for (AssignedLicense assignedLicense : assignedLicenses) {
                 String skuName = graphProperties.getSubConfigDisplayName(assignedLicense.skuId.toString());
                 if (StringUtils.isEmpty(skuName)) {
-                  skuName = "存在订阅";
+                    skuName = "存在订阅";
                 }
                 skuVos.add(SkuVo.builder()
                         .skuId(assignedLicense.skuId.toString())
@@ -259,6 +263,9 @@ public class Microsoft365ServiceImpl implements Microsoft365Service {
         GraphUserVo graphUserVoResult = this.getGraphUserVo(user);
         graphUserVoResult.setPassword(graphUser.getPassword());
         // 发送邮件
+        if (!StringUtils.isEmpty(graphUserVo.getMailbox())) {
+            mailService.sendMail(graphUserVo.getMailbox(), graphUser.getUserPrincipalName(), graphUserVoResult.getPassword());
+        }
         // 清空原来的缓存
         return graphUserVoResult;
     }

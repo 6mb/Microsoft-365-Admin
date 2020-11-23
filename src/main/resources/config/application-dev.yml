@@ -1,5 +1,12 @@
-#spring:
-#  redis:
+spring:
+  mail: # 邮件配置
+    host: smtp.qq.com # smtp.qq.com
+    username: 123@qq.com # 发送邮箱地址
+    password:  123 # 发送邮箱密码
+  output:
+    ansi:
+      enabled: always
+#  redis: # redis 配置
 #    database: 0
 #    host: 127.0.0.1
 #    port: 6379
@@ -7,20 +14,20 @@
 # 程序自定义配置
 graph:
   cache: default # token 缓存方式默认内存，redis 方式 需要配置 redis
-  userName: root # 登陆账户
-  password: 123456 # 登陆密码
+  userName: root # 登陆账户,自行修改
+  password: 123456 # 登陆密码，自行修改
   configs:
   - appName: mjj # 自定义该账号的类型（建议使用英文：默认域名前缀，必填）
     appId: mjj # 应用程序(客户端) ID client（必填）
     appTenant: mjj # 目录(租户) tenant（必填）
     appSecret: mjj # secrets（必填）
     admin: mjj # 全局管理员账号（可以为空）
-  - appName: mjj # 账号2配置，如果不需要请删除
-    appId: mjj
-    appTenant: mjj
-    appSecret: mjj
-    domain: mjj
-    admin: mjj
+  - appName: mjj2 # 账号2配置，如果不需要请删除
+    appId: mjj2
+    appTenant: mjj2
+    appSecret: mjj2
+    domain: mjj2
+    admin: mjj2
   subscribed: # 订阅类型，自行添加其他
   - skuName: STANDARDWOFFPACK_STUDENT
     displayName: A1 学生版

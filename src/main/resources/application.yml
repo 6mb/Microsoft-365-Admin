@@ -6,6 +6,7 @@ spring:
     name: Microsoft 365 Admin
   profiles: # 默认的profile为dev
     active: dev
+
 logging:
   level:
     global: debug
