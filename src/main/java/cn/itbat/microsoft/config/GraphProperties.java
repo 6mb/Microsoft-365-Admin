@@ -16,11 +16,6 @@ import java.util.List;
 public class GraphProperties {
 
     /**
-     * 缓存方式
-     */
-    private String cache;
-
-    /**
      * 用户名
      */
     private String userName;

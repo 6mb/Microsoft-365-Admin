@@ -13,7 +13,12 @@ spring:
 
 # 程序自定义配置
 graph:
-  cache: default # token 缓存方式默认内存，redis 方式 需要配置 redis
+  cache:
+    token: default # token 缓存方式默认内存，redis 方式 需要配置 redis
+    timeout: # 缓存超时时间  单位分钟
+      user: 60 # 默认一小时
+      license: 1440 # 默认一天
+      domain: 1440 # 默认一天
   userName: root # 登陆账户,自行修改
   password: 123456 # 登陆密码，自行修改
   configs:

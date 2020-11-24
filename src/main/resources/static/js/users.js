@@ -479,8 +479,14 @@ function setDomain(id) {
     $("#" + id).empty();
     $("#" + id).append("<option value=\"\" disabled selected hidden>请选择域名后缀</option>");
     for (i in domainList) {
-        let option = "<option value=" + domainList[i].id + ">" + domainList[i].id + "</option>";
-        $("#" + id).append(option);
+        console.log(domainList[i].isDefault)
+        if (domainList[i].isDefault) {
+            let option = "<option selected='selected' value=" + domainList[i].id + ">" + domainList[i].id + "</option>";
+            $("#" + id).append(option);
+        } else {
+            let option = "<option value=" + domainList[i].id + ">" + domainList[i].id + "</option>";
+            $("#" + id).append(option);
+        }
     }
 }
 

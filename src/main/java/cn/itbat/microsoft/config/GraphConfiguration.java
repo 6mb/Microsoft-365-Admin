@@ -12,6 +12,7 @@ import com.microsoft.graph.requests.extensions.GraphServiceClient;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -32,12 +33,15 @@ import java.util.stream.Collectors;
 @Configuration
 @EnableConfigurationProperties(GraphProperties.class)
 public class GraphConfiguration {
+
+    @Value("${graph.cache.token}")
+    private String cache;
     /**
      * 配置类
      */
-    private GraphProperties properties;
+    private final GraphProperties properties;
 
-    private RedisTemplate<String, String> redisTemplate;
+    private final RedisTemplate<String, String> redisTemplate;
 
     private final static String AUTHORITY = "https://login.microsoftonline.com/";
     private final static String GRAPH_DEFAULT_SCOPE = "https://graph.microsoft.com/.default";
@@ -46,7 +50,7 @@ public class GraphConfiguration {
     private static Map<String, GraphConfig> graphConfigMap = Maps.newHashMap();
 
     @Data
-    private class GraphConfig {
+    private static class GraphConfig {
         private String appName;
         private String appId;
         private String appSecret;
@@ -62,7 +66,6 @@ public class GraphConfiguration {
 
     @PostConstruct
     public void init() {
-        String cache = properties.getCache();
         List<GraphProperties.GraphConfig> configs = this.properties.getConfigs();
         graphConfigMap = configs.stream()
                 .map(a -> {
