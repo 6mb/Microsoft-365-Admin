@@ -22,7 +22,7 @@ public class MailServiceImpl implements MailService {
     @Value("${spring.mail.username}")
     private String from;
 
-    @Async
+    @Async("asyncPoolTaskExecutor")
     @Override
     public void sendMail(String to, String userName, String password) {
         //简单邮件

@@ -62,7 +62,6 @@ public class Microsoft365ServiceImpl implements Microsoft365Service {
     private GraphCache graphCache;
 
 
-    @Async("asyncPoolTaskExecutor")
     @Override
     public void refresh(String appName, Integer type) {
         if (type == null) {
