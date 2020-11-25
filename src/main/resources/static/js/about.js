@@ -9,7 +9,7 @@ $(window).on("load", function () {
 
 setInterval(function () {
     getSystemMonitor();
-}, 1000);
+}, 10000);
 
 function getSystemMonitor() {
     $.ajax({

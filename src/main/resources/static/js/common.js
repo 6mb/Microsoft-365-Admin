@@ -1,9 +1,9 @@
-var path = url + "/microsoft/365";
+var path = url + "/microsoft";
 var appNameList;
 $.ajax({
     type: "get",
     async: false,
-    url: path + "/getAppName",
+    url: path + "/365/getAppName",
     data: {},
     dataType: "json",
     success: function (r) {
@@ -29,7 +29,7 @@ function refreshCache() {
     lightyear.loading('show');
     $.ajax({
         type: "get",
-        url: path + "/refresh",
+        url: path + "/365/refresh",
         data: {
             "appName": getAppName()
         },

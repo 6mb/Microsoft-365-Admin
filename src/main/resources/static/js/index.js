@@ -11,7 +11,7 @@ $(window).on("load", function () {
 function homePage() {
     $.ajax({
         type: "get",
-        url: path + "/homePage",
+        url: path + "/365/homePage",
         data: {
             "appName": getAppName()
         },

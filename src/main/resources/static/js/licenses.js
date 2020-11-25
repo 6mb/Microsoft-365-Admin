@@ -14,7 +14,7 @@ function getLicenseStatistics() {
     $.ajax({
         type: "get",
         async: false,
-        url: path + "/getLicenseStatistics",
+        url: path + "/365/getLicenseStatistics",
         data: {
             "appName": getAppName()
         },
@@ -40,7 +40,7 @@ function listLicense() {
     $.ajax({
         type: "get",
         async: false,
-        url: path + "/listLicense",
+        url: path + "/365/listLicense",
         data: {
             "appName": getAppName()
         },

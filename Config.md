@@ -1,46 +1,21 @@
+### 邮件配置
+> 需要修改
+
+该配置用于发送邮件功能，配置后新增账号时填写邮箱，即可将账号密码发送至该邮箱
+```yaml
 spring:
   mail: # 邮件配置，自行修改
     host: smtp.qq.com # smtp.qq.com
     username: 123@qq.com # 发送邮箱地址
     password:  123 # 发送邮箱密码
-  output:
-    ansi:
-      enabled: always
-  h2:
-    console:
-      settings:
-        web-allow-others: true
-      path: /h2-console
-      enabled: false
-  datasource:
-    # 初始化数据导入
-#    data: classpath*:db/data.sql
-#    sql-script-encoding: utf-8
+```
 
-    initialization-mode: always
-    continue-on-error: true
+### 程序自定义配置(重点)
 
-    # h2 内存数据库 配置
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:${graph.db.path}
-    username: graph
-    password: 123456
-  jackson:
-    date-format: yyyy-MM-dd HH:mm
-    time-zone: GMT+8
-  jpa:
-    hibernate:
-      ddl-auto: update
-    properties:
-      hibernate:
-        format_sql: false
-    show-sql: false
-#  redis: # redis 配置
-#    database: 0
-#    host: 127.0.0.1
-#    port: 6379
+1、缓存超时时间配置，单位分钟：用户过期用户账号，许可证，绑定域名，默认即可
+> 默认即可
 
-# 程序自定义配置
+```yaml
 graph:
   cache:
     token: default # token 缓存方式默认内存，redis 方式 需要配置 redis
@@ -48,14 +23,30 @@ graph:
       user: 60 # 默认一小时
       license: 1440 # 默认一天
       domain: 1440 # 默认一天
-  db:
-    path: ${user.home}/.graph/db/graph
+```
 
+2、后台登陆账号密码配置
+> 需要修改
+
+```yaml
+graph:
   userName: root # 登陆账户,自行修改
   password: 123456 # 登陆密码，自行修改
+```
 
-  invite: mjj,mjj2 # 可以被注册的账号类型，为下面 configs.appName 的配置（必填，','分隔）
+3、可以被用户注册的账号类型，为下面 configs.appName 的配置（必填，','分隔）
+> 需要修改
 
+```yaml
+graph:
+  invite: mjj,mjj2
+```
+
+4、Microsoft API 配置（重点）
+> 需要修改
+
+```yaml
+graph:
   configs:
   - appName: mjj # 自定义该账号的类型（建议使用英文：默认域名前缀，必填）
     appId: mjj # 应用程序(客户端) ID client（必填）
@@ -68,6 +59,13 @@ graph:
     appSecret: mjj2
     domain: mjj2
     admin: mjj2
+```
+
+5、订阅配置，用于转换订阅显示的名称，可自行按照订阅添加
+> 按照需求修改
+
+```yaml
+graph:
   subscribed: # 订阅类型，自行添加其他
   - skuName: STANDARDWOFFPACK_STUDENT
     displayName: A1 学生版
@@ -91,4 +89,4 @@ graph:
     displayName: E5 开发者订阅
     skuId: c42b9cae-ea4f-4ab7-9717-81576235ccac
 
-
+```

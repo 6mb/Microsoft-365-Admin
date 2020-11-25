@@ -53,6 +53,11 @@ public class GraphUserVo extends GraphUser {
     private String mailbox;
 
     /**
+     * 邀请码
+     */
+    private String code;
+
+    /**
      * 查询大小，默认999
      */
     @Builder.Default
