@@ -12,6 +12,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -26,6 +27,9 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class GraphCache {
 
+    @Resource
+    private GraphService graphService;
+
     /**
      * 缓存过期时间
      */
@@ -38,35 +42,40 @@ public class GraphCache {
     @Value("${graph.cache.timeout.domain}")
     private long domainTimeout;
 
-    @Resource
-    private GraphService graphService;
 
-    private final LoadingCache<String, List<User>> usersCache = CacheBuilder.newBuilder()
-            .expireAfterWrite(userTimeout, TimeUnit.MINUTES)
-            .build(new CacheLoader<String, List<User>>() {
-                @Override
-                public List<User> load(@NonNull String key) {
-                    return graphService.getUsers(key);
-                }
-            });
+    private LoadingCache<String, List<User>> usersCache;
 
-    private final LoadingCache<String, List<SubscribedSku>> licenseCache = CacheBuilder.newBuilder()
-            .expireAfterWrite(licenseTimeout, TimeUnit.MINUTES)
-            .build(new CacheLoader<String, List<SubscribedSku>>() {
-                @Override
-                public List<SubscribedSku> load(@NonNull String key) {
-                    return graphService.getSubscribedSkus(key);
-                }
-            });
+    private LoadingCache<String, List<SubscribedSku>> licenseCache;
 
-    private final LoadingCache<String, List<Domain>> domainCache = CacheBuilder.newBuilder()
-            .expireAfterWrite(domainTimeout, TimeUnit.MINUTES)
-            .build(new CacheLoader<String, List<Domain>>() {
-                @Override
-                public List<Domain> load(@NonNull String key) {
-                    return graphService.getDomains(key);
-                }
-            });
+    private LoadingCache<String, List<Domain>> domainCache;
+
+    @PostConstruct
+    public void init() {
+        usersCache = CacheBuilder.newBuilder()
+                .expireAfterWrite(userTimeout, TimeUnit.MINUTES)
+                .build(new CacheLoader<String, List<User>>() {
+                    @Override
+                    public List<User> load(@NonNull String key) {
+                        return graphService.getUsers(key);
+                    }
+                });
+        licenseCache = CacheBuilder.newBuilder()
+                .expireAfterWrite(licenseTimeout, TimeUnit.MINUTES)
+                .build(new CacheLoader<String, List<SubscribedSku>>() {
+                    @Override
+                    public List<SubscribedSku> load(@NonNull String key) {
+                        return graphService.getSubscribedSkus(key);
+                    }
+                });
+        domainCache = CacheBuilder.newBuilder()
+                .expireAfterWrite(domainTimeout, TimeUnit.MINUTES)
+                .build(new CacheLoader<String, List<Domain>>() {
+                    @Override
+                    public List<Domain> load(@NonNull String key) {
+                        return graphService.getDomains(key);
+                    }
+                });
+    }
 
     /**
      * 获取用户缓存

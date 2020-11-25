@@ -1,11 +1,40 @@
 spring:
-  mail: # 邮件配置
+  mail: # 邮件配置，自行修改
     host: smtp.qq.com # smtp.qq.com
     username: 123@qq.com # 发送邮箱地址
     password:  123 # 发送邮箱密码
   output:
     ansi:
       enabled: always
+  h2:
+    console:
+      settings:
+        web-allow-others: true
+      path: /h2-console
+      enabled: false
+  datasource:
+    # 初始化数据导入
+#    data: classpath*:db/data.sql
+#    sql-script-encoding: utf-8
+
+    initialization-mode: always
+    continue-on-error: true
+
+    # h2 内存数据库 配置
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:${graph.db.path}
+    username: graph
+    password: 123456
+  jackson:
+    date-format: yyyy-MM-dd HH:mm
+    time-zone: GMT+8
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: false
+    show-sql: false
 #  redis: # redis 配置
 #    database: 0
 #    host: 127.0.0.1
@@ -19,8 +48,13 @@ graph:
       user: 60 # 默认一小时
       license: 1440 # 默认一天
       domain: 1440 # 默认一天
+
+  db:
+    path: ${user.home}/.graph/db/graph
+
   userName: root # 登陆账户,自行修改
   password: 123456 # 登陆密码，自行修改
+
   configs:
   - appName: mjj # 自定义该账号的类型（建议使用英文：默认域名前缀，必填）
     appId: mjj # 应用程序(客户端) ID client（必填）
@@ -53,7 +87,7 @@ graph:
     displayName: E3Y
     skuId: 6fd2c87f-b296-42f0-b197-1e91e994b900
   - skuName: DEVELOPERPACK_E5
-    displayName: E5
+    displayName: E5 开发者订阅
     skuId: c42b9cae-ea4f-4ab7-9717-81576235ccac
 
 
