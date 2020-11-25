@@ -84,6 +84,7 @@ public class InvitationCodeServiceImpl implements InvitationCodeService {
         result.put("codes", all.size());
         result.put("valid", all.stream().filter(InvitationCode::getValid).count());
         result.put("invalid", all.stream().filter(l -> !l.getValid()).count());
+        result.put("users", all.stream().filter(l -> l.getInvitedUser() != null).count());
         return result;
     }
 

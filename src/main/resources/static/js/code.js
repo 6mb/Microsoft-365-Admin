@@ -28,6 +28,7 @@ function getCodeStatistics() {
                 $("#codes").text(r.data.codes);
                 $("#codeValid").text(r.data.valid);
                 $("#codeInvalid").text(r.data.invalid);
+                $("#codeInvalidUser").text(r.data.users);
             }
         },
         error: function () {
