@@ -74,11 +74,11 @@ docker run -d --name=microsoft-admin \
 
 ![image](https://github.com/6mb/Microsoft-365-Admin/blob/master/.github/用户管理.png)
 
-![image](https://github.com/6mb/Microsoft-365-Admin/blob/master/.github/邀请.png)
+![image](https://github.com/6mb/Microsoft-365-Admin/blob/master/.github/邀请.jpg)
 
 ![image](https://github.com/6mb/Microsoft-365-Admin/blob/master/.github/申请.jpg)
 
-![image](https://github.com/6mb/Microsoft-365-Admin/blob/master/.github/关于.jpg)
+![image](https://github.com/6mb/Microsoft-365-Admin/blob/master/.github/关于.png)
 
 ## API接口
 
