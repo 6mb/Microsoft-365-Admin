@@ -395,7 +395,6 @@ public class Microsoft365ServiceImpl implements Microsoft365Service {
             statisticsVo.setLicenses(subscribedSkuVos.stream().map(SubscribedSkuVo::getEnabled).reduce(Integer::sum).orElse(null));
             statisticsVo.setAllocatedLicenses(subscribedSkuVos.stream().map(SubscribedSkuVo::getConsumedUnits).reduce(Integer::sum).orElse(null));
             statisticsVo.setAvailableLicenses(statisticsVo.getLicenses() - statisticsVo.getAllocatedLicenses());
-
         }
     }
 

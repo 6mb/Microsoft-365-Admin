@@ -53,7 +53,7 @@ public class FrontDeskServiceImpl implements FrontDeskService {
         invitationCode.setValid(Boolean.FALSE);
         invitationCode.setExpirationTime(new Date());
         invitationCode.setInvitedUser(userVo.getUserPrincipalName());
-        invitationCode.setSubscribe(StringUtils.isEmpty(graphUserVo.getSkuType()) ? "" : graphProperties.getSubConfig(graphUserVo.getSkuType()).getDisplayName());
+        invitationCode.setSubscribe(StringUtils.isEmpty(userVo.getSkuType()) ? graphProperties.getSubConfigName(graphUserVo.getSkuId()) : graphProperties.getSubConfig(graphUserVo.getSkuType()).getDisplayName());
         invitationCodeService.update(invitationCode);
         return FontUser.builder().displayName(userVo.getDisplayName()).userPrincipalName(userVo.getUserPrincipalName()).password(userVo.getPassword()).build();
     }
