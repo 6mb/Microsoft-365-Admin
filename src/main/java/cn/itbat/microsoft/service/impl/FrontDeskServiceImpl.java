@@ -38,8 +38,8 @@ public class FrontDeskServiceImpl implements FrontDeskService {
     @Resource
     private GraphProperties graphProperties;
 
-    @Value("${spring.mail.username}")
-    private List<String> subs;
+    @Value("${graph.invite}")
+    private String invite;
 
     @Transactional(rollbackFor = Exception.class)
     @Override
@@ -61,8 +61,13 @@ public class FrontDeskServiceImpl implements FrontDeskService {
     @Override
     public List<FontSkuSku> listLicense() {
         List<String> appNames = graphProperties.getConfigs().stream().map(GraphProperties.GraphConfig::getAppName).collect(Collectors.toList());
+        String[] split = invite.split(",");
+
         List<FontSkuSku> fontSkuSkus = new ArrayList<>();
-        for (String appName : appNames) {
+        for (String appName : split) {
+            if (!appNames.contains(appName)) {
+                continue;
+            }
             List<SubscribedSkuVo> subscribed = microsoft365Service.getSubscribed(appName);
             if (!CollectionUtils.isEmpty(subscribed)) {
                 for (SubscribedSkuVo subscribedSkuVo : subscribed) {
