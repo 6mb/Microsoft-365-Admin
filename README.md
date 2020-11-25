@@ -29,18 +29,18 @@
 
 ## 运行
 
-#### 关于配置文件
+#### 1、关于配置文件
 
-请参考该文档[Config文档](https://github.com/6mb/Microsoft-365-Admin/blob/master/Config.md)
+请参考该文档 [Config文档](https://github.com/6mb/Microsoft-365-Admin/blob/dev/Config.md)
 
-#### 存在Java环境的情况下
+#### 2、存在Java环境的情况下
 下载最新版本的`jar`包，然后在同目录新建config目录，下载 [application-dev.yml](https://github.com/6mb/Microsoft-365-Admin/blob/master/src/main/resources/config/application-dev.yml)文件放到该目录。
 
 按照格式修改配置文件
 
 执行 `java -jar microsoft-0.0.1-SNAPSHOT.jar` 启动，端口：8099
 
-#### Docker 安装 （推荐）
+#### 3、Docker 安装 （推荐）
 
 
 然后下载 [application-dev.yml](https://github.com/6mb/Microsoft-365-Admin/blob/master/src/main/resources/config/application-dev.yml)文件放到config目录。
