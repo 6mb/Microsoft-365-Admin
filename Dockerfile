@@ -17,4 +17,4 @@ COPY --from=build /src/Microsoft-365-Admin/target/microsoft-0.0.1-SNAPSHOT.jar .
 RUN mv microsoft-0.0.1-SNAPSHOT.jar microsoft.jar
 
 #执行
-CMD java -jar microsoft.jar
+CMD java -jar microsoft.jar --spring.profile.active=dev
