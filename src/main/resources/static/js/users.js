@@ -405,6 +405,7 @@ function deletedUserClick(userId) {
 function addUserBatchClick() {
     lightyear.loading('show');
     let num = $("#addUserBatchNum").val();
+    let password = getInput("#passwordSelectModalBatch");
     let skuId = getSelect("#licenseSelectModalBatch");
     let domain = getSelect("#domainSelectModalBatch");
     // 提交请求
@@ -415,7 +416,8 @@ function addUserBatchClick() {
             "appName": getAppName(),
             "num": num,
             "skuId": skuId,
-            "domain": domain
+            "domain": domain,
+            "password":password
         },
         dataType: "json",
         success: function (r) {
@@ -425,7 +427,7 @@ function addUserBatchClick() {
             } else {
                 console.log(r);
                 lightyear.loading('hide');
-                lightyear.notify('正在创建账户中，请等待！', 'success', delay);
+                lightyear.notify('正在创建账户中，请等待！请根据根据创建数量比例等待，刷新界面', 'success', delay);
             }
         },
         error: function () {
