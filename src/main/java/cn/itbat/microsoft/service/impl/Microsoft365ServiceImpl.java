@@ -310,6 +310,7 @@ public class Microsoft365ServiceImpl implements Microsoft365Service {
                 log.error("【Office】删除用户失败：" + user.userPrincipalName);
             }
         }
+        graphCache.refreshUsers(appName);
     }
 
 
@@ -346,6 +347,7 @@ public class Microsoft365ServiceImpl implements Microsoft365Service {
                 // 将创建的用户删除，如果是订阅分配失败的话
             }
         }
+        graphCache.refreshUsers(appName);
     }
 
 
