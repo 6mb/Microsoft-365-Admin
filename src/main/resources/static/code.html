@@ -299,6 +299,54 @@
 
                     <div class="col-lg-12">
                         <div class="card">
+                            <div class="card-toolbar clearfix">
+                                <!-- 操作按钮-->
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="toolbar-btn-action" style=" height: 33px">
+                                            <a class="btn m-r-10" data-toggle="modal"
+                                               data-target=".bs-add-modal-lg">
+                                                <i class="mdi mdi-plus" id="add"></i> 生成邀请码
+                                            </a>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--模糊框-->
+                                <div class="modal fade bs-add-modal-lg" tabindex="-1" role="dialog"
+                                     aria-labelledby="addLabel">
+                                    <div class="modal-dialog modal-lg" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close"><span
+                                                        aria-hidden="true">×</span></button>
+                                                <h4 class="modal-title" id="addLabel">新增邀请码</h4>
+                                            </div>
+                                            <div class="modal-body col-xs-12">
+                                                <div class="col-xs-12">
+                                                    <div class="input-group m-b-10">
+                                                        <span class="input-group-addon"
+                                                              id="add-display-name">数量</span>
+                                                        <input type="text" class="form-control" placeholder=""
+                                                               id="numCode"
+                                                               aria-describedby="add-display-name-input">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                                </button>
+                                                <button type="button" class="btn btn-primary" id="addUserClick"
+                                                        data-dismiss="modal"
+                                                        onclick="addCodeClick()">保存
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--模糊框 end-->
+                            </div>
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table id="codeTable" class="table table-bordered text-center">
@@ -311,6 +359,7 @@
 <!--                                            </th>-->
                                             <th class="text-center">#</th>
                                             <th class="text-center">编码</th>
+                                            <th class="text-center">生成时间</th>
                                             <th class="text-center">状态</th>
                                             <th class="text-center">失效时间</th>
                                             <th class="text-center">被邀请用户</th>
