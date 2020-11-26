@@ -225,7 +225,16 @@ function addUserClick() {
         success: function (r) {
             if (r.status !== 200) {
                 lightyear.loading('hide');
-                lightyear.notify(r.message, 'danger', delay);
+                let message = r.message;
+                let password_error = "Error code: Request_BadRequestError message: The specified password does not comply with password complexity requirements. Please provide a different password.";
+                let name_error = "Error code: Request_BadRequestError message: Another object with the same value for property userPrincipalName already exists.";
+                if (password_error === message){
+                    message = "密码太简单啦，";
+                }
+                if (name_error === message){
+                    message = "该邮箱前缀已经被使用啦！";
+                }
+                lightyear.notify(message, 'danger', delay);
             } else {
                 console.log(r);
                 let userInfo = '名称：' + r.data.displayName + '<br>账号：' + r.data.userPrincipalName + '<br>密码：' + r.data.password;

@@ -199,7 +199,6 @@ public class GraphServiceImpl implements GraphService {
     }
 
     @Override
-    @Async("asyncPoolTaskExecutor")
     public void deletedUser(String appName, String userName) {
         GraphConfiguration.getGraphClient(appName)
                 .users(userName)

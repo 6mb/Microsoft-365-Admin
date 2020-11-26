@@ -1,14 +1,12 @@
 package cn.itbat.microsoft.service.impl;
 
+import cn.itbat.microsoft.cache.GraphCache;
 import cn.itbat.microsoft.config.GraphProperties;
 import cn.itbat.microsoft.model.entity.InvitationCode;
 import cn.itbat.microsoft.service.FrontDeskService;
 import cn.itbat.microsoft.service.InvitationCodeService;
 import cn.itbat.microsoft.service.Microsoft365Service;
-import cn.itbat.microsoft.vo.FontSkuSku;
-import cn.itbat.microsoft.vo.FontUser;
-import cn.itbat.microsoft.vo.GraphUserVo;
-import cn.itbat.microsoft.vo.SubscribedSkuVo;
+import cn.itbat.microsoft.vo.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -36,10 +34,15 @@ public class FrontDeskServiceImpl implements FrontDeskService {
     private InvitationCodeService invitationCodeService;
 
     @Resource
+    private GraphCache graphCache;
+
+    @Resource
     private GraphProperties graphProperties;
 
     @Value("${graph.invite}")
     private String invite;
+    @Value("${graph.inviteDomain}")
+    private String inviteDomain;
 
     @Transactional(rollbackFor = Exception.class)
     @Override
@@ -48,6 +51,14 @@ public class FrontDeskServiceImpl implements FrontDeskService {
         InvitationCode invitationCode = invitationCodeService.selectByCode(graphUserVo.getCode());
         if (invitationCode == null || !invitationCode.getValid()) {
             throw new RuntimeException("邀请码已失效！");
+        }
+        if (!StringUtils.isEmpty(inviteDomain)) {
+            List<DomainVo> domainVo = microsoft365Service.getDomainVo(graphUserVo.getAppName());
+            if (!CollectionUtils.isEmpty(domainVo)) {
+                if (domainVo.stream().map(DomainVo::getId).collect(Collectors.toList()).contains(inviteDomain)) {
+                    graphUserVo.setDomain(inviteDomain);
+                }
+            }
         }
         GraphUserVo userVo = microsoft365Service.create(graphUserVo);
         invitationCode.setValid(Boolean.FALSE);
