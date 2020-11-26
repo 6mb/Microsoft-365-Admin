@@ -45,7 +45,7 @@
 
 按照格式修改配置文件
 
-执行 `java -jar microsoft-0.0.1-SNAPSHOT.jar` 启动，端口：8099
+执行 `java -jar microsoft-0.0.1-SNAPSHOT.jar --spring.profile.active=dev` 启动，端口：8099
 
 #### 3、Docker 安装 （推荐）
 

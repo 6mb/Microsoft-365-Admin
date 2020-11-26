@@ -515,7 +515,7 @@
                                                 <h4 class="modal-title" id="userLabelBatch">批量创建账户</h4>
                                             </div>
                                             <div class="modal-body col-xs-12">
-                                                <h3 style="color: red">警告！ 该操作会自动创建随机账号~</h3>
+                                                <h3 style="color: red">警告！ 该操作会在后台自动创建随机账号~</h3>
                                                 <div class="col-xs-6">
                                                     <span id="licenseSelectModalUserIdBatch" hidden></span>
                                                     <label for="licenseSelectModalBatch"></label>
@@ -536,10 +536,19 @@
                                                     <label for="addUserBatchNum"></label>
                                                     <h4>请输入数量：</h4>
                                                 </div>
-                                                <div class="col-xs-2">
+                                                <div class="col-xs-3">
                                                     <label for="addUserBatchNum"></label>
                                                     <input class="form-control" id="addUserBatchNum" type="number"
                                                            min="2" max="100" step="1" value="10">
+                                                </div>
+                                                <div class="col-xs-2">
+                                                    <label for="passwordSelectModalBatch"></label>
+                                                    <h4>请输入密码：</h4>
+                                                </div>
+                                                <div class="col-xs-3">
+                                                    <label for="passwordSelectModalBatch"></label>
+                                                    <input class="form-control" id="passwordSelectModalBatch" type="text"
+                                                           placeholder="不填写则随机生成密码..">
                                                 </div>
                                             </div>
                                             <div class="modal-footer">

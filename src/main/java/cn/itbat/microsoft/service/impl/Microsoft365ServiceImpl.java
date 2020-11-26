@@ -1,6 +1,9 @@
 package cn.itbat.microsoft.service.impl;
 
 
+import cn.binarywang.tools.generator.ChineseAddressGenerator;
+import cn.binarywang.tools.generator.ChineseMobileNumberGenerator;
+import cn.binarywang.tools.generator.ChineseNameGenerator;
 import cn.itbat.microsoft.cache.GraphCache;
 import cn.itbat.microsoft.config.GraphProperties;
 import cn.itbat.microsoft.enums.AccountStatusEnum;
@@ -11,11 +14,9 @@ import cn.itbat.microsoft.model.Pager;
 import cn.itbat.microsoft.service.GraphService;
 import cn.itbat.microsoft.service.MailService;
 import cn.itbat.microsoft.service.Microsoft365Service;
-import cn.itbat.microsoft.utils.HttpClientUtils;
 import cn.itbat.microsoft.utils.PageInfo;
 import cn.itbat.microsoft.utils.PasswordGenerator;
 import cn.itbat.microsoft.vo.*;
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.github.promeg.pinyinhelper.Pinyin;
 import com.google.gson.Gson;
@@ -34,7 +35,6 @@ import org.springframework.util.StringUtils;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 /**
@@ -312,49 +312,30 @@ public class Microsoft365ServiceImpl implements Microsoft365Service {
         }
     }
 
+
     @Async("asyncPoolTaskExecutor")
     @Override
-    public void createBatch(Integer num, String appName, String region, String skuId, String domain) {
-        //
-        String s = HttpClientUtils.sendGet("http://api.neton.ml/api", "amount=" + num + "&region=" + region + "&ext");
-        List<UserVo> userVoList = JSON.parseArray(s, UserVo.class);
-        if (CollectionUtils.isEmpty(userVoList)) {
-            return;
-        }
+    public void createBatch(Integer num, String appName, String skuId, String domain, String password) {
         if (StringUtils.isEmpty(domain)) {
             domain = graphCache.getDomainCache(appName).stream().filter(l -> l.isDefault).collect(Collectors.toList()).get(0).id;
         }
-        List<UserVo> unique = userVoList.stream().collect(Collectors.collectingAndThen(
-                Collectors.toCollection(
-                        () -> new TreeSet<>((o1, o2) -> {
-                            if (o1.getName().compareTo(o2.getName()) == 0) {
-                                return 0;
-                            } else {
-                                return o1.getName().compareTo(o2.getName());
-                            }
-                        }))
-                , ArrayList::new)
-        );
-
-        for (UserVo userVo : unique) {
+        for (int i = 0; i < num; i++) {
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            String mailNickname = userVo.getName().toLowerCase();
-            if (CHINA.equals(region)) {
-                mailNickname = Pinyin.toPinyin(userVo.getName() + userVo.getSurname(), "").toLowerCase();
-            }
+            String displayName = ChineseNameGenerator.getInstance().generate();
+            String mailNickname = Pinyin.toPinyin(displayName, "").toLowerCase();
             GraphUser graphUser = GraphUser.builder()
                     .country("中国")
-                    .surname(userVo.getSurname())
-                    .givenName(userVo.getName())
-                    .displayName(CHINA.equals(region) ? userVo.getName() + userVo.getSurname() : userVo.getSurname() + " " + userVo.getName())
+                    .city("LOC")
+                    .displayName(displayName)
                     .mailNickname(mailNickname)
-                    .mobilePhone(userVo.getPhone())
+                    .mobilePhone(ChineseMobileNumberGenerator.getInstance().generate())
+                    .streetAddress(ChineseAddressGenerator.getInstance().generate())
                     .userPrincipalName(mailNickname + "@" + domain)
-                    .password("P" + new PasswordGenerator(6, 3).generateRandomPassword() + "&")
+                    .password(StringUtils.isEmpty(password) ? "P" + new PasswordGenerator(6, 3).generateRandomPassword() + "&" : password)
                     .skuId(skuId).build();
             log.info("【Office】创建用户开始：" + JSONObject.toJSONString(graphUser));
             try {
