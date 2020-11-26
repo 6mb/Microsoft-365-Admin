@@ -5,7 +5,7 @@ spring:
   application:
     name: Microsoft 365 Admin
   profiles: # 默认的profile为dev
-    active: cit
+    active: dev
 
 logging:
   level:
