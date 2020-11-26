@@ -60,6 +60,7 @@ docker pull logr/microsoft:latest
 docker run -d --name=microsoft-admin \
     -p 8099:8099 \
     -v /home/microsoft/config:/config \
+    -v /home/microsoft/db:/root/.graph/db \
     logr/microsoft:latest
 ```
 
