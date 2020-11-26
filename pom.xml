@@ -92,9 +92,9 @@
 
         <!-- https://mvnrepository.com/artifact/com.github.promeg/tinypinyin -->
         <dependency>
-            <groupId>com.github.promeg</groupId>
-            <artifactId>tinypinyin</artifactId>
-            <version>2.0.0</version>
+            <groupId>io.github.biezhi</groupId>
+            <artifactId>TinyPinyin</artifactId>
+            <version>2.0.3.RELEASE</version>
         </dependency>
 
         <dependency>
