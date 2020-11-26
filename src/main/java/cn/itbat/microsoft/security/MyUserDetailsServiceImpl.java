@@ -27,6 +27,9 @@ public class MyUserDetailsServiceImpl implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        if (!username.equals(graphProperties.getUserName())){
+            throw new UsernameNotFoundException("用户名或密码错误！");
+        }
         return new User(graphProperties.getUserName(), graphProperties.getPassword(), Collections.emptyList());
     }
 
