@@ -13,10 +13,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -48,7 +45,7 @@ public class InvitationCodeServiceImpl implements InvitationCodeService {
         List<InvitationCode> invitationCodes = new ArrayList<>();
         for (int i = 0; i < num; i++) {
             String randomString = "G-" + DateUtil.thisDayOfMonth() + "-" + RandomUtil.randomStringUpper(6);
-            invitationCodes.add(InvitationCode.builder().code(randomString).valid(Boolean.TRUE).build());
+            invitationCodes.add(InvitationCode.builder().code(randomString).createTime(new Date()).valid(Boolean.TRUE).build());
         }
         List<InvitationCode> codes = invitationCodeRepository.findAllByCodeIn(invitationCodes.stream().map(InvitationCode::getCode).collect(Collectors.toList()));
         if (!CollectionUtils.isEmpty(codes)) {

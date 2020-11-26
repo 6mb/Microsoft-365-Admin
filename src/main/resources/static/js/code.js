@@ -60,6 +60,7 @@ function listCode() {
                 for (i in codeTable) {
                     var tr = '<td>' + (parseInt(num) + parseInt(i) + 1) + '</td>'
                         + '<td>' + codeTable[i].code + '</td>'
+                        + '<td>' + (isNotNull(codeTable[i].createTime) ? codeTable[i].createTime : "-") + '</td>'
                         + '<td>' + (Boolean(codeTable[i].valid) ? ('有效') : ('失效')) + '</td>'
                         + '<td>' + (isNotNull(codeTable[i].expirationTime) ? codeTable[i].expirationTime : "-") + '</td>'
                         + '<td>' + (isNotNull(codeTable[i].invitedUser) ? codeTable[i].invitedUser : '-') + '</td>'
@@ -97,4 +98,33 @@ function searchCodes() {
     lightyear.loading('show');
     $("#codeTable tr:not(:first)").empty();
     listCode();
+}
+
+function addCodeClick() {
+    lightyear.loading('show');
+    let num = $("#numCode").val();
+    // 提交请求
+    $.ajax({
+        type: "post",
+        url: path + "/code/generate",
+        data: {
+            "num": num
+        },
+        dataType: "json",
+        success: function (r) {
+            if (r.status !== 200) {
+                lightyear.loading('hide');
+                lightyear.notify(r.message, 'danger', delay);
+            } else {
+                console.log(r);
+                lightyear.loading('hide');
+                lightyear.notify('创建邀请码成功数量：' + num, 'success', delay);
+            }
+        },
+        error: function () {
+            /*错误信息处理*/
+            lightyear.notify("服务器错误，请稍后再试~", 'danger', delay);
+            lightyear.loading('hide');
+        }
+    });
 }
