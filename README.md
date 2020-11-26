@@ -34,6 +34,32 @@
 
 具体功能查看关于界面【操作教程】
 
+## 权限
+
+**新增用户：**
+
+权限类型	 | 权限（从最低特权到最高特权）
+---|---
+委派（工作或学校帐户） | User.ReadWrite.All、Directory.ReadWrite.All、Directory.AccessAsUser.All
+委派（个人 Microsoft 帐户）） | 不支持。 
+应用程序 | User.ReadWrite.All、Directory.ReadWrite.All
+
+**删除用户：**
+
+权限类型	 | 权限（从最低特权到最高特权）
+---|---
+委派（工作或学校帐户） | Directory.AccessAsUser.All
+委派（个人 Microsoft 帐户）） | 不支持。
+应用程序 | User.ReadWrite.All
+
+**分配/取消许可证：**
+
+权限类型	 | 权限（从最低特权到最高特权）
+---|---
+委派（工作或学校帐户） | User.ReadWrite.All、Directory.ReadWrite.All
+委派（个人 Microsoft 帐户）） | 不支持。
+应用程序 | User.ReadWrite.All、Directory.ReadWrite.All
+
 ## 运行
 
 #### 1、关于配置文件

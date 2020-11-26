@@ -51,11 +51,16 @@ graph:
   db:
     path: ${user.home}/.graph/db/graph
 
+  # 后台登陆配置
   userName: root # 登陆账户,自行修改
   password: 123456 # 登陆密码，自行修改
 
+  # 邀请注册配置
   invite: mjj,mjj2 # 可以被注册的账号类型，为下面 configs.appName 的配置（必填，','分隔）
+  inviteSub: # 为空表示全部
+  inviteDomain: # 为空表示使用默认域名，格式：xxx.onmicrosoft.com
 
+  # api配置
   configs:
   - appName: mjj # 自定义该账号的类型（建议使用英文：默认域名前缀，必填）
     appId: mjj # 应用程序(客户端) ID client（必填）
