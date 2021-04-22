@@ -16,6 +16,7 @@ import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -41,6 +42,10 @@ public class FrontDeskServiceImpl implements FrontDeskService {
 
     @Value("${graph.invite}")
     private String invite;
+
+    @Value("${graph.inviteSub}")
+    private String inviteSub;
+
     @Value("${graph.inviteDomain}")
     private String inviteDomain;
 
@@ -73,7 +78,8 @@ public class FrontDeskServiceImpl implements FrontDeskService {
     public List<FontSkuSku> listLicense() {
         List<String> appNames = graphProperties.getConfigs().stream().map(GraphProperties.GraphConfig::getAppName).collect(Collectors.toList());
         String[] split = invite.split(",");
-
+        String[] inviteSubs = inviteSub.split(",");
+        List<String> inviteList = Arrays.asList(inviteSubs);
         List<FontSkuSku> fontSkuSkus = new ArrayList<>();
         for (String appName : split) {
             if (!appNames.contains(appName)) {
@@ -82,6 +88,10 @@ public class FrontDeskServiceImpl implements FrontDeskService {
             List<SubscribedSkuVo> subscribed = microsoft365Service.getSubscribed(appName);
             if (!CollectionUtils.isEmpty(subscribed)) {
                 for (SubscribedSkuVo subscribedSkuVo : subscribed) {
+                    // 过滤掉不需要的订阅
+                    if (!inviteList.contains(subscribedSkuVo.getSkuId())) {
+                        continue;
+                    }
                     FontSkuSku fontSkuSku = new FontSkuSku();
                     BeanUtils.copyProperties(subscribedSkuVo, fontSkuSku);
                     fontSkuSkus.add(fontSkuSku);
