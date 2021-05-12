@@ -1,5 +1,6 @@
 package cn.itbat.microsoft.controller;
 
+import cn.itbat.microsoft.config.GraphProperties;
 import cn.itbat.microsoft.service.FrontDeskService;
 import cn.itbat.microsoft.vo.BaseResultVo;
 import cn.itbat.microsoft.vo.GraphUserVo;
@@ -24,6 +25,8 @@ public class FrontDeskController {
     @Resource
     private FrontDeskService frontDeskService;
 
+    @Resource
+    private GraphProperties graphProperties;
 
     @GetMapping("/listLicense")
     public BaseResultVo listLicense() {
@@ -56,5 +59,16 @@ public class FrontDeskController {
             return BaseResultVo.error("用户名为空！");
         }
         return BaseResultVo.success(frontDeskService.create(graphUserVo));
+    }
+
+    /**
+     * 查询可注册地区
+     *
+     * @param appName 组织类型
+     * @return 地区
+     */
+    @GetMapping("/listUsageLocation")
+    public BaseResultVo listUsageLocation(String appName) {
+        return BaseResultVo.success(graphProperties.listUsageLocation(appName));
     }
 }

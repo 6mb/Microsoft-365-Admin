@@ -47,7 +47,7 @@
         <!--End 左侧导航-->
 
         <!--头部信息-->
-<!--        <div class="headerPage"></div>-->
+        <!--        <div class="headerPage"></div>-->
         <header class="lyear-layout-header">
 
             <nav class="navbar navbar-default">
@@ -201,7 +201,9 @@
                             </div>
                         </div>
                         <div class="col-xs-5">
-                            <button class="btn btn-label" id="clearCache" onclick="refreshCache()"><label><i class="mdi mdi-cached"></i></label>刷新缓存</button>
+                            <button class="btn btn-label" id="clearCache" onclick="refreshCache()"><label><i
+                                    class="mdi mdi-cached"></i></label>刷新缓存
+                            </button>
                         </div>
                     </ul>
 
@@ -355,7 +357,8 @@
                                             <a class="btn m-r-10 deleted-account-p-batch pull-right"
                                                id="deletedAccountBatch" href="#!"><i class="mdi mdi-delete"></i>
                                                 全部删除</a>
-                                            <a class="btn m-r-10  bs-user-batch-modal-lg pull-right" id="addUserBatchLabel"
+                                            <a class="btn m-r-10  bs-user-batch-modal-lg pull-right"
+                                               id="addUserBatchLabel"
                                                data-toggle="modal"
                                                data-target=".bs-user-batch-modal-lg">
                                                 <i class="mdi mdi-playlist-plus"></i> 批量创建
@@ -377,51 +380,84 @@
                                             <div class="modal-body col-xs-12">
                                                 <div class="col-xs-6">
                                                     <div class="input-group m-b-10">
-                                                        <span class="input-group-addon"
-                                                              id="add-display-name">显示姓名</span>
+                                                            <span class="input-group-addon" id="add-display-name">
+                                                                <label for="addDisplayName">显示姓名</label>
+                                                            </span>
                                                         <input type="text" class="form-control" placeholder=""
                                                                id="addDisplayName"
                                                                aria-describedby="add-display-name-input">
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-6">
-                                                    <label for="addLicenseSelect"></label>
-                                                    <select class="form-control" id="addLicenseSelect"
-                                                            style="height: 38px"
-                                                            name="license-select" size="1">
-                                                        <option value="" disabled selected hidden>请选择许可证</option>
-                                                    </select>
+                                                    <div class="input-group m-b-10">
+                                                        <span class="input-group-addon">
+                                                            <label for="addLicenseSelect">
+                                                                许可证
+                                                            </label>
+                                                        </span>
+                                                        <select class="form-control" id="addLicenseSelect"
+                                                                style="height: 38px"
+                                                                name="license-select" size="1">
+                                                            <option value="" disabled selected hidden>请选择许可证</option>
+                                                        </select>
+                                                    </div>
                                                 </div>
                                                 <div class="col-xs-6">
                                                     <div class="input-group m-b-10">
-                                                        <span class="input-group-addon">邮箱前缀</span>
+                                                        <span class="input-group-addon">
+                                                        <label for="addMailNickname">
+                                                            邮箱前缀
+                                                        </label>
+                                                        </span>
                                                         <input type="text" class="form-control" placeholder=""
                                                                id="addMailNickname"
                                                                aria-describedby="addMailNickname">
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-6">
-                                                    <label for="addDomainSelect"></label>
-                                                    <select class="form-control" id="addDomainSelect"
-                                                            style="height: 38px"
-                                                            name="license-select" size="1">
-                                                        <option value="" disabled selected hidden>请选择域名后缀</option>
-                                                    </select>
+                                                    <div class="input-group m-b-10">
+                                                        <span class="input-group-addon">
+                                                            <label for="addDomainSelect">域名</label>
+                                                        </span>
+                                                        <select class="form-control" id="addDomainSelect"
+                                                                style="height: 38px"
+                                                                name="license-select" size="1">
+                                                            <option value="" disabled selected hidden>请选择域名后缀</option>
+                                                        </select>
+                                                    </div>
                                                 </div>
                                                 <div class="col-xs-6">
                                                     <div class="input-group m-b-10">
-                                                        <span class="input-group-addon" id="add-password">密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码</span>
+                                                            <span class="input-group-addon" id="add-password">
+                                                                <label for="addPassword">密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码</label>
+                                                            </span>
                                                         <input type="text" class="form-control" placeholder=""
                                                                id="addPassword"
                                                                aria-describedby="add-password-input">
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-6 m-b-10">
+                                                    <div class="input-group m-b-10">
+                                                        <span class="input-group-addon">
+                                                            <label for="addUsageLocation">地区</label>
+                                                        </span>
+                                                        <select class="form-control" id="addUsageLocation"
+                                                                style="height: 38px"
+                                                                name="usage-location-select" size="1">
+<!--                                                            <option value="" disabled selected hidden>请选择地区</option>-->
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <hr>
 
                                                 <div class="col-xs-12">
                                                     <div class="input-group m-b-10">
-                                                        <span class="input-group-addon" id="add-mail">邮件地址</span>
-                                                        <input type="text" class="form-control" placeholder="填写该字段将发送账号密码到该邮箱！"
+                                                            <span class="input-group-addon" id="add-mail">
+                                                                <label for="addMail">邮件地址</label>
+                                                            </span>
+
+                                                        <input type="text" class="form-control"
+                                                               placeholder="填写该字段将发送账号密码到该邮箱！"
                                                                id="addMail"
                                                                aria-describedby="add-password-mail">
                                                     </div>
@@ -530,6 +566,12 @@
                                                             name="domain-select-batch" size="1">
                                                         <option value="" disabled selected hidden>请选择域名后缀</option>
                                                     </select>
+                                                    <label for="usageLocationSelectModalBatch"></label>
+                                                    <select class="form-control" id="usageLocationSelectModalBatch"
+                                                            style="height: 38px"
+                                                            name="domain-select-batch" size="1">
+
+                                                    </select>
                                                 </div>
                                                 <div class="col-xs-2">
 
@@ -547,7 +589,8 @@
                                                 </div>
                                                 <div class="col-xs-3">
                                                     <label for="passwordSelectModalBatch"></label>
-                                                    <input class="form-control" id="passwordSelectModalBatch" type="text"
+                                                    <input class="form-control" id="passwordSelectModalBatch"
+                                                           type="text"
                                                            placeholder="不填写则随机生成密码..">
                                                 </div>
                                             </div>
@@ -748,8 +791,6 @@
             $('#disLicenseSelectModalUserId').html(userId);
             $('#disLicenseUser').html("你取消：" + userPrincipalName + " 账号订阅！");
         })
-
-
 
 
     });

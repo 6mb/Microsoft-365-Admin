@@ -61,6 +61,20 @@ public class Microsoft365Controller {
     }
 
     /**
+     * 查询可注册地区
+     *
+     * @param appName 组织类型
+     * @return 地区
+     */
+    @GetMapping("/listUsageLocation")
+    public BaseResultVo listUsageLocation(String appName) {
+        if (graphProperties.getConfig(appName) == null) {
+            return BaseResultVo.error("组织类型不存在！");
+        }
+        return BaseResultVo.success(graphProperties.listUsageLocation(appName));
+    }
+
+    /**
      * 首页展示
      *
      * @param appName 组织类型
@@ -291,14 +305,14 @@ public class Microsoft365Controller {
      * @return 成功
      */
     @GetMapping("/createUserBatch")
-    public BaseResultVo createUserBatch(String appName, Integer num, String skuId, String domain, String password) {
-        if (num == null || StringUtils.isBlank(appName) || StringUtils.isBlank(domain)) {
+    public BaseResultVo createUserBatch(String appName, Integer num, String skuId, String domain, String password, String usageLocation) {
+        if (num == null || StringUtils.isBlank(appName) || StringUtils.isBlank(domain) || StringUtils.isBlank(usageLocation)) {
             return BaseResultVo.error("参数为空！");
         }
         if (graphProperties.getConfig(appName) == null) {
             return BaseResultVo.error("组织类型不存在！");
         }
-        microsoft365Service.createBatch(num, appName, skuId, domain, password);
+        microsoft365Service.createBatch(num, appName, skuId, domain, password, usageLocation);
         return BaseResultVo.success();
     }
 

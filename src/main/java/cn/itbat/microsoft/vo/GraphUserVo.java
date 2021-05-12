@@ -68,6 +68,11 @@ public class GraphUserVo extends GraphUser {
      */
     private List<SkuVo> skuVos;
 
+    /**
+     * 两个字母的国家/地区代码（ISO 标准 3166）。检查服务在国家/地区的可用性
+     */
+    private String usageLocation;
+
 
     public GraphUserVo() {
 
