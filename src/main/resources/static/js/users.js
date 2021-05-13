@@ -322,7 +322,7 @@ function addUserClick() {
                             text: '确认',
                             btnClass: 'btn-primary',
                             action: function () {
-                                window.location.reload();
+                                // window.location.reload();
                             }
                         }
                     }

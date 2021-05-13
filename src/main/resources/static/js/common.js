@@ -25,7 +25,7 @@ $.ajax({
     }
 });
 
-function refreshCache() {
+function refreshCache(successFunc) {
     lightyear.loading('show');
     $.ajax({
         type: "get",
@@ -40,7 +40,11 @@ function refreshCache() {
                 lightyear.notify(r.message, 'danger', 200);
             } else {
                 lightyear.notify("刷新缓存成功！", 'success', 200);
-                window.location.reload();
+                if (successFunc != null) {
+                    successFunc();
+                } else {
+                    reloadPage();
+                }
             }
         },
         error: function () {
