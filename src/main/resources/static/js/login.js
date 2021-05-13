@@ -34,3 +34,15 @@ function loginClick() {
     });
 
 }
+
+$(document).on('keypress', function (e) {
+    if (e.which === 13) {
+        loginClick();
+    }
+});
+
+$('#invitePage').click(
+    function () {
+        window.location.href = '/invite.html'
+    }
+)

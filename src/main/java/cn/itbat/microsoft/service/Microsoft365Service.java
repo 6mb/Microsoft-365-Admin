@@ -149,7 +149,7 @@ public interface Microsoft365Service {
      * @param skuId   订阅
      * @param domain  域名后缀
      */
-    void createBatch(Integer num, String appName, String skuId, String domain,String password);
+    void createBatch(Integer num, String appName, String skuId, String domain, String password, String usageLocation);
 
     /**
      * 首页
@@ -174,5 +174,6 @@ public interface Microsoft365Service {
      * @return 结果
      */
     StatisticsVo getUsersStatistics(String appName);
+
 }
 

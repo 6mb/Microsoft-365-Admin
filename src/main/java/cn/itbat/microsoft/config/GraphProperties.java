@@ -2,6 +2,7 @@ package cn.itbat.microsoft.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -30,6 +31,12 @@ public class GraphProperties {
      */
     private List<GraphConfig> configs;
 
+
+    /**
+     * 地区
+     */
+    private String usageLocation;
+
     @Data
     public static class GraphConfig {
 
@@ -57,6 +64,11 @@ public class GraphProperties {
          * admin 账户
          */
         private String admin;
+
+        /**
+         * 地区
+         */
+        private String usageLocation;
     }
 
     /**
@@ -130,5 +142,16 @@ public class GraphProperties {
             }
         }
         return null;
+    }
+
+    public String[] listUsageLocation(String appName) {
+        String usageLocations = getConfig(appName).getUsageLocation();
+        if (StringUtils.isEmpty(usageLocations)) {
+            usageLocations = getUsageLocation();
+            if (StringUtils.isEmpty(usageLocations)) {
+                return new String[]{"HK"};
+            }
+        }
+        return usageLocations.split(",");
     }
 }
