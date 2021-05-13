@@ -9,6 +9,9 @@
     <!--对话框-->
     <link href="js/jconfirm/jquery-confirm.min.css" rel="stylesheet">
     <link href="css/style.min.css" rel="stylesheet">
+    <link href="css/gm.css" rel="stylesheet">
+    <link href="css/gm-diy.css" rel="stylesheet">
+
 </head>
 <body>
 <div class="lyear-layout-web">
@@ -444,7 +447,7 @@
                                                         <select class="form-control" id="addUsageLocation"
                                                                 style="height: 38px"
                                                                 name="usage-location-select" size="1">
-<!--                                                            <option value="" disabled selected hidden>请选择地区</option>-->
+                                                            <!--                                                            <option value="" disabled selected hidden>请选择地区</option>-->
                                                         </select>
                                                     </div>
                                                 </div>
@@ -503,7 +506,7 @@
                                                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭
                                                 </button>
                                                 <button type="button" class="btn btn-primary" data-dismiss="modal"
-                                                        onclick="addLicenseClick()">保存
+                                                        id="addLicenseBtn">保存
                                                 </button>
                                             </div>
                                         </div>
@@ -533,7 +536,7 @@
                                                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭
                                                 </button>
                                                 <button type="button" class="btn btn-primary" data-dismiss="modal"
-                                                        onclick="cancelLicenseClick()">保存
+                                                        id="disLicenseUserBtn">保存
                                                 </button>
                                             </div>
                                         </div>
@@ -609,34 +612,9 @@
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table id="usersTable" class="table table-bordered text-center">
-                                        <thead>
-                                        <tr class="text-center">
-                                            <th>
-                                                <label class="lyear-checkbox checkbox-primary">
-                                                    <input type="checkbox" id="check-all"><span></span>
-                                                </label>
-                                            </th>
-                                            <th class="text-center">编号</th>
-                                            <th class="text-center hidden" id="UserUserId"></th>
-                                            <th class="text-center">邮箱</th>
-                                            <th class="text-center">姓名</th>
-                                            <th class="text-center">订阅</th>
-                                            <th class="text-center">状态</th>
-                                            <th class="text-center">地区</th>
-                                            <th class="text-center">创建时间</th>
-                                        </tr>
-                                        </thead>
+
                                     </table>
                                 </div>
-
-                                <ul class="pagination" id="pagination">
-                                    <li class="" onclick="pageOnclick(0)"><span>上一页</span></li>
-                                    <li class="disabled">
-                                        <span id="usersIndex"></span>
-                                        <span id="usersTotal"></span>
-                                    </li>
-                                    <li class="" onclick="pageOnclick(1)"><span>下一页</span></li>
-                                </ul>
                             </div>
                         </div>
 
@@ -657,9 +635,10 @@
 <script type="text/javascript" src="js/bootstrap-notify.min.js"></script>
 <script type="text/javascript" src="js/lightyear.js"></script>
 
-<script language=javascript src='js/config.js'></script>
+<script type="text/javascript" src='js/config.js'></script>
 <script type="text/javascript" src="js/common.js"></script>
 <script type="text/javascript" src="js/users.js"></script>
+<script type="text/javascript" src="js/plugins/gm.js"></script>
 </body>
 <script>
     // $(function () {
@@ -668,16 +647,21 @@
     // });
     // 确认提示框
     $('.enable-account-p').on('click', function () {
-        let userPrincipalName;
-        let userId;
-        $('input[name="userIds"]:checked').each(function () {//遍历每一个名字为interest的复选框，其中选中的执行函数
-            let row = $(this).parent("label").parent("td").parent("tr");//获取选中行
-            userId = row.find("[name='userId']").html();//获取name='Sid'的值
-            userPrincipalName = row.find("[name='userPrincipalName']").html();
-        });
+        let userPrincipalNames = [];
+        let userIds = [];
+        // $('input[name="userIds"]:checked').each(function () {//遍历每一个名字为interest的复选框，其中选中的执行函数
+        //     let row = $(this).parent("label").parent("td").parent("tr");//获取选中行
+        //     userIds.push(row.find("[name='userId']").html());//获取name='Sid'的值
+        //     userPrincipalNames.push(row.find("[name='userPrincipalName']").html());
+        // });
+        const checkedData = GM.getCheckedData('usersTable');
+        for (const data of checkedData) {
+            userIds.push(data.userId);
+            userPrincipalNames.push(data.userPrincipalName);
+        }
         $.alert({
             title: '启用账户',
-            content: '该操作会允许该用户登录，账号如下：<br><br><strong>' + userPrincipalName + '</strong><br><br>',
+            content: '该操作会允许该用户登录，账号如下：<br><br><strong>' + userPrincipalNames.join('\n') + '</strong><br><br>',
             buttons: {
                 confirm: {
                     text: '确认',
@@ -685,7 +669,9 @@
                     action: function () {
                         lightyear.loading('show');
                         // 假设ajax提交操作
-                        enableUserClick(userId);
+                        for (const userId of userIds) {
+                            enableUserWithUserId(userId);
+                        }
                     }
                 },
                 cancel: {
@@ -695,23 +681,25 @@
         });
     });
     $('.disable-account-p').on('click', function () {
-        let userPrincipalName;
-        let userId;
-        $('input[name="userIds"]:checked').each(function () {//遍历每一个名字为interest的复选框，其中选中的执行函数
-            let row = $(this).parent("label").parent("td").parent("tr");//获取选中行
-            userId = row.find("[name='userId']").html();//获取name='Sid'的值
-            userPrincipalName = row.find("[name='userPrincipalName']").html();
-        });
+        let userPrincipalNames = [];
+        let userIds = [];
+        const checkedData = GM.getCheckedData('usersTable');
+        for (const data of checkedData) {
+            userIds.push(data.userId);
+            userPrincipalNames.push(data.userPrincipalName);
+        }
         $.alert({
             title: '禁用账户',
-            content: '该操作会禁止该用户登录，账号如下：<br><br><strong>' + userPrincipalName + '</strong><br><br>',
+            content: '该操作会禁止该用户登录，账号如下：<br><br><strong>' + userPrincipalNames.join('\n') + '</strong><br><br>',
             buttons: {
                 confirm: {
                     text: '确认',
                     btnClass: 'btn-primary',
                     action: function () {
                         lightyear.loading('show');
-                        disableUserClick(userId);
+                        for (const userId of userIds) {
+                            disableUserWithUserId(userId);
+                        }
                     }
                 },
                 cancel: {
@@ -721,23 +709,25 @@
         });
     });
     $('.deleted-account-p').on('click', function () {
-        let userPrincipalName;
-        let userId;
-        $('input[name="userIds"]:checked').each(function () {//遍历每一个名字为interest的复选框，其中选中的执行函数
-            let row = $(this).parent("label").parent("td").parent("tr");//获取选中行
-            userId = row.find("[name='userId']").html();//获取name='Sid'的值
-            userPrincipalName = row.find("[name='userPrincipalName']").html();
-        });
+        let userPrincipalNames = [];
+        let userIds = [];
+        const checkedData = GM.getCheckedData('usersTable');
+        for (const data of checkedData) {
+            userIds.push(data.userId);
+            userPrincipalNames.push(data.userPrincipalName);
+        }
         $.alert({
             title: '删除账户',
-            content: '<span style="color: red">警告！</span> 该操作会删除该账号，账号如下：<br><br><strong>' + userPrincipalName + '</strong><br><br>',
+            content: '<span style="color: red">警告！</span> 该操作会删除该账号，账号如下：<br><br><strong>' + userPrincipalNames.join('\n') + '</strong><br><br>',
             buttons: {
                 confirm: {
                     text: '确认',
                     btnClass: 'btn-primary',
                     action: function () {
                         lightyear.loading('show');
-                        deletedUserClick(userId);
+                        for (let userId of userIds) {
+                            deletedUserWithUserId(userId);
+                        }
                     }
                 },
                 cancel: {
@@ -768,28 +758,40 @@
     });
 
     $(function () {
+
         $('#addLicenseModal').on('show.bs.modal', function () {
-            var userPrincipalName;
-            var userId;
-            $('input[name="userIds"]:checked').each(function () {//遍历每一个名字为interest的复选框，其中选中的执行函数
-                var row = $(this).parent("label").parent("td").parent("tr");//获取选中行
-                userId = row.find("[name='userId']").html();//获取name='Sid'的值
-                userPrincipalName = row.find("[name='userPrincipalName']").html();
-            });
-            $('#licenseSelectModalUserId').html(userId);
-            $('#addLicenseUser').html("你将为：" + userPrincipalName + " 账号添加订阅！");
+            let userPrincipalNames = [];
+            let userIds = [];
+            const checkedData = GM.getCheckedData('usersTable');
+            for (const data of checkedData) {
+                userIds.push(data.userId);
+                userPrincipalNames.push(data.userPrincipalName);
+            }
+            $('#addLicenseUser').html("你将为：\n" + userPrincipalNames.join('\n') + " 账号添加订阅！");
             setLicense("licenseSelectModal");
+            $('#addLicenseBtn').click(function () {
+                const skuId = getSelect("#licenseSelectModal");
+                for (const userId of userIds) {
+                    addLicenseToUserWithSku(userId, skuId)
+                }
+            })
         });
         $('#disLicenseModal').on('show.bs.modal', function () {
-            var userPrincipalName;
-            var userId;
-            $('input[name="userIds"]:checked').each(function () {//遍历每一个名字为interest的复选框，其中选中的执行函数
-                var row = $(this).parent("label").parent("td").parent("tr");//获取选中行
-                userId = row.find("[name='userId']").html();//获取name='Sid'的值
-                userPrincipalName = row.find("[name='userPrincipalName']").html();
-            });
-            $('#disLicenseSelectModalUserId').html(userId);
-            $('#disLicenseUser').html("你取消：" + userPrincipalName + " 账号订阅！");
+            let userPrincipalNames = [];
+            let userIds = [];
+            const checkedData = GM.getCheckedData('usersTable');
+            for (const data of checkedData) {
+                userIds.push(data.userId);
+                userPrincipalNames.push(data.userPrincipalName);
+            }
+            $('#disLicenseUser').html("你将为：\n" + userPrincipalNames.join('\n') + " 账号取消订阅！");
+            setLicense("licenseSelectModal");
+            $('#disLicenseUserBtn').click(function () {
+                const skuId = getSelect("#licenseSelectModal");
+                for (const userId of userIds) {
+                    cancelLicenseForUser(userId);
+                }
+            })
         })
 
 
