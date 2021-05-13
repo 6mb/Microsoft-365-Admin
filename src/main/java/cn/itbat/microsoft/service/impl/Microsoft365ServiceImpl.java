@@ -7,7 +7,6 @@ import cn.binarywang.tools.generator.ChineseNameGenerator;
 import cn.itbat.microsoft.cache.GraphCache;
 import cn.itbat.microsoft.config.GraphProperties;
 import cn.itbat.microsoft.enums.AccountStatusEnum;
-import cn.itbat.microsoft.enums.CapabilityStatusEnum;
 import cn.itbat.microsoft.enums.RefreshTypeEnum;
 import cn.itbat.microsoft.model.GraphUser;
 import cn.itbat.microsoft.model.Pager;
@@ -19,13 +18,11 @@ import cn.itbat.microsoft.utils.PasswordGenerator;
 import cn.itbat.microsoft.vo.*;
 import com.alibaba.fastjson.JSONObject;
 import com.github.promeg.pinyinhelper.Pinyin;
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.microsoft.graph.models.extensions.*;
+import com.microsoft.graph.models.AssignedLicense;
+import com.microsoft.graph.models.Domain;
+import com.microsoft.graph.models.SubscribedSku;
+import com.microsoft.graph.models.User;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -67,6 +64,7 @@ public class Microsoft365ServiceImpl implements Microsoft365Service {
             graphCache.refreshUsers(appName);
             graphCache.refreshLicense(appName);
             graphCache.refreshDomain(appName);
+            graphCache.refreshRole(appName);
             log.info("【Microsoft 365】全部刷新成功");
             return;
         }
@@ -86,7 +84,7 @@ public class Microsoft365ServiceImpl implements Microsoft365Service {
     public List<SubscribedSkuVo> getSubscribed(String appName) {
         List<SubscribedSku> subscribedSkus = graphCache.getLicenseCache(appName);
         if (CollectionUtils.isEmpty(subscribedSkus)) {
-            return null;
+            return new ArrayList<>();
         }
         List<SubscribedSkuVo> subscribedSkuVos = new ArrayList<>();
         for (SubscribedSku subscribedSku : subscribedSkus) {
@@ -96,16 +94,7 @@ public class Microsoft365ServiceImpl implements Microsoft365Service {
     }
 
     private SubscribedSkuVo getSubscribedSkuVo(String appName, SubscribedSku subscribedSku) {
-        JsonObject subscribedSkuRawObject = subscribedSku.getRawObject();
-        Integer enabled = subscribedSku.prepaidUnits.enabled;
-        Integer suspended = subscribedSku.prepaidUnits.suspended;
-        Integer warning = subscribedSku.prepaidUnits.warning;
-        Gson gson = new Gson();
-        SubscribedSkuVo subscribedSkuVo = gson.fromJson(subscribedSkuRawObject, SubscribedSkuVo.class);
-        subscribedSkuVo.setEnabled(enabled);
-        subscribedSkuVo.setSuspended(suspended);
-        subscribedSkuVo.setWarning(warning);
-        subscribedSkuVo.setDisplayStatus(CapabilityStatusEnum.getName(subscribedSkuVo.getCapabilityStatus()));
+        SubscribedSkuVo subscribedSkuVo = new SubscribedSkuVo(subscribedSku);
         String displayName = graphProperties.getSubConfigDisplayName(subscribedSkuVo.getSkuId());
         subscribedSkuVo.setSkuName(StringUtils.isEmpty(displayName) ? subscribedSkuVo.getSkuPartNumber() : displayName);
         subscribedSkuVo.setAppName(appName);
@@ -202,8 +191,11 @@ public class Microsoft365ServiceImpl implements Microsoft365Service {
         graphUserVo.setStreetAddress(user.streetAddress);
         graphUserVo.setAccountEnabled(user.accountEnabled);
         graphUserVo.setDisplayAccountEnable(AccountStatusEnum.getName(graphUserVo.getAccountEnabled()));
-        JsonElement createdDateTime = user.getRawObject().get("createdDateTime");
-        graphUserVo.setCreatedDateTime(createdDateTime == null ? "" : createdDateTime.getAsString());
+        if (user.createdDateTime == null) {
+            graphUserVo.setCreatedDateTime("");
+        } else {
+            graphUserVo.setCreatedDateTime(user.createdDateTime.toString());
+        }
         List<AssignedLicense> assignedLicenses = user.assignedLicenses;
         if (!CollectionUtils.isEmpty(assignedLicenses)) {
             List<SkuVo> skuVos = new ArrayList<>();
@@ -242,7 +234,7 @@ public class Microsoft365ServiceImpl implements Microsoft365Service {
         log.info("【Office】创建用户开始：" + JSONObject.toJSONString(graphUser));
         // 调用api创建用户
         User user = graphService.createUser(graphUserVo.getAppName(), graphUser);
-        log.info("【Office】创建用户成功：" + user.getRawObject().toString());
+        log.info("【Office】创建用户成功：" + user.toString());
         GraphUserVo graphUserVoResult = this.getGraphUserVo(user);
         graphUserVoResult.setPassword(graphUser.getPassword());
         // 发送邮件
@@ -357,7 +349,7 @@ public class Microsoft365ServiceImpl implements Microsoft365Service {
             log.info("【Office】创建用户开始：" + JSONObject.toJSONString(graphUser));
             try {
                 User user = graphService.createUser(appName, graphUser);
-                log.info("【Office】创建用户成功：" + user.getRawObject().toString());
+                log.info("【Office】创建用户成功：" + user.toString());
             } catch (Exception e) {
                 log.error("【Office】创建用户失败：" + e.getMessage());
                 // 将创建的用户删除，如果是订阅分配失败的话
@@ -427,7 +419,7 @@ public class Microsoft365ServiceImpl implements Microsoft365Service {
 
     @Override
     public Boolean addDirectoryRoleMember(String appName, String userId, String roleId) {
-        return false;
+        return graphService.addDirectoryRoleMember(appName, userId, roleId);
     }
 
 

@@ -528,6 +528,12 @@
                                             <div class="modal-body col-xs-12">
                                                 <div class="alert alert-success" role="alert" id="disLicenseUser">
                                                 </div>
+                                                <label for="licenseSelectModal2"></label>
+                                                <select class="form-control" id="licenseSelectModal2"
+                                                        style="height: 38px"
+                                                        name="license-select" size="1">
+                                                    <option value="" disabled selected hidden>请选择许可证</option>
+                                                </select>
                                                 <!--                                                <div class="col-xs-6">-->
                                                 <!--                                                </div>-->
 
@@ -563,7 +569,6 @@
                                                 <select class="form-control" id="roleSelectModal"
                                                         style="height: 38px"
                                                         name="license-select" size="1">
-                                                    <option value="" disabled selected hidden>请选择许可证</option>
                                                 </select>
                                             </div>
                                             <div class="modal-footer">
@@ -800,10 +805,11 @@
     $('#disLicenseModal').on('show.bs.modal', function () {
         let {userPrincipalNames, userIds} = getSelectedData();
         $('#disLicenseUser').html("你将为以下账号账号取消订阅：<br/>" + userPrincipalNames.join('<br/>'));
-        setLicense("licenseSelectModal");
+        setLicense("licenseSelectModal2");
+        let skuId = getSelect('#licenseSelectModal2');
         $('#disLicenseUserBtn').click(function () {
             for (const userId of userIds) {
-                cancelLicenseForUser(userId);
+                cancelLicenseForUser(userId, skuId);
             }
         })
     })
@@ -812,7 +818,7 @@
         $('#addDirectoryRoleMemberUsers').html("你将为以下账号提权：<br/>" + userPrincipalNames.join('<br/>'));
         setRoles('roleSelectModal');
         $('#addDirectoryRoleMemberBtn').click(function () {
-                const roleId = getSelect('');
+                const roleId = getSelect('#roleSelectModal');
                 for (const userId of userIds) {
                     addDirectoryRoleMember(userId, roleId);
                 }

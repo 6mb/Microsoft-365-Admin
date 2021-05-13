@@ -1,6 +1,6 @@
 package cn.itbat.microsoft.vo;
 
-import com.microsoft.graph.models.extensions.DirectoryRole;
+import com.microsoft.graph.models.DirectoryRole;
 import lombok.Data;
 
 @Data

@@ -332,8 +332,7 @@ public class Microsoft365Controller {
         if (StringUtils.isBlank(appName) || StringUtils.isBlank(userId) || StringUtils.isBlank(roleId)) {
             return BaseResultVo.error("参数为空！");
         }
-        // TODO: 接口尚未实现
-        return BaseResultVo.error("接口尚未实现");
+        return BaseResultVo.success( microsoft365Service.addDirectoryRoleMember(appName, userId, roleId));
     }
 
 }

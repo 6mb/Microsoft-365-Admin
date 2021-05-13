@@ -3,7 +3,7 @@ package cn.itbat.microsoft.service;
 import cn.itbat.microsoft.model.GraphUser;
 import cn.itbat.microsoft.vo.DirectoryRoleVo;
 import cn.itbat.microsoft.vo.GraphUserVo;
-import com.microsoft.graph.models.extensions.*;
+import com.microsoft.graph.models.*;
 
 import java.util.List;
 import java.util.Map;
@@ -146,7 +146,7 @@ public interface GraphService {
      * @param appName  appName
      * @param objectId --both the object ID and template ID are OK.-- Now only object ID is effective.
      */
-    List<DirectoryObject> listMembersOfADirectoryRole(String appName, String objectId);
+    List<User> listMembersOfADirectoryRole(String appName, String objectId);
 
     /**
      * 查询当前有哪些角色，并查询其角色下有哪些用户

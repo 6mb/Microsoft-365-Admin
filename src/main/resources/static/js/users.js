@@ -368,7 +368,7 @@ function addLicenseToUserWithSku(userId, skuId) {
     });
 }
 
-function cancelLicenseForUser(userId) {
+function cancelLicenseForUser(userId, skuId) {
     lightyear.loading('show');
     // 提交请求
     $.ajax({
@@ -376,7 +376,8 @@ function cancelLicenseForUser(userId) {
         url: path + "/365/cancelLicense",
         data: {
             "appName": getAppName(),
-            "userId": userId
+            "userId": userId,
+            "skuId": skuId
         },
         dataType: "json",
         success: function (r) {
@@ -618,7 +619,7 @@ function setRoles(id) {
     let roleSelect = $("#" + id);
     roleSelect.empty();
     for (let i in rolesList) {
-        let option = "<option value=" + rolesList[i].id + ">" + rolesList[i].displayName + ' - ' + rolesList[i].description + "</option>";
+        let option = "<option value=" + rolesList[i].roleTemplateId + ">" + rolesList[i].displayName + ' - ' + rolesList[i].description + "</option>";
         roleSelect.append(option);
     }
 }
