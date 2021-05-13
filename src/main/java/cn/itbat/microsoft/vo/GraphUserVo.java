@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.beans.BeanUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -73,9 +74,13 @@ public class GraphUserVo extends GraphUser {
      */
     private String usageLocation;
 
+    /**
+     * 用户角色
+     */
+    private List<DirectoryRoleVo> directoryRoles;
 
     public GraphUserVo() {
-
+        directoryRoles = new ArrayList<>();
     }
 
     public GraphUserVo(GraphUser graphUser) {

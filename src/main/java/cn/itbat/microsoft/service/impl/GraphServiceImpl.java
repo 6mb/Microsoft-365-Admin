@@ -4,10 +4,14 @@ package cn.itbat.microsoft.service.impl;
 import cn.itbat.microsoft.config.GraphConfiguration;
 import cn.itbat.microsoft.model.GraphUser;
 import cn.itbat.microsoft.service.GraphService;
+import cn.itbat.microsoft.vo.DirectoryRoleVo;
 import cn.itbat.microsoft.vo.GraphUserVo;
+import com.microsoft.graph.core.ClientException;
 import com.microsoft.graph.models.extensions.*;
 import com.microsoft.graph.options.Option;
 import com.microsoft.graph.options.QueryOption;
+import com.microsoft.graph.requests.extensions.IDirectoryObjectCollectionWithReferencesPage;
+import com.microsoft.graph.requests.extensions.IDirectoryRoleCollectionPage;
 import com.microsoft.graph.requests.extensions.IUserCollectionPage;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -18,6 +22,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author mjj
@@ -205,4 +210,53 @@ public class GraphServiceImpl implements GraphService {
                 .buildRequest()
                 .delete();
     }
+
+    @Override
+    public List<DirectoryRole> listDirectoryRoles(String appName) {
+        try {
+            IDirectoryRoleCollectionPage iDirectoryRoleCollectionPage = GraphConfiguration.getGraphClient(appName)
+                    .directoryRoles()
+                    .buildRequest()
+                    .get();
+            return iDirectoryRoleCollectionPage.getCurrentPage();
+        } catch (ClientException exception) {
+            log.error(exception.getMessage());
+        }
+        return new ArrayList<>();
+    }
+
+    @Override
+    public List<DirectoryObject> listMembersOfADirectoryRole(String appName, String objectId) {
+        try {
+            IDirectoryObjectCollectionWithReferencesPage page = GraphConfiguration.getGraphClient(appName)
+                    .directoryRoles(objectId)
+                    .members()
+                    .buildRequest()
+                    .get();
+            return page.getCurrentPage();
+        } catch (ClientException e) {
+            log.error(e.getMessage());
+        }
+        return new ArrayList<>();
+    }
+
+    @Override
+    public Map<DirectoryRoleVo, Set<String>> directoryRoleToUserNameMap(String appName) {
+        // 查询当前有哪些角色，并查询其角色下有哪些用户
+        return listDirectoryRoles(appName)
+                .stream()
+                .collect(Collectors.toMap(DirectoryRoleVo::new, role -> listMembersOfADirectoryRole(appName, role.id)
+                        .stream()
+                        .map(m -> m.getRawObject().get("userPrincipalName").getAsString())
+                        .collect(Collectors.toSet())
+                ));
+    }
+
+    @Override
+    public Boolean addDirectoryRoleMember(String appName, String userId, String roleId) {
+        GraphConfiguration.getGraphClient(appName);
+        return true;
+
+    }
+
 }

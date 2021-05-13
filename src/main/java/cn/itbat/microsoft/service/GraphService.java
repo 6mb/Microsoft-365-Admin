@@ -1,12 +1,13 @@
 package cn.itbat.microsoft.service;
 
 import cn.itbat.microsoft.model.GraphUser;
+import cn.itbat.microsoft.vo.DirectoryRoleVo;
 import cn.itbat.microsoft.vo.GraphUserVo;
-import com.microsoft.graph.models.extensions.Domain;
-import com.microsoft.graph.models.extensions.SubscribedSku;
-import com.microsoft.graph.models.extensions.User;
+import com.microsoft.graph.models.extensions.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * graph 的具体操作方法
@@ -132,5 +133,36 @@ public interface GraphService {
      */
     void deletedUser(String appName, String userName);
 
+    /**
+     * 列出当前激活的用户角色
+     *
+     * @param appName appName
+     */
+    List<DirectoryRole> listDirectoryRoles(String appName);
+
+    /**
+     * 列出用户角色下的用户
+     *
+     * @param appName  appName
+     * @param objectId --both the object ID and template ID are OK.-- Now only object ID is effective.
+     */
+    List<DirectoryObject> listMembersOfADirectoryRole(String appName, String objectId);
+
+    /**
+     * 查询当前有哪些角色，并查询其角色下有哪些用户
+     *
+     * @param appName appName
+     */
+    Map<DirectoryRoleVo, Set<String>> directoryRoleToUserNameMap(String appName);
+
+    /**
+     * 增加用户角色
+     *
+     * @param appName 组织类型
+     * @param userId 用户id
+     * @param roleId 角色id
+     * @return 结果
+     */
+    Boolean addDirectoryRoleMember(String appName, String userId, String roleId);
 
 }

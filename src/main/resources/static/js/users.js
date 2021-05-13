@@ -1,6 +1,7 @@
 let licenseList;
 let domainList;
 let usageLocationList;
+let rolesList;
 let delay = 2000;
 
 $(window).on("load", function () {
@@ -18,6 +19,8 @@ $(window).on("load", function () {
         listLicense();
         listDomain();
         listUsageLocation();
+        listRoles();
+        lightyear.loading('hide');
     }
 });
 
@@ -95,13 +98,18 @@ function initUsersTable() {
             for (let userI in list) {
                 const user = list[userI];
                 let skuNames = [];
+                let roles = [];
                 if (user.skuVos == null) {
                     continue;
                 }
                 for (let skuVo of user.skuVos) {
                     skuNames.push(skuVo.skuName);
                 }
+                for (let role of user.directoryRoles) {
+                    roles.push(role.displayName);
+                }
                 list[i].skuNames = skuNames.join(', ');
+                list[i].roles = roles.join(', ')
                 i++;
             }
             response.totals = response.data.total;
@@ -128,6 +136,9 @@ function initUsersTable() {
                 key: 'displayAccountEnable',
                 text: '状态',
                 width: '70px'
+            }, {
+                key: 'roles',
+                text: '角色'
             }, {
                 key: 'usageLocation',
                 text: '地区',
@@ -236,6 +247,27 @@ function listUsageLocation() {
     });
 }
 
+function listRoles() {
+    $.ajax({
+        type: "get",
+        url: path + "/365/listRoles",
+        dataType: "json",
+        data: {
+            "appName": getAppName()
+        },
+        success: function (r) {
+            if (r.status !== 200) {
+                lightyear.notify(r.message, 'danger', delay);
+            } else {
+                rolesList = r.data;
+            }
+        },
+        error: function () {
+            /*错误信息处理*/
+            lightyear.notify("服务器错误，请稍后再试~", 'danger', delay);
+        }
+    });
+}
 
 function addUserClick() {
     lightyear.loading('show');
@@ -517,6 +549,35 @@ function deletedUserBatchClick() {
     });
 }
 
+function addDirectoryRoleMember(userId, roleId) {
+    // 提交请求
+    $.ajax({
+        type: "post",
+        url: path + "/365/addDirectoryRoleMember",
+        data: {
+            "appName": getAppName(),
+            "userId": userId,
+            "roleId": roleId
+        },
+        dataType: "json",
+        success: function (r) {
+            if (r.status !== 200) {
+                lightyear.loading('hide');
+                lightyear.notify(r.message, 'danger', delay);
+            } else {
+                console.log(r);
+                lightyear.loading('hide');
+                lightyear.notify('提权成功！', 'success', delay);
+            }
+        },
+        error: function () {
+            /*错误信息处理*/
+            lightyear.notify("服务器错误，请稍后再试~", 'danger', delay);
+            lightyear.loading('hide');
+        }
+    });
+}
+
 
 function setLicense(id) {
     // 先清空下数据
@@ -553,6 +614,15 @@ function setUsageLocation(id) {
     }
 }
 
+function setRoles(id) {
+    let roleSelect = $("#" + id);
+    roleSelect.empty();
+    for (let i in rolesList) {
+        let option = "<option value=" + rolesList[i].id + ">" + rolesList[i].displayName + ' - ' + rolesList[i].description + "</option>";
+        roleSelect.append(option);
+    }
+}
+
 function searchUsers() {
     lightyear.loading('show');
     listUsers();
@@ -567,12 +637,14 @@ function checkBoxClick() {
         $('#deletedAccount').removeClass("disabled");
         $('#addLicenseAccount').removeClass("disabled");
         $('#disLicenseAccount').removeClass("disabled");
+        $('#addDirectoryRoleMember').removeClass("disabled");
     } else {
         $('#enableAccount').addClass("disabled");
         $('#disableAccount').addClass("disabled");
         $('#deletedAccount').addClass("disabled");
         $('#addLicenseAccount').addClass("disabled");
         $('#disLicenseAccount').addClass("disabled");
+        $('#addDirectoryRoleMember').addClass("disabled");
     }
 
 }

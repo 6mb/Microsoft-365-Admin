@@ -316,5 +316,24 @@ public class Microsoft365Controller {
         return BaseResultVo.success();
     }
 
+    @GetMapping("/listRoles")
+    public BaseResultVo listRoles(String appName) {
+        if (graphProperties.getConfig(appName) == null) {
+            return BaseResultVo.error("组织类型不存在！");
+        }
+        return BaseResultVo.success(microsoft365Service.listRoles(appName));
+    }
+
+    @PostMapping("/addDirectoryRoleMember")
+    public BaseResultVo addDirectoryRoleMember(String appName ,String userId, String roleId) {
+        if (graphProperties.getConfig(appName) == null) {
+            return BaseResultVo.error("组织类型不存在！");
+        }
+        if (StringUtils.isBlank(appName) || StringUtils.isBlank(userId) || StringUtils.isBlank(roleId)) {
+            return BaseResultVo.error("参数为空！");
+        }
+        // TODO: 接口尚未实现
+        return BaseResultVo.error("接口尚未实现");
+    }
 
 }

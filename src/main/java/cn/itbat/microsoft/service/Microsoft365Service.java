@@ -175,5 +175,22 @@ public interface Microsoft365Service {
      */
     StatisticsVo getUsersStatistics(String appName);
 
+    /**
+     * 获取用户角色列表
+     *
+     * @param appName 组织类型
+     * @return 结果
+     */
+    List<DirectoryRoleVo> listRoles(String appName);
+
+    /**
+     * 增加用户角色
+     *
+     * @param appName 组织类型
+     * @param userId 用户id
+     * @param roleId 角色id
+     * @return 结果
+     */
+    Boolean addDirectoryRoleMember(String appName, String userId, String roleId);
 }
 

@@ -1,6 +1,7 @@
 package cn.itbat.microsoft.cache;
 
 import cn.itbat.microsoft.service.GraphService;
+import cn.itbat.microsoft.vo.DirectoryRoleVo;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -15,6 +16,8 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -49,6 +52,8 @@ public class GraphCache {
 
     private LoadingCache<String, List<Domain>> domainCache;
 
+    private LoadingCache<String, Map<DirectoryRoleVo, Set<String>>> roleCache;
+
     @PostConstruct
     public void init() {
         usersCache = CacheBuilder.newBuilder()
@@ -73,6 +78,14 @@ public class GraphCache {
                     @Override
                     public List<Domain> load(@NonNull String key) {
                         return graphService.getDomains(key);
+                    }
+                });
+        roleCache = CacheBuilder.newBuilder()
+                .expireAfterWrite(licenseTimeout, TimeUnit.MINUTES)
+                .build(new CacheLoader<String, Map<DirectoryRoleVo, Set<String>>>() {
+                    @Override
+                    public Map<DirectoryRoleVo, Set<String>> load(@NonNull String key) throws Exception {
+                        return graphService.directoryRoleToUserNameMap(key);
                     }
                 });
     }
@@ -108,6 +121,16 @@ public class GraphCache {
     }
 
     /**
+     * 获取角色缓存
+     *
+     * @param appName 组织名称
+     * @return 结果
+     */
+    public Map<DirectoryRoleVo, Set<String>> getRoleCache(String appName) {
+        return roleCache.getUnchecked(appName);
+    }
+
+    /**
      * 刷新用户缓存
      *
      * @param appName 组织名称
@@ -132,5 +155,14 @@ public class GraphCache {
      */
     public void refreshDomain(String appName) {
         domainCache.refresh(appName);
+    }
+
+    /**
+     * 刷新角色缓存
+     *
+     * @param appName 组织名称
+     */
+    public void refreshRole(String appName) {
+        roleCache.refresh(appName);
     }
 }

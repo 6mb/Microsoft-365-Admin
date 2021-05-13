@@ -22,10 +22,7 @@ import com.github.promeg.pinyinhelper.Pinyin;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.microsoft.graph.models.extensions.AssignedLicense;
-import com.microsoft.graph.models.extensions.Domain;
-import com.microsoft.graph.models.extensions.SubscribedSku;
-import com.microsoft.graph.models.extensions.User;
+import com.microsoft.graph.models.extensions.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -37,6 +34,8 @@ import org.springframework.util.StringUtils;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -175,6 +174,15 @@ public class Microsoft365ServiceImpl implements Microsoft365Service {
         if (!StringUtils.isEmpty(graphUserVo.getSkuId())) {
             graphUserVos.removeIf(vo -> CollectionUtils.isEmpty(vo.getSkuVos()) || !vo.getSkuVos().stream().map(SkuVo::getSkuId).collect(Collectors.toList()).contains(graphUserVo.getSkuId()));
         }
+
+        // 给用户添加角色属性
+        Map<DirectoryRoleVo, Set<String>> map = graphCache.getRoleCache(graphUserVo.getAppName());
+        map.keySet().forEach(r -> graphUserVos.forEach(u -> {
+            if (map.get(r).contains(u.getUserPrincipalName())) {
+                u.getDirectoryRoles().add(r);
+            }
+        }));
+
         return new PageInfo<>(graphUserVos, pager);
     }
 
@@ -411,6 +419,17 @@ public class Microsoft365ServiceImpl implements Microsoft365Service {
         this.getUsersStatisticsVo(appName, statisticsVo);
         return statisticsVo;
     }
+
+    @Override
+    public List<DirectoryRoleVo> listRoles(String appName) {
+        return new ArrayList<>(graphCache.getRoleCache(appName).keySet());
+    }
+
+    @Override
+    public Boolean addDirectoryRoleMember(String appName, String userId, String roleId) {
+        return false;
+    }
+
 
 }
 
