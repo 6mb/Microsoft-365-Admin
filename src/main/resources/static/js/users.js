@@ -1,5 +1,6 @@
 let licenseList;
 let domainList;
+let usageLocationList;
 let pageITotal;
 let pageIndex = 1;
 let delay = 2000;
@@ -18,6 +19,7 @@ $(window).on("load", function () {
         // 许可证
         listLicense();
         listDomain();
+        listUsageLocation();
 
     }
     setCookie("pageIndex", 1);
@@ -183,6 +185,30 @@ function listDomain() {
     });
 }
 
+function listUsageLocation() {
+    $.ajax({
+        type: "get",
+        url: path + "/365/listUsageLocation",
+        dataType: "json",
+        data: {
+            "appName": getAppName()
+        },
+        success: function (r) {
+            if (r.status !== 200) {
+                lightyear.notify(r.message, 'danger', delay);
+            } else {
+                usageLocationList = r.data;
+                setUsageLocation('addUsageLocation');
+                setUsageLocation('usageLocationSelectModalBatch')
+            }
+        },
+        error: function () {
+            /*错误信息处理*/
+            lightyear.notify("服务器错误，请稍后再试~", 'danger', delay);
+        }
+    });
+}
+
 function pageOnclick(data) {
     $("#usersTable tr:not(:first)").empty();
     pageIndex = isNotNull(getCookie("pageIndex")) ? getCookie("pageIndex") : 1;
@@ -205,6 +231,7 @@ function addUserClick() {
     let domain = getSelect("#addDomainSelect");
     let password = getInput("#addPassword");
     let mailbox = getInput("#addMail");
+    let usageLocation = getSelect("#addUsageLocation")
     // 参数校验
 
 
@@ -219,7 +246,8 @@ function addUserClick() {
             "mailNickname": mailNickname,
             "domain": domain,
             "password": password,
-            "mailbox": mailbox
+            "mailbox": mailbox,
+            "usageLocation": usageLocation
         },
         dataType: "json",
         success: function (r) {
@@ -228,10 +256,10 @@ function addUserClick() {
                 let message = r.message;
                 let password_error = "Error code: Request_BadRequestError message: The specified password does not comply with password complexity requirements. Please provide a different password.";
                 let name_error = "Error code: Request_BadRequestError message: Another object with the same value for property userPrincipalName already exists.";
-                if (password_error === message){
+                if (password_error === message) {
                     message = "密码太简单啦，";
                 }
-                if (name_error === message){
+                if (name_error === message) {
                     message = "该邮箱前缀已经被使用啦！";
                 }
                 lightyear.notify(message, 'danger', delay);
@@ -417,6 +445,8 @@ function addUserBatchClick() {
     let password = getInput("#passwordSelectModalBatch");
     let skuId = getSelect("#licenseSelectModalBatch");
     let domain = getSelect("#domainSelectModalBatch");
+    let usageLocation = getSelect("#usageLocationSelectModalBatch");
+
     // 提交请求
     $.ajax({
         type: "get",
@@ -426,7 +456,8 @@ function addUserBatchClick() {
             "num": num,
             "skuId": skuId,
             "domain": domain,
-            "password":password
+            "password": password,
+            "usageLocation": usageLocation
         },
         dataType: "json",
         success: function (r) {
@@ -498,6 +529,15 @@ function setDomain(id) {
             let option = "<option value=" + domainList[i].id + ">" + domainList[i].id + "</option>";
             $("#" + id).append(option);
         }
+    }
+}
+
+function setUsageLocation(id) {
+    let usageLocationSelect = $("#" + id);
+    usageLocationSelect.empty();
+    for (let i in usageLocationList) {
+        let option = "<option value=" + usageLocationList[i] + ">" + usageLocationList[i] + "</option>";
+        usageLocationSelect.append(option);
     }
 }
 

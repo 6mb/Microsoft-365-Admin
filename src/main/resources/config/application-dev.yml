@@ -59,6 +59,7 @@ graph:
   invite: mjj,mjj2 # 可以被注册的账号类型，为下面 configs.appName 的配置（必填，','分隔）
   inviteSub: # 为空表示全部
   inviteDomain: # 为空表示使用默认域名，格式：xxx.onmicrosoft.com
+  usageLocation: HK,US #（此处会针对上面的配置覆盖）可选择的地区，用','分隔，首个将成为默认值，为空表示只使用HK（可以为空）
 
   # api配置
   configs:
@@ -67,12 +68,14 @@ graph:
     appTenant: mjj # 目录(租户) tenant（必填）
     appSecret: mjj # secrets（必填）
     admin: mjj # 全局管理员账号（可以为空）
+    usageLocation: HK,US #（此处会针对上面的配置覆盖）可选择的地区，用','分隔，首个将成为默认值，为空表示只使用HK（可以为空）
   - appName: mjj2 # 账号2配置，如果不需要请删除
     appId: mjj2
     appTenant: mjj2
     appSecret: mjj2
     domain: mjj2
     admin: mjj2
+    usageLocation: US #（此处会针对上面的配置覆盖）可选择的地区，用','分隔，首个将成为默认值，为空表示只使用HK（可以为空）
   subscribed: # 订阅类型，自行添加其他
   - skuName: STANDARDWOFFPACK_STUDENT
     displayName: A1 学生版

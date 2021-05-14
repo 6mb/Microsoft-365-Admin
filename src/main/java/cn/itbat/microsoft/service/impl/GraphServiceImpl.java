@@ -126,7 +126,7 @@ public class GraphServiceImpl implements GraphService {
         user.mailNickname = graphUser.getMailNickname();
         user.userPrincipalName = graphUser.getUserPrincipalName();
         user.mobilePhone = graphUser.getMobilePhone();
-        user.usageLocation = "HK";
+        user.usageLocation = graphUser.getUsageLocation();
         user.streetAddress = graphUser.getStreetAddress();
         user.city = graphUser.getCity();
         user.country = graphUser.getCountry();

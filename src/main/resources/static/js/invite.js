@@ -1,10 +1,10 @@
 let delay = 2000;
+let usageLocationList;
 $(window).on("load", function () {
     $('#titleName').html(" 申请账号 ");
     lightyear.loading('show');
 
     listLicense();
-
 });
 
 function listLicense() {
@@ -32,12 +32,51 @@ function listLicense() {
 
 
 function setLicense(id) {
+    let licenseSelect = $("#" + id);
     // 先清空下数据
-    $("#" + id).empty();
-    $("#" + id).append("<option value=\"\" disabled selected hidden>请选择许可证</option>\n");
+    licenseSelect.empty();
+    licenseSelect.append("<option value=\"\" disabled selected hidden>请选择许可证</option>\n");
     for (i in licenseList) {
-        let option = "<option value=" + (licenseList[i].appName + '_' + licenseList[i].skuId) + ">" + licenseList[i].skuName + "</option>";
-        $("#" + id).append(option);
+        let option = "<option value=" + (licenseList[i].appName + '_' + licenseList[i].skuId) + " data-appname=" + licenseList[i].appName + ">" + licenseList[i].skuName + " - " + licenseList[i].appName + "</option>";
+        licenseSelect.append(option);
+    }
+    licenseSelect.change(function () {
+        let appName = $('#' + id + ' option:selected').data('appname');
+        listUsageLocation(appName);
+        setUsageLocation('g-usageLocation-select');
+    })
+}
+
+function listUsageLocation(appName) {
+    $.ajax({
+        type: "get",
+        url: "/front/listUsageLocation",
+        data: {
+            appName: appName
+        },
+        success: function (r) {
+            if (r.status !== 200) {
+                lightyear.notify(r.message, 'danger', delay);
+            } else {
+                usageLocationList = r.data;
+                setUsageLocation("g-usageLocation-select");
+            }
+            lightyear.loading('hide');
+        },
+        error: function () {
+            lightyear.loading('hide');
+            /*错误信息处理*/
+            lightyear.notify("服务器错误，请稍后再试~", 'danger', delay);
+        }
+    });
+}
+
+function setUsageLocation(id) {
+    let usageLocationSelect = $("#" + id);
+    usageLocationSelect.empty();
+    for (let i in usageLocationList) {
+        let option = "<option value=" + usageLocationList[i] + ">" + usageLocationList[i] + "</option>";
+        usageLocationSelect.append(option);
     }
 }
 
@@ -61,6 +100,8 @@ function addUserClick() {
     let password = getInput("#g-password");
     let mailbox = getInput("#g-send_mail");
     let code = getInput("#g-code");
+    let usageLocation = getSelect("#g-usageLocation");
+
     // 参数校验
 
     // 提交请求
@@ -74,7 +115,8 @@ function addUserClick() {
             "mailNickname": mailNickname,
             "password": password,
             "mailbox": mailbox,
-            "code": code
+            "code": code,
+            "usageLocation": usageLocation
         },
         dataType: "json",
         success: function (r) {
@@ -83,10 +125,10 @@ function addUserClick() {
                 let message = r.message;
                 let password_error = "Error code: Request_BadRequestError message: The specified password does not comply with password complexity requirements. Please provide a different password.";
                 let name_error = "Error code: Request_BadRequestError message: Another object with the same value for property userPrincipalName already exists.";
-                if (password_error === message){
+                if (password_error === message) {
                     message = "密码太简单啦，";
                 }
-                if (name_error === message){
+                if (name_error === message) {
                     message = "该邮箱前缀已经被抢啦！";
                 }
                 lightyear.notify(message, 'danger', delay);

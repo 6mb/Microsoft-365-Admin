@@ -27,6 +27,8 @@ import com.microsoft.graph.models.extensions.Domain;
 import com.microsoft.graph.models.extensions.SubscribedSku;
 import com.microsoft.graph.models.extensions.User;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -217,9 +219,12 @@ public class Microsoft365ServiceImpl implements Microsoft365Service {
         if (StringUtils.isEmpty(graphUserVo.getDomain())) {
             graphUserVo.setDomain(graphCache.getDomainCache(graphUserVo.getAppName()).stream().filter(l -> l.isDefault).collect(Collectors.toList()).get(0).id);
         }
+        if (StringUtils.isEmpty(graphUserVo.getUsageLocation())) {
+            graphUserVo.setUsageLocation(graphProperties.listUsageLocation(graphUserVo.getAppName())[0]);
+        }
         // 构建用户对象
         GraphUser graphUser = GraphUser.builder()
-                .country("中国")
+                .usageLocation(graphUserVo.getUsageLocation())
                 .displayName(graphUserVo.getDisplayName())
                 .mailNickname(graphUserVo.getMailNickname())
                 .userPrincipalName(graphUserVo.getMailNickname() + "@" + graphUserVo.getDomain())
@@ -315,9 +320,12 @@ public class Microsoft365ServiceImpl implements Microsoft365Service {
 
     @Async("asyncPoolTaskExecutor")
     @Override
-    public void createBatch(Integer num, String appName, String skuId, String domain, String password) {
+    public void createBatch(Integer num, String appName, String skuId, String domain, String password, String usageLocation) {
         if (StringUtils.isEmpty(domain)) {
             domain = graphCache.getDomainCache(appName).stream().filter(l -> l.isDefault).collect(Collectors.toList()).get(0).id;
+        }
+        if (StringUtils.isEmpty(usageLocation)) {
+            usageLocation = graphProperties.listUsageLocation(appName)[0];
         }
         for (int i = 0; i < num; i++) {
             try {
@@ -330,6 +338,7 @@ public class Microsoft365ServiceImpl implements Microsoft365Service {
             GraphUser graphUser = GraphUser.builder()
                     .country("中国")
                     .city("LOC")
+                    .usageLocation(usageLocation)
                     .displayName(displayName)
                     .mailNickname(mailNickname)
                     .mobilePhone(ChineseMobileNumberGenerator.getInstance().generate())
@@ -402,7 +411,6 @@ public class Microsoft365ServiceImpl implements Microsoft365Service {
         this.getUsersStatisticsVo(appName, statisticsVo);
         return statisticsVo;
     }
-
 
 }
 
