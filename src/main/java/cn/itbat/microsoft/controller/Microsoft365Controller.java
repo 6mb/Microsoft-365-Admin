@@ -5,6 +5,7 @@ import cn.itbat.microsoft.model.GraphUser;
 import cn.itbat.microsoft.model.Pager;
 import cn.itbat.microsoft.service.Microsoft365Service;
 import cn.itbat.microsoft.vo.BaseResultVo;
+import cn.itbat.microsoft.vo.GraphUserSorterVo;
 import cn.itbat.microsoft.vo.GraphUserVo;
 import cn.itbat.microsoft.vo.SubscribedSkuVo;
 import lombok.extern.slf4j.Slf4j;
@@ -144,7 +145,7 @@ public class Microsoft365Controller {
      * @return 用户信息
      */
     @GetMapping("/listUsers")
-    public BaseResultVo listUsers(GraphUserVo graphUserVo, Pager pager) {
+    public BaseResultVo listUsers(GraphUserVo graphUserVo, Pager pager, GraphUserSorterVo sorter) {
 
         if (StringUtils.isBlank(graphUserVo.getAppName())) {
             return BaseResultVo.error("参数为空！");
@@ -152,7 +153,7 @@ public class Microsoft365Controller {
         if (graphProperties.getConfig(graphUserVo.getAppName()) == null) {
             return BaseResultVo.error("组织类型不存在！");
         }
-        return BaseResultVo.success(microsoft365Service.getGraphUserVos(graphUserVo, pager));
+        return BaseResultVo.success(microsoft365Service.getGraphUserVos(graphUserVo, pager, sorter));
     }
 
     /**

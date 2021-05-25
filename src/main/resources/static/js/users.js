@@ -92,6 +92,7 @@ function initUsersTable() {
         currentPageKey: 'pageIndex',
         pageSizeKey: 'pageSize',
         pageSize: 10,
+        sortKey: 'sort',
         responseHandler: function (response) {
             let list = response.data.list;
             let i = 0;
@@ -125,7 +126,8 @@ function initUsersTable() {
             }, {
                 key: 'userPrincipalName',
                 text: '邮箱',
-                width: '350px'
+                width: '350px',
+                sorting: ''
             }, {
                 key: 'displayName',
                 text: '姓名'
@@ -138,14 +140,17 @@ function initUsersTable() {
                 width: '70px'
             }, {
                 key: 'roles',
-                text: '角色'
+                text: '角色',
+                sorting: ''
             }, {
                 key: 'usageLocation',
                 text: '地区',
-                width: '70px'
+                width: '70px',
+                sorting: ''
             }, {
                 key: 'createdDateTime',
-                text: '创建时间'
+                text: '创建时间',
+                sorting: 'DESC'
             }
         ],
         checkedAfter: function (checkedList, isChecked, rowData) {

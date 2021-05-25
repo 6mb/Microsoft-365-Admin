@@ -29,10 +29,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -138,7 +135,7 @@ public class Microsoft365ServiceImpl implements Microsoft365Service {
     }
 
     @Override
-    public PageInfo<GraphUserVo> getGraphUserVos(GraphUserVo graphUserVo, Pager pager) {
+    public PageInfo<GraphUserVo> getGraphUserVos(GraphUserVo graphUserVo, Pager pager, GraphUserSorterVo sorter) {
         // 判断是否有条件
         List<User> users;
         if (StringUtils.isEmpty(graphUserVo.getDisplayName()) && StringUtils.isEmpty(graphUserVo.getUserPrincipalName())) {
@@ -158,11 +155,41 @@ public class Microsoft365ServiceImpl implements Microsoft365Service {
         if (CollectionUtils.isEmpty(users)) {
             return new PageInfo<>();
         }
+
+        // 根据创建时间排序
+        if (StringUtils.hasLength(sorter.getSortcreatedDateTime())) {
+            if (sorter.getSortcreatedDateTime().equals("ASC")) {
+                users.sort(Comparator.comparing(u -> u.createdDateTime));
+            } else {
+                users.sort(Comparator.comparing((User u) -> u.createdDateTime).reversed());
+            }
+        }
+
+        // 根据用户名排序
+        if (StringUtils.hasLength(sorter.getSortuserPrincipalName())) {
+            if (sorter.getSortuserPrincipalName().equals("ASC")) {
+                users.sort(Comparator.comparing(u -> u.userPrincipalName));
+            } else {
+                users.sort(Comparator.comparing((User u) -> u.userPrincipalName).reversed());
+            }
+        }
+
+        //根据地区排序
+        if (StringUtils.hasLength(sorter.getSortusageLocation())) {
+            if (sorter.getSortusageLocation().equals("ASC")) {
+                users.sort(Comparator.comparing(u -> u.usageLocation));
+            } else {
+                users.sort(Comparator.comparing((User u) -> u.usageLocation).reversed());
+            }
+        }
+
+
         List<GraphUserVo> graphUserVos = users.stream().map(this::getGraphUserVo).collect(Collectors.toList());
         // 过滤出许可证
         if (!StringUtils.isEmpty(graphUserVo.getSkuId())) {
             graphUserVos.removeIf(vo -> CollectionUtils.isEmpty(vo.getSkuVos()) || !vo.getSkuVos().stream().map(SkuVo::getSkuId).collect(Collectors.toList()).contains(graphUserVo.getSkuId()));
         }
+
 
         // 给用户添加角色属性
         Map<DirectoryRoleVo, Set<String>> map = graphCache.getRoleCache(graphUserVo.getAppName());
@@ -171,6 +198,15 @@ public class Microsoft365ServiceImpl implements Microsoft365Service {
                 u.getDirectoryRoles().add(r);
             }
         }));
+
+        // 根据角色数量排序
+        if (StringUtils.hasLength(sorter.getSortroles())) {
+            if (sorter.getSortroles().equals("ASC")) {
+                graphUserVos.sort(Comparator.comparing(u -> u.getDirectoryRoles().size()));
+            } else {
+                graphUserVos.sort(Comparator.comparing((GraphUserVo u) -> u.getDirectoryRoles().size()).reversed());
+            }
+        }
 
         return new PageInfo<>(graphUserVos, pager);
     }
@@ -370,10 +406,10 @@ public class Microsoft365ServiceImpl implements Microsoft365Service {
         graphUserVo.setAppName(appName);
         graphUserVo.setTop(10);
         graphUserVo.setAccountEnabled(false);
-        homePageVo.setNoLandingUsers(this.getGraphUserVos(graphUserVo, new Pager(1, 10)).getList());
+        homePageVo.setNoLandingUsers(this.getGraphUserVos(graphUserVo, new Pager(1, 10), new GraphUserSorterVo()).getList());
         graphUserVo.setAccountEnabled(null);
         graphUserVo.setAssignLicense(false);
-        homePageVo.setUnauthorizedUsers(this.getGraphUserVos(graphUserVo, new Pager(1, 10)).getList());
+        homePageVo.setUnauthorizedUsers(this.getGraphUserVos(graphUserVo, new Pager(1, 10), new GraphUserSorterVo()).getList());
         return homePageVo;
     }
 

@@ -121,9 +121,10 @@ public interface Microsoft365Service {
      *
      * @param graphUserVo 查询条件
      * @param pager       分页参数
+     * @param sorter      排序参数
      * @return List<User>
      */
-    PageInfo<GraphUserVo> getGraphUserVos(GraphUserVo graphUserVo, Pager pager);
+    PageInfo<GraphUserVo> getGraphUserVos(GraphUserVo graphUserVo, Pager pager, GraphUserSorterVo sorter);
 
 
     /**
@@ -187,8 +188,8 @@ public interface Microsoft365Service {
      * 增加用户角色
      *
      * @param appName 组织类型
-     * @param userId 用户id
-     * @param roleId 角色id
+     * @param userId  用户id
+     * @param roleId  角色id
      * @return 结果
      */
     Boolean addDirectoryRoleMember(String appName, String userId, String roleId);
