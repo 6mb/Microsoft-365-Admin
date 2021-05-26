@@ -1,8 +1,7 @@
 let licenseList;
 let domainList;
 let usageLocationList;
-let pageITotal;
-let pageIndex = 1;
+let rolesList;
 let delay = 2000;
 
 $(window).on("load", function () {
@@ -15,14 +14,14 @@ $(window).on("load", function () {
         // 统计信息
         getUsersStatistics();
         // 列表查询
-        listUsers(obj);
+        initUsersTable();
         // 许可证
         listLicense();
         listDomain();
         listUsageLocation();
-
+        listRoles();
+        lightyear.loading('hide');
     }
-    setCookie("pageIndex", 1);
 });
 
 
@@ -67,22 +66,20 @@ function getUsersStatistics() {
     });
 }
 
-function listUsers(obj) {
-    // 需要设置选中值
-    if (isNotNull(obj)) {
-        if (isNotNull(obj.accountEnabled)) {
-            $("#accountEnabled").val(obj.accountEnabled)
-        }
-        if (isNotNull(obj.assignLicense)) {
-            $("#assignLicense").val(obj.assignLicense)
-        }
-    }
-    $.ajax({
-        type: "get",
-        url: path + "/365/listUsers",
-        data: {
-            "pageIndex": pageIndex,
-            "pageSize": 10,
+function initUsersTable() {
+    let usersTable = $('#usersTable');
+    usersTable.GM({
+        gridManagerName: 'usersTable',
+        height: '60vh',
+        skinClassName: 'gm-microsoft-365-skin',
+        useWordBreak: true,
+        ajaxData: (settings, params) => {
+            // console.log(settings);
+            let url = new URL(window.location.origin + "/microsoft/365/listUsers");
+            url.search = new URLSearchParams(params).toString();
+            return fetch(url).then(res => res.json());
+        },
+        query: {
             "appName": getAppName(),
             "skuId": getSelect("#license"),
             "accountEnabled": getSelect("#accountEnabled"),
@@ -90,49 +87,95 @@ function listUsers(obj) {
             "displayName": getInput("#displayName"),
             "userPrincipalName": getInput("#userPrincipalName"),
         },
-        dataType: "json",
-        success: function (r) {
-            if (r.status !== 200) {
-                lightyear.notify(r.message, 'danger', delay);
-            } else {
-                // 表格
-                let usersTable = r.data.list;
-                let num = (pageIndex - 1) * 10;
-                for (i in usersTable) {
-                    let skuName = "";
-                    if (usersTable[i].skuVos !== null) {
-                        for (j in usersTable[i].skuVos) {
-                            skuName = skuName + usersTable[i].skuVos[j].skuName;
-                        }
-                    } else {
-                        skuName = "无";
-                    }
-                    let tr =
-                        '<td> <label class="lyear-checkbox checkbox-primary"> <input type="checkbox" name="userIds" value="' + usersTable[i].userId + '" onclick="checkBoxClick($(this))"><span></span> </label> </td>'
-                        + '<td>' + (parseInt(num) + parseInt(i) + 1) + '</td>'
-                        + '<td hidden name="userId">' + usersTable[i].userId + '</td>'
-                        + '<td name="userPrincipalName">' + usersTable[i].userPrincipalName + '</td>'
-                        + '<td>' + usersTable[i].displayName + '</td>'
-                        + '<td>' + skuName + '</td>'
-                        + '<td>' + usersTable[i].displayAccountEnable + '</td>'
-                        + '<td>' + usersTable[i].usageLocation + '</td>'
-                        + '<td>' + usersTable[i].createdDateTime + '</td>';
-                    $("#usersTable").append('<tr>' + tr + '</tr>')
+        ajaxType: 'GET',
+        supportAjaxPage: true,
+        currentPageKey: 'pageIndex',
+        pageSizeKey: 'pageSize',
+        pageSize: 10,
+        sortKey: 'sort',
+        responseHandler: function (response) {
+            let list = response.data.list;
+            let i = 0;
+            for (let userI in list) {
+                const user = list[userI];
+                let skuNames = [];
+                let roles = [];
+                if (user.skuVos == null) {
+                    continue;
                 }
-                // 分页处理，计算总页数
-                pageITotal = parseInt(r.data.total / 10) + 1;
-                $("#usersTotal").text("总页数：" + pageITotal);
-                $("#usersIndex").text("当前页：" + pageIndex);
-                lightyear.loading('hide');
+                for (let skuVo of user.skuVos) {
+                    skuNames.push(skuVo.skuName);
+                }
+                for (let role of user.directoryRoles) {
+                    roles.push(role.displayName);
+                }
+                list[i].skuNames = skuNames.join(', ');
+                list[i].roles = roles.join(', ')
+                i++;
             }
+            response.totals = response.data.total;
+            response.data = list;
+            return response;
         },
-        error: function () {
+        supportDrag: false,
+        columnData: [
+            {
+                key: 'userId',
+                text: '用户Id',
+                isShow: false
+            }, {
+                key: 'userPrincipalName',
+                text: '邮箱',
+                width: '350px',
+                sorting: ''
+            }, {
+                key: 'displayName',
+                text: '姓名'
+            }, {
+                key: 'skuNames',
+                text: '订阅'
+            }, {
+                key: 'displayAccountEnable',
+                text: '状态',
+                width: '70px'
+            }, {
+                key: 'roles',
+                text: '角色',
+                sorting: ''
+            }, {
+                key: 'usageLocation',
+                text: '地区',
+                width: '70px',
+                sorting: ''
+            }, {
+                key: 'createdDateTime',
+                text: '创建时间',
+                sorting: 'DESC'
+            }
+        ],
+        checkedAfter: function (checkedList, isChecked, rowData) {
+            checkBoxClick()
+        },
+        ajaxSuccess: () => {
             lightyear.loading('hide');
+        },
+        ajaxError: (e) => {
             /*错误信息处理*/
             lightyear.notify("服务器错误，请稍后再试~", 'danger', delay);
         }
-    });
 
+    })
+}
+
+function listUsers() {
+    GridManager.setQuery('usersTable', {
+        "appName": getAppName(),
+        "skuId": getSelect("#license"),
+        "accountEnabled": getSelect("#accountEnabled"),
+        "assignLicense": getSelect("#assignLicense"),
+        "displayName": getInput("#displayName"),
+        "userPrincipalName": getInput("#userPrincipalName"),
+    }, true);
 }
 
 
@@ -209,17 +252,26 @@ function listUsageLocation() {
     });
 }
 
-function pageOnclick(data) {
-    $("#usersTable tr:not(:first)").empty();
-    pageIndex = isNotNull(getCookie("pageIndex")) ? getCookie("pageIndex") : 1;
-    if (data === 0 && pageIndex > 1) {
-        pageIndex = parseInt(pageIndex) - 1;
-    }
-    if (data === 1 && pageIndex < pageITotal) {
-        pageIndex = parseInt(pageIndex) + 1;
-    }
-    setCookie("pageIndex", pageIndex);
-    listUsers();
+function listRoles() {
+    $.ajax({
+        type: "get",
+        url: path + "/365/listRoles",
+        dataType: "json",
+        data: {
+            "appName": getAppName()
+        },
+        success: function (r) {
+            if (r.status !== 200) {
+                lightyear.notify(r.message, 'danger', delay);
+            } else {
+                rolesList = r.data;
+            }
+        },
+        error: function () {
+            /*错误信息处理*/
+            lightyear.notify("服务器错误，请稍后再试~", 'danger', delay);
+        }
+    });
 }
 
 function addUserClick() {
@@ -275,7 +327,7 @@ function addUserClick() {
                             text: '确认',
                             btnClass: 'btn-primary',
                             action: function () {
-                                window.location.reload();
+                                // window.location.reload();
                             }
                         }
                     }
@@ -291,10 +343,8 @@ function addUserClick() {
 
 }
 
-function addLicenseClick() {
+function addLicenseToUserWithSku(userId, skuId) {
     lightyear.loading('show');
-    let userId = $('#licenseSelectModalUserId').html();
-    let skuId = getSelect("#licenseSelectModal");
     // 提交请求
     $.ajax({
         type: "post",
@@ -323,16 +373,16 @@ function addLicenseClick() {
     });
 }
 
-function cancelLicenseClick() {
+function cancelLicenseForUser(userId, skuId) {
     lightyear.loading('show');
-    let userId = $('#disLicenseSelectModalUserId').html();
     // 提交请求
     $.ajax({
         type: "post",
         url: path + "/365/cancelLicense",
         data: {
             "appName": getAppName(),
-            "userId": userId
+            "userId": userId,
+            "skuId": skuId
         },
         dataType: "json",
         success: function (r) {
@@ -353,7 +403,7 @@ function cancelLicenseClick() {
     });
 }
 
-function enableUserClick(userId) {
+function enableUserWithUserId(userId) {
     // 提交请求
     $.ajax({
         type: "post",
@@ -382,7 +432,7 @@ function enableUserClick(userId) {
     });
 }
 
-function disableUserClick(userId) {
+function disableUserWithUserId(userId) {
     // 提交请求
     $.ajax({
         type: "post",
@@ -411,7 +461,7 @@ function disableUserClick(userId) {
     });
 }
 
-function deletedUserClick(userId) {
+function deletedUserWithUserId(userId) {
     // 提交请求
     $.ajax({
         type: "post",
@@ -505,6 +555,35 @@ function deletedUserBatchClick() {
     });
 }
 
+function addDirectoryRoleMember(userId, roleId) {
+    // 提交请求
+    $.ajax({
+        type: "post",
+        url: path + "/365/addDirectoryRoleMember",
+        data: {
+            "appName": getAppName(),
+            "userId": userId,
+            "roleId": roleId
+        },
+        dataType: "json",
+        success: function (r) {
+            if (r.status !== 200) {
+                lightyear.loading('hide');
+                lightyear.notify(r.message, 'danger', delay);
+            } else {
+                console.log(r);
+                lightyear.loading('hide');
+                lightyear.notify('提权成功！', 'success', delay);
+            }
+        },
+        error: function () {
+            /*错误信息处理*/
+            lightyear.notify("服务器错误，请稍后再试~", 'danger', delay);
+            lightyear.loading('hide');
+        }
+    });
+}
+
 
 function setLicense(id) {
     // 先清空下数据
@@ -541,33 +620,37 @@ function setUsageLocation(id) {
     }
 }
 
+function setRoles(id) {
+    let roleSelect = $("#" + id);
+    roleSelect.empty();
+    for (let i in rolesList) {
+        let option = "<option value=" + rolesList[i].roleTemplateId + ">" + rolesList[i].displayName + ' - ' + rolesList[i].description + "</option>";
+        roleSelect.append(option);
+    }
+}
+
 function searchUsers() {
     lightyear.loading('show');
-    $("#usersTable tr:not(:first)").empty();
     listUsers();
 }
 
 
-function checkBoxClick(data) {
-    let checkbox = $("[name='userIds']");
-    let checkBoxClickCount = 0;
-    for (i in checkbox) {
-        if (checkbox[i].checked) {
-            checkBoxClickCount++;
-        }
-    }
-    if (checkBoxClickCount === 1) {
+function checkBoxClick() {
+    let checkBoxClickCount = GridManager.getCheckedData('usersTable').length;
+    if (checkBoxClickCount >= 1) {
         $('#enableAccount').removeClass("disabled");
         $('#disableAccount').removeClass("disabled");
         $('#deletedAccount').removeClass("disabled");
         $('#addLicenseAccount').removeClass("disabled");
         $('#disLicenseAccount').removeClass("disabled");
+        $('#addDirectoryRoleMember').removeClass("disabled");
     } else {
         $('#enableAccount').addClass("disabled");
         $('#disableAccount').addClass("disabled");
         $('#deletedAccount').addClass("disabled");
         $('#addLicenseAccount').addClass("disabled");
         $('#disLicenseAccount').addClass("disabled");
+        $('#addDirectoryRoleMember').addClass("disabled");
     }
 
 }

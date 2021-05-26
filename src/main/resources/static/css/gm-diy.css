@@ -1,0 +1,9 @@
+.gm-microsoft-365-skin .table-header{
+    background: white;
+}
+.gm-microsoft-365-skin .gm-toolbar{
+    background-color: white;
+}
+.gm-microsoft-365-skin .gm-toolbar .pagination {
+    height: 10px;
+}

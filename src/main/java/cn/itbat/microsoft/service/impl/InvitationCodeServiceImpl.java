@@ -63,12 +63,12 @@ public class InvitationCodeServiceImpl implements InvitationCodeService {
 
     @Override
     public Page<InvitationCode> list(InvitationCode invitationCode, Pager pager) {
-        Sort sort = new Sort(Sort.Direction.DESC, "id");
+//        Sort sort = new Sort(Sort.Direction.DESC, Collections.singletonList("id"));
         if (StringUtils.isEmpty(invitationCode.getCode())) {
             invitationCode.setCode(null);
         }
         return invitationCodeRepository.findAll(Example.of(invitationCode, ExampleMatcher.matching()
-                .withIgnoreNullValues()), PageRequest.of(pager.getPageIndex() - 1, pager.getPageSize(), sort));
+                .withIgnoreNullValues()), PageRequest.of(pager.getPageIndex() - 1, pager.getPageSize()));
     }
 
     @Override

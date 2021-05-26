@@ -1,5 +1,7 @@
 package cn.itbat.microsoft.vo;
 
+import cn.itbat.microsoft.enums.CapabilityStatusEnum;
+import com.microsoft.graph.models.SubscribedSku;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -73,5 +75,16 @@ public class SubscribedSkuVo implements Serializable {
      */
     private Integer warning;
 
+    public SubscribedSkuVo(SubscribedSku subscribedSku) {
+        id = subscribedSku.id;
+        skuId = subscribedSku.skuId.toString();
+        enabled = subscribedSku.prepaidUnits.enabled;
+        suspended = subscribedSku.prepaidUnits.suspended;
+        warning = subscribedSku.prepaidUnits.warning;
+        capabilityStatus = subscribedSku.capabilityStatus;
+        consumedUnits = subscribedSku.consumedUnits;
+        displayStatus = CapabilityStatusEnum.getName(subscribedSku.capabilityStatus);
+        skuPartNumber = subscribedSku.skuPartNumber;
+    }
 
 }
