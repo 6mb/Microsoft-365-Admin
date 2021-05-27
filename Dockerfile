@@ -7,7 +7,7 @@ ENV LANGUAGE en_US:UTF-8
 ENV LC_ALL en_US.UTF-8
 
 WORKDIR /src
-RUN git clone -b dev https://github.com/6mb/Microsoft-365-Admin.git \
+RUN git clone https://github.com/6mb/Microsoft-365-Admin.git \
     && cd Microsoft-365-Admin \
     && mvn package -Dmaven.test.skip=true
 
