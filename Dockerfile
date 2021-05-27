@@ -13,8 +13,8 @@ RUN git clone https://github.com/6mb/Microsoft-365-Admin.git \
 
 # microsoft
 FROM logr/8-jre-alpine
-COPY --from=build /src/Microsoft-365-Admin/target/microsoft-0.0.1-SNAPSHOT.jar .
-RUN mv microsoft-0.0.1-SNAPSHOT.jar microsoft.jar
+COPY --from=build /src/Microsoft-365-Admin/target/microsoft-365-admin-*-RELEASE.jar .
+RUN mv microsoft-365-admin-*-RELEASE.jar microsoft.jar
 
 #执行
 CMD java -jar microsoft.jar --spring.profile.active=dev
