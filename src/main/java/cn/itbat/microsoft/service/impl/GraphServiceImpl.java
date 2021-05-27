@@ -4,20 +4,22 @@ package cn.itbat.microsoft.service.impl;
 import cn.itbat.microsoft.config.GraphConfiguration;
 import cn.itbat.microsoft.model.GraphUser;
 import cn.itbat.microsoft.service.GraphService;
+import cn.itbat.microsoft.vo.DirectoryRoleVo;
 import cn.itbat.microsoft.vo.GraphUserVo;
-import com.microsoft.graph.models.extensions.*;
+import com.microsoft.graph.core.ClientException;
+import com.microsoft.graph.models.*;
 import com.microsoft.graph.options.Option;
 import com.microsoft.graph.options.QueryOption;
-import com.microsoft.graph.requests.extensions.IUserCollectionPage;
+import com.microsoft.graph.requests.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author mjj
@@ -66,11 +68,11 @@ public class GraphServiceImpl implements GraphService {
     @Override
     public List<User> getUsers(String appName) {
         // GET /users to get authenticated users
-        IUserCollectionPage iUserCollectionPage = GraphConfiguration.getGraphClient(appName)
+        UserCollectionPage UserCollectionPage = GraphConfiguration.getGraphClient(appName)
                 .users()
                 .buildRequest().select(SELECT).top(999)
                 .get();
-        return this.getNextPage(iUserCollectionPage);
+        return this.getNextPage(UserCollectionPage);
     }
 
     @Override
@@ -92,23 +94,23 @@ public class GraphServiceImpl implements GraphService {
         String filter = filters.stream().reduce((s1, s2) -> s1 + " and " + s2).get();
         requestOptions.add(new QueryOption("$filter", filter));
         // GET /users to get authenticated users
-        IUserCollectionPage iUserCollectionPage = GraphConfiguration.getGraphClient(graphUserVo.getAppName())
+        UserCollectionPage UserCollectionPage = GraphConfiguration.getGraphClient(graphUserVo.getAppName())
                 .users()
                 .buildRequest(requestOptions).select(SELECT).top(graphUserVo.getTop())
                 .get();
-        return this.getNextPage(iUserCollectionPage);
+        return this.getNextPage(UserCollectionPage);
     }
 
-    private List<User> getNextPage(IUserCollectionPage iUserCollectionPage) {
+    private List<User> getNextPage(UserCollectionPage UserCollectionPage) {
         List<User> users = new ArrayList<>();
-        users.addAll(iUserCollectionPage.getCurrentPage());
-        while (iUserCollectionPage.getCurrentPage() != null && iUserCollectionPage.getCurrentPage().size() > 0) {
-            if (iUserCollectionPage.getNextPage() == null) {
+        users.addAll(UserCollectionPage.getCurrentPage());
+        while (UserCollectionPage.getCurrentPage() != null && UserCollectionPage.getCurrentPage().size() > 0) {
+            if (UserCollectionPage.getNextPage() == null) {
                 return users;
             }
-            iUserCollectionPage = iUserCollectionPage.getNextPage().buildRequest().get();
-            if (!CollectionUtils.isEmpty(iUserCollectionPage.getCurrentPage())) {
-                List<User> currentPage = iUserCollectionPage.getCurrentPage();
+            UserCollectionPage = UserCollectionPage.getNextPage().buildRequest().get();
+            if (!CollectionUtils.isEmpty(UserCollectionPage.getCurrentPage())) {
+                List<User> currentPage = UserCollectionPage.getCurrentPage();
                 users.addAll(currentPage);
             }
         }
@@ -153,16 +155,26 @@ public class GraphServiceImpl implements GraphService {
         AssignedLicense addLicenses = new AssignedLicense();
         addLicenses.skuId = UUID.fromString(skuId);
         addLicensesList.add(addLicenses);
+
+        UserAssignLicenseParameterSet parameterSet = new UserAssignLicenseParameterSet();
+        parameterSet.addLicenses = addLicensesList;
+        parameterSet.removeLicenses = new ArrayList<>();
         return GraphConfiguration.getGraphClient(appName).users(userId)
-                .assignLicense(addLicensesList, new LinkedList<>())
+                .assignLicense(parameterSet)
                 .buildRequest()
                 .post();
     }
 
     @Override
     public User cancelLicense(String appName, String skuId, String userId) {
+        UUID skuIdUUID = UUID.fromString(skuId);
+
+        UserAssignLicenseParameterSet parameterSet = new UserAssignLicenseParameterSet();
+        parameterSet.addLicenses = new ArrayList<>();
+        parameterSet.removeLicenses = Collections.singletonList(skuIdUUID);
+
         return GraphConfiguration.getGraphClient(appName).users(userId)
-                .assignLicense(new ArrayList<>(), Collections.singletonList(UUID.fromString(skuId)))
+                .assignLicense(parameterSet)
                 .buildRequest()
                 .post();
     }
@@ -205,4 +217,59 @@ public class GraphServiceImpl implements GraphService {
                 .buildRequest()
                 .delete();
     }
+
+    @Override
+    public List<DirectoryRole> listDirectoryRoles(String appName) {
+        try {
+            DirectoryRoleCollectionPage iDirectoryRoleCollectionPage = GraphConfiguration.getGraphClient(appName)
+                    .directoryRoles()
+                    .buildRequest()
+                    .get();
+            return iDirectoryRoleCollectionPage.getCurrentPage();
+        } catch (ClientException exception) {
+            log.error(exception.getMessage());
+        }
+        return new ArrayList<>();
+    }
+
+    @Override
+    public List<User> listMembersOfADirectoryRole(String appName, String objectId) {
+        try {
+            UserCollectionPage page = GraphConfiguration.getGraphClient(appName)
+                    .directoryRoles(objectId)
+                    .membersAsUser()
+                    .buildRequest()
+                    .get();
+            return page.getCurrentPage();
+        } catch (ClientException e) {
+            log.error(e.getMessage());
+        }
+        return new ArrayList<>();
+    }
+
+    @Override
+    public Map<DirectoryRoleVo, Set<String>> directoryRoleToUserNameMap(String appName) {
+        // 查询当前有哪些角色，并查询其角色下有哪些用户
+        return listDirectoryRoles(appName)
+                .stream()
+                .collect(Collectors.toMap(DirectoryRoleVo::new, role -> listMembersOfADirectoryRole(appName, role.id)
+                        .stream()
+                        .map(m -> m.userPrincipalName)
+                        .collect(Collectors.toSet())
+                ));
+    }
+
+    @Override
+    public Boolean addDirectoryRoleMember(String appName, String userId, String roleId) {
+        DirectoryObject directoryObject = new DirectoryObject();
+        directoryObject.id = userId;
+        DirectoryObject resp = GraphConfiguration.getGraphClient(appName)
+                .directoryRoles("roleTemplateId=" + roleId)
+                .members()
+                .references()
+                .buildRequest()
+                .post(directoryObject);
+        return userId.equals(resp.id);
+    }
+
 }
