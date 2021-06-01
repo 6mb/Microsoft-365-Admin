@@ -62,6 +62,14 @@
 委派（个人 Microsoft 帐户）） | 不支持。
 应用程序 | User.ReadWrite.All、Directory.ReadWrite.All
 
+**提权：**
+
+权限类型	 | 权限（从最低特权到最高特权）
+---|---
+委派（工作或学校帐户） | 
+委派（个人 Microsoft 帐户）） | 不支持。
+应用程序 | RoleManagement.ReadWrite.Directory
+
 ## 运行
 
 #### 1、关于配置文件
