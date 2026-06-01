@@ -1,7 +1,9 @@
 # Microsoft-365-Admin
  
-![https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square](https://img.shields.io/badge/license-MIT-blue.svg?longCache=true&style=flat-square)
-![https://img.shields.io/badge/springboot-2.0.6-orange.svg?style=flat-square](https://img.shields.io/badge/springboot-2.1.3-yellow.svg?longCache=true&style=popout-square)
+![License](https://img.shields.io/badge/license-GPLv2-blue?style=flat-square)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-2.4.5-brightgreen?style=flat-square)
+
+[English README](./README.en.md) | [English Config Guide](./Config.en.md) | [English API Reference](./Microsoft%20365%20Admin.en.md) | [English Prototype Notes](./Azure.en.md)
 
 此项目是一个基于API的 Microsoft 365 管理平台, 支持订阅查询，用户管理（查询，新增，删除，分配许可证等），支持批量创建用户，批量删除用户，支持邀请码. 支持多账户管理.
 
@@ -74,14 +76,14 @@
 
 #### 1、关于配置文件
 
-请参考该文档 [Config文档](https://github.com/6mb/Microsoft-365-Admin/blob/dev/Config.md)
+请参考该文档 [Config文档](./Config.md)
 
 #### 2、存在Java环境的情况下
 下载最新版本的`jar`包，然后在同目录新建config目录，下载 [application-dev.yml](https://github.com/6mb/Microsoft-365-Admin/blob/master/src/main/resources/config/application-dev.yml)文件放到该目录。
 
 按照格式修改配置文件
 
-执行 `java -jar microsoft-0.0.1-SNAPSHOT.jar --spring.profile.active=dev` 启动，端口：8099
+执行 `java -jar microsoft-365-admin-1.6.2-RELEASE.jar --spring.profiles.active=dev` 启动，端口：8099
 
 #### 3、Docker 安装 （推荐）
 
