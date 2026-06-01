@@ -9,7 +9,6 @@ import com.microsoft.graph.models.Domain;
 import com.microsoft.graph.models.SubscribedSku;
 import com.microsoft.graph.models.User;
 import lombok.extern.slf4j.Slf4j;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -60,7 +59,7 @@ public class GraphCache {
                 .expireAfterWrite(userTimeout, TimeUnit.MINUTES)
                 .build(new CacheLoader<String, List<User>>() {
                     @Override
-                    public List<User> load(@NonNull String key) {
+                    public List<User> load(String key) {
                         return graphService.getUsers(key);
                     }
                 });
@@ -68,7 +67,7 @@ public class GraphCache {
                 .expireAfterWrite(licenseTimeout, TimeUnit.MINUTES)
                 .build(new CacheLoader<String, List<SubscribedSku>>() {
                     @Override
-                    public List<SubscribedSku> load(@NonNull String key) {
+                    public List<SubscribedSku> load(String key) {
                         return graphService.getSubscribedSkus(key);
                     }
                 });
@@ -76,7 +75,7 @@ public class GraphCache {
                 .expireAfterWrite(domainTimeout, TimeUnit.MINUTES)
                 .build(new CacheLoader<String, List<Domain>>() {
                     @Override
-                    public List<Domain> load(@NonNull String key) {
+                    public List<Domain> load(String key) {
                         return graphService.getDomains(key);
                     }
                 });
@@ -84,7 +83,7 @@ public class GraphCache {
                 .expireAfterWrite(licenseTimeout, TimeUnit.MINUTES)
                 .build(new CacheLoader<String, Map<DirectoryRoleVo, Set<String>>>() {
                     @Override
-                    public Map<DirectoryRoleVo, Set<String>> load(@NonNull String key) throws Exception {
+                    public Map<DirectoryRoleVo, Set<String>> load(String key) throws Exception {
                         return graphService.directoryRoleToUserNameMap(key);
                     }
                 });

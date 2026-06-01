@@ -10,14 +10,19 @@
     </parent>
     <groupId>cn.itbat.microsoft</groupId>
     <artifactId>microsoft-365-admin</artifactId>
-    <version>1.6.2-RELEASE</version>
+    <version>1.6.3-RELEASE</version>
     <name>Microsoft 365 Admin</name>
     <description>Microsoft 365 Admin project for Spring Boot</description>
 
     <properties>
         <java.version>1.8</java.version>
-        <jackson.version>2.11.4</jackson.version>
+        <jackson.version>2.15.4</jackson.version>
         <lombok.version>1.18.38</lombok.version>
+        <fastjson.version>1.2.83</fastjson.version>
+        <guava.version>33.4.8-jre</guava.version>
+        <h2.version>2.2.220</h2.version>
+        <commons-lang3.version>3.18.0</commons-lang3.version>
+        <hutool.version>5.8.21</hutool.version>
     </properties>
 
     <dependencies>
@@ -88,7 +93,7 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>1.4.200</version>
+            <version>${h2.version}</version>
             <scope>runtime</scope>
         </dependency>
 
@@ -103,14 +108,14 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>1.2.58</version>
+            <version>${fastjson.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>30.1.1-jre</version>
+            <version>${guava.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/com.github.promeg/tinypinyin -->
@@ -123,13 +128,13 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.5</version>
+            <version>${commons-lang3.version}</version>
         </dependency>
 
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
-            <version>5.1.3</version>
+            <version>${hutool.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/com.github.binarywang/java-testdata-generator -->

@@ -1,6 +1,6 @@
 package cn.itbat.microsoft.model.support;
 
-import cn.hutool.core.date.BetweenFormater;
+import cn.hutool.core.date.BetweenFormatter;
 import cn.hutool.core.date.DateUtil;
 import lombok.Builder;
 import lombok.Data;
@@ -46,7 +46,7 @@ public class Sys {
         this.osArch = System.getProperty("os.arch");
         this.osVersion = System.getProperty("os.version");
         long uptime = ManagementFactory.getRuntimeMXBean().getUptime();
-        this.upTime = DateUtil.formatBetween(uptime, BetweenFormater.Level.SECOND);
+        this.upTime = DateUtil.formatBetween(uptime, BetweenFormatter.Level.SECOND);
     }
 
 }
