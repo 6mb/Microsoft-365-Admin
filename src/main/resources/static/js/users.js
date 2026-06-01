@@ -316,7 +316,6 @@ function addUserClick() {
                 }
                 lightyear.notify(message, 'danger', delay);
             } else {
-                console.log(r);
                 let userInfo = '名称：' + r.data.displayName + '<br>账号：' + r.data.userPrincipalName + '<br>密码：' + r.data.password;
                 lightyear.loading('hide');
                 $.alert({
@@ -360,7 +359,6 @@ function addLicenseToUserWithSku(userId, skuId) {
                 lightyear.loading('hide');
                 lightyear.notify(r.message, 'danger', delay);
             } else {
-                console.log(r);
                 lightyear.loading('hide');
                 lightyear.notify("添加许可证成功！", 'success', delay)
             }
@@ -390,7 +388,6 @@ function cancelLicenseForUser(userId, skuId) {
                 lightyear.loading('hide');
                 lightyear.notify(r.message, 'danger', delay);
             } else {
-                console.log(r);
                 lightyear.loading('hide');
                 lightyear.notify("取消许可证成功！", 'success', delay)
             }
@@ -419,7 +416,6 @@ function enableUserWithUserId(userId) {
                 lightyear.loading('hide');
                 lightyear.notify(r.message, 'danger', delay);
             } else {
-                console.log(r);
                 lightyear.loading('hide');
                 lightyear.notify('账户启用成功！', 'success', delay);
             }
@@ -448,7 +444,6 @@ function disableUserWithUserId(userId) {
                 lightyear.loading('hide');
                 lightyear.notify(r.message, 'danger', delay);
             } else {
-                console.log(r);
                 lightyear.loading('hide');
                 lightyear.notify('账户禁用成功！', 'success', delay);
             }
@@ -476,7 +471,6 @@ function deletedUserWithUserId(userId) {
                 lightyear.loading('hide');
                 lightyear.notify(r.message, 'danger', delay);
             } else {
-                console.log(r);
                 lightyear.loading('hide');
                 lightyear.notify('账户删除成功！', 'success', delay);
             }
@@ -515,7 +509,6 @@ function addUserBatchClick() {
                 lightyear.loading('hide');
                 lightyear.notify(r.message, 'danger', delay);
             } else {
-                console.log(r);
                 lightyear.loading('hide');
                 lightyear.notify('正在创建账户中，请等待！请根据根据创建数量比例等待，刷新界面', 'success', delay);
             }
@@ -542,7 +535,6 @@ function deletedUserBatchClick() {
                 lightyear.loading('hide');
                 lightyear.notify(r.message, 'danger', delay);
             } else {
-                console.log(r);
                 lightyear.loading('hide');
                 lightyear.notify('账户删除成功！', 'success', delay);
             }
@@ -571,7 +563,6 @@ function addDirectoryRoleMember(userId, roleId) {
                 lightyear.loading('hide');
                 lightyear.notify(r.message, 'danger', delay);
             } else {
-                console.log(r);
                 lightyear.loading('hide');
                 lightyear.notify('提权成功！', 'success', delay);
             }
@@ -600,7 +591,6 @@ function setDomain(id) {
     $("#" + id).empty();
     $("#" + id).append("<option value=\"\" disabled selected hidden>请选择域名后缀</option>");
     for (i in domainList) {
-        console.log(domainList[i].isDefault)
         if (domainList[i].isDefault) {
             let option = "<option selected='selected' value=" + domainList[i].id + ">" + domainList[i].id + "</option>";
             $("#" + id).append(option);

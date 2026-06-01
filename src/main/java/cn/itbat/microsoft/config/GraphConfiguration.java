@@ -96,6 +96,9 @@ public class GraphConfiguration {
         // Create the auth provider
 //        SimpleAuthProvider authProvider = new SimpleAuthProvider(GraphConfiguration.getToken(appName));
         GraphConfig config = graphConfigMap.get(appName);
+        if (config == null) {
+            throw new IllegalArgumentException("组织类型不存在：" + appName);
+        }
         final ClientSecretCredential clientSecretCredential = new ClientSecretCredentialBuilder()
                 .clientId(config.appId)
                 .clientSecret(config.appSecret)
@@ -106,7 +109,7 @@ public class GraphConfiguration {
 
         // Create default logger to only log errors
         DefaultLogger logger = new DefaultLogger();
-        logger.setLoggingLevel(LoggerLevel.DEBUG);
+        logger.setLoggingLevel(LoggerLevel.ERROR);
 
         log.info("Graph client is built!");
         // Build a Graph client

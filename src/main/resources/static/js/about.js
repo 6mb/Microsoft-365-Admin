@@ -48,7 +48,11 @@ function getSystemMonitor() {
                 $("#jvmTable").append('<tr>' + '<td> JVM 空闲内存' + '</td>' + '<td>' + jvm.total.toFixed(2) + ' MB</td>' + '</tr>');
             }
         },
-        error: function () {
+        error: function (r) {
+            if (r.status === 401) {
+                window.location.href = "login.html";
+                return;
+            }
             /*错误信息处理*/
             lightyear.notify("服务器错误，请稍后再试~", 'danger', 100);
         }

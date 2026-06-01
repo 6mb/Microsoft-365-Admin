@@ -139,6 +139,10 @@ public class GraphCache {
         usersCache.refresh(appName);
     }
 
+    public void invalidateUsers(String appName) {
+        usersCache.invalidate(appName);
+    }
+
     /**
      * 刷新许可证缓存
      *
@@ -146,6 +150,10 @@ public class GraphCache {
      */
     public void refreshLicense(String appName) {
         licenseCache.refresh(appName);
+    }
+
+    public void invalidateLicense(String appName) {
+        licenseCache.invalidate(appName);
     }
 
     /**
@@ -157,6 +165,10 @@ public class GraphCache {
         domainCache.refresh(appName);
     }
 
+    public void invalidateDomain(String appName) {
+        domainCache.invalidate(appName);
+    }
+
     /**
      * 刷新角色缓存
      *
@@ -164,5 +176,9 @@ public class GraphCache {
      */
     public void refreshRole(String appName) {
         roleCache.refresh(appName);
+    }
+
+    public void invalidateRole(String appName) {
+        roleCache.invalidate(appName);
     }
 }

@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.firewall.HttpFirewall;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
 
@@ -48,7 +49,9 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
-                .antMatchers("/microsoft/**").authenticated()
+                .antMatchers("/login").permitAll()
+                .antMatchers("/microsoft/**", "/system/**").authenticated()
+                .anyRequest().permitAll()
                 .and()
                 // 使用自带的登录
                 .formLogin().loginPage("/login").usernameParameter("userName").passwordParameter("password")
@@ -100,7 +103,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout().permitAll();
 
         http.cors();
-        http.csrf().disable();
+        http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
         http.headers().frameOptions().sameOrigin();
     }
 
@@ -130,7 +133,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public static PasswordEncoder passwordEncoder() {
-        return new Md5PasswordEncoder();
+        return new ConfigPasswordEncoder();
     }
 
 }

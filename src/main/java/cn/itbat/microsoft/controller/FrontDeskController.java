@@ -43,6 +43,9 @@ public class FrontDeskController {
         if (StringUtils.isEmpty(graphUserVo.getAppName())) {
             return BaseResultVo.error("参数为空！");
         }
+        if (graphProperties.getConfig(graphUserVo.getAppName()) == null) {
+            return BaseResultVo.error("组织类型不存在！");
+        }
         if (StringUtils.isEmpty(graphUserVo.getCode())) {
             return BaseResultVo.error("邀请码为空！");
         }
@@ -69,6 +72,12 @@ public class FrontDeskController {
      */
     @GetMapping("/listUsageLocation")
     public BaseResultVo listUsageLocation(String appName) {
+        if (StringUtils.isEmpty(appName)) {
+            return BaseResultVo.error("参数为空！");
+        }
+        if (graphProperties.getConfig(appName) == null) {
+            return BaseResultVo.error("组织类型不存在！");
+        }
         return BaseResultVo.success(graphProperties.listUsageLocation(appName));
     }
 }

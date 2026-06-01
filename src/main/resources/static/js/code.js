@@ -116,7 +116,6 @@ function addCodeClick() {
                 lightyear.loading('hide');
                 lightyear.notify(r.message, 'danger', delay);
             } else {
-                console.log(r);
                 lightyear.loading('hide');
                 lightyear.notify('创建邀请码成功数量：' + num, 'success', delay);
             }

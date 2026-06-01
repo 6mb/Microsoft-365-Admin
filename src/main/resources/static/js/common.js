@@ -1,5 +1,12 @@
 var path = url + "/microsoft";
 var appNameList;
+
+$.ajaxSetup({
+    beforeSend: function (xhr) {
+        attachCsrfToken(xhr);
+    }
+});
+
 $.ajax({
     type: "get",
     async: false,
@@ -14,7 +21,6 @@ $.ajax({
         }
     },
     error: function (r) {
-        console.log(r)
         if (r.status === 401) {
             lightyear.notify(r.message, 'error', 200);
             window.location.href = "login.html";
@@ -118,4 +124,3 @@ function isNotNull(ele) {
     }
     return true;
 }
-

@@ -143,7 +143,7 @@ public class GraphServiceImpl implements GraphService {
                 .post(user);
         // if skuId is not null, add skuId license
         if (StringUtils.isNotBlank(graphUser.getSkuId())) {
-            User license = this.addLicense(appName, user.userPrincipalName, graphUser.getSkuId());
+            this.addLicense(appName, user.userPrincipalName, graphUser.getSkuId());
         }
         return userResult;
 
@@ -166,7 +166,7 @@ public class GraphServiceImpl implements GraphService {
     }
 
     @Override
-    public User cancelLicense(String appName, String skuId, String userId) {
+    public User cancelLicense(String appName, String userId, String skuId) {
         UUID skuIdUUID = UUID.fromString(skuId);
 
         UserAssignLicenseParameterSet parameterSet = new UserAssignLicenseParameterSet();

@@ -30,10 +30,13 @@ public class ExceptionHandler {
     }
 
     @org.springframework.web.bind.annotation.ExceptionHandler(GraphServiceException.class)
-    public BaseResultVo graphServiceException(RuntimeException ex, HttpServletResponse response, HttpServletRequest request) {
+    public BaseResultVo graphServiceException(GraphServiceException ex, HttpServletResponse response, HttpServletRequest request) {
         log.error(">>>>>>>>>>>>【微软请求异常】", ex.getMessage(), ex);
         String[] split = ex.getMessage().split("\n");
-        return new BaseResultVo(500, split[0]+ split[1]);
+        if (split.length >= 2) {
+            return new BaseResultVo(500, split[0] + split[1]);
+        }
+        return new BaseResultVo(500, ex.getMessage());
     }
 
     /**

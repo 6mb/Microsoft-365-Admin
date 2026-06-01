@@ -16,7 +16,6 @@ import cn.itbat.microsoft.service.Microsoft365Service;
 import cn.itbat.microsoft.utils.PageInfo;
 import cn.itbat.microsoft.utils.PasswordGenerator;
 import cn.itbat.microsoft.vo.*;
-import com.alibaba.fastjson.JSONObject;
 import com.github.promeg.pinyinhelper.Pinyin;
 import com.microsoft.graph.models.AssignedLicense;
 import com.microsoft.graph.models.Domain;
@@ -41,6 +40,8 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service("microsoft365Service")
 public class Microsoft365ServiceImpl implements Microsoft365Service {
+    private static final String DEFAULT_BATCH_CITY = "LOC";
+    private static final String DEFAULT_BATCH_COUNTRY = "中国";
 
     @Resource
     private GraphService graphService;
@@ -53,6 +54,21 @@ public class Microsoft365ServiceImpl implements Microsoft365Service {
 
     @Resource
     private GraphCache graphCache;
+
+    private void invalidateUserCaches(String appName) {
+        graphCache.invalidateUsers(appName);
+    }
+
+    private void invalidateUserAndLicenseCaches(String appName) {
+        graphCache.invalidateUsers(appName);
+        graphCache.invalidateLicense(appName);
+    }
+
+    private void invalidateUserRoleAndLicenseCaches(String appName) {
+        graphCache.invalidateUsers(appName);
+        graphCache.invalidateLicense(appName);
+        graphCache.invalidateRole(appName);
+    }
 
 
     @Override
@@ -267,36 +283,39 @@ public class Microsoft365ServiceImpl implements Microsoft365Service {
                 .password(graphUserVo.getPassword() == null ? "" : graphUserVo.getPassword())
                 .skuId(StringUtils.isEmpty(graphUserVo.getSkuId()) ? graphProperties.getSubConfig(graphUserVo.getSkuType()).getSkuId() : graphUserVo.getSkuId())
                 .build();
-        log.info("【Office】创建用户开始：" + JSONObject.toJSONString(graphUser));
+        log.info("【Office】组织：{} 创建用户开始：{}", graphUserVo.getAppName(), graphUser.getUserPrincipalName());
         // 调用api创建用户
         User user = graphService.createUser(graphUserVo.getAppName(), graphUser);
-        log.info("【Office】创建用户成功：" + user.toString());
+        log.info("【Office】组织：{} 创建用户成功：{}", graphUserVo.getAppName(), user.userPrincipalName);
         GraphUserVo graphUserVoResult = this.getGraphUserVo(user);
         graphUserVoResult.setPassword(graphUser.getPassword());
         // 发送邮件
         if (!StringUtils.isEmpty(graphUserVo.getMailbox())) {
             mailService.sendMail(graphUserVo.getMailbox(), graphUser.getUserPrincipalName(), graphUserVoResult.getPassword());
         }
-        // 清空原来的缓存
+        invalidateUserAndLicenseCaches(graphUserVo.getAppName());
         return graphUserVoResult;
     }
 
     @Override
     public void updateUser(String appName, GraphUser graphUser) {
-        log.info("【Office】组织：" + appName + " 更新用户" + JSONObject.toJSONString(graphUser));
+        log.info("【Office】组织：{} 更新用户：{}", appName, graphUser.getUserId());
         graphService.updateUser(appName, graphUser);
+        invalidateUserCaches(appName);
     }
 
     @Override
     public void enableDisableUser(String appName, String userId, Boolean accountEnabled) {
         graphService.enableDisableUser(appName, userId, accountEnabled);
         log.info("【Office】组织：" + appName + " 用户账户" + (accountEnabled ? "启用" : "禁用") + "成功");
+        invalidateUserCaches(appName);
     }
 
     @Override
     public GraphUserVo addLicense(String appName, String userId, String skuId) {
         User user = graphService.addLicense(appName, userId, skuId);
         log.info("【Office】组织：" + appName + " 添加" + userId + "订阅" + skuId + "成功");
+        invalidateUserAndLicenseCaches(appName);
         return this.getGraphUserVo(user);
     }
 
@@ -308,13 +327,15 @@ public class Microsoft365ServiceImpl implements Microsoft365Service {
             List<AssignedLicense> assignedLicenses = user.assignedLicenses;
             if (!CollectionUtils.isEmpty(assignedLicenses)) {
                 for (AssignedLicense assignedLicens : assignedLicenses) {
-                    graphService.cancelLicense(appName, assignedLicens.skuId.toString(), userId);
+                    graphService.cancelLicense(appName, userId, assignedLicens.skuId.toString());
                 }
             }
+            invalidateUserAndLicenseCaches(appName);
             return null;
         }
         User user = graphService.cancelLicense(appName, userId, skuId);
         log.info("【Office】组织：" + appName + " 取消" + userId + "订阅" + skuId + "成功");
+        invalidateUserAndLicenseCaches(appName);
         return this.getGraphUserVo(user);
     }
 
@@ -323,13 +344,14 @@ public class Microsoft365ServiceImpl implements Microsoft365Service {
         graphService.getUser(appName, userName);
         String pw = StringUtils.isEmpty(password) ? "P" + new PasswordGenerator(6, 3).generateRandomPassword() + "&" : password;
         graphService.resetPassword(appName, userName, StringUtils.isEmpty(password) ? pw : password);
-        log.info("【Office】用户重置密码成功：{}", StringUtils.isEmpty(password) ? pw : password);
+        log.info("【Office】组织：{} 用户重置密码成功：{}", appName, userName);
     }
 
     @Override
     public void deletedUser(String appName, String userName) {
         graphService.deletedUser(appName, userName);
         log.info("【Office】组织：" + appName + " 删除用户成功：" + userName);
+        invalidateUserRoleAndLicenseCaches(appName);
     }
 
     @Async("asyncPoolTaskExecutor")
@@ -350,7 +372,7 @@ public class Microsoft365ServiceImpl implements Microsoft365Service {
                 log.error("【Office】删除用户失败：" + user.userPrincipalName);
             }
         }
-        graphCache.refreshUsers(appName);
+        invalidateUserRoleAndLicenseCaches(appName);
     }
 
 
@@ -372,8 +394,8 @@ public class Microsoft365ServiceImpl implements Microsoft365Service {
             String displayName = ChineseNameGenerator.getInstance().generate();
             String mailNickname = Pinyin.toPinyin(displayName, "").toLowerCase();
             GraphUser graphUser = GraphUser.builder()
-                    .country("中国")
-                    .city("LOC")
+                    .country(DEFAULT_BATCH_COUNTRY)
+                    .city(DEFAULT_BATCH_CITY)
                     .usageLocation(usageLocation)
                     .displayName(displayName)
                     .mailNickname(mailNickname)
@@ -382,16 +404,16 @@ public class Microsoft365ServiceImpl implements Microsoft365Service {
                     .userPrincipalName(mailNickname + "@" + domain)
                     .password(StringUtils.isEmpty(password) ? "P" + new PasswordGenerator(6, 3).generateRandomPassword() + "&" : password)
                     .skuId(skuId).build();
-            log.info("【Office】创建用户开始：" + JSONObject.toJSONString(graphUser));
+            log.info("【Office】组织：{} 批量创建用户开始：{}", appName, graphUser.getUserPrincipalName());
             try {
                 User user = graphService.createUser(appName, graphUser);
-                log.info("【Office】创建用户成功：" + user.toString());
+                log.info("【Office】组织：{} 批量创建用户成功：{}", appName, user.userPrincipalName);
             } catch (Exception e) {
                 log.error("【Office】创建用户失败：" + e.getMessage());
                 // 将创建的用户删除，如果是订阅分配失败的话
             }
         }
-        graphCache.refreshUsers(appName);
+        invalidateUserAndLicenseCaches(appName);
     }
 
 
@@ -455,11 +477,12 @@ public class Microsoft365ServiceImpl implements Microsoft365Service {
 
     @Override
     public Boolean addDirectoryRoleMember(String appName, String userId, String roleId) {
-        return graphService.addDirectoryRoleMember(appName, userId, roleId);
+        Boolean result = graphService.addDirectoryRoleMember(appName, userId, roleId);
+        graphCache.invalidateRole(appName);
+        return result;
     }
 
 
 }
-
 
 

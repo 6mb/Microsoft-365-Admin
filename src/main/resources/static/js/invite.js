@@ -1,5 +1,12 @@
 let delay = 2000;
 let usageLocationList;
+
+$.ajaxSetup({
+    beforeSend: function (xhr) {
+        attachCsrfToken(xhr);
+    }
+});
+
 $(window).on("load", function () {
     $('#titleName').html(" 申请账号 ");
     lightyear.loading('show');
@@ -133,7 +140,6 @@ function addUserClick() {
                 }
                 lightyear.notify(message, 'danger', delay);
             } else {
-                console.log(r);
                 let userInfo = '名称：' + r.data.displayName + '<br>账号：' + r.data.userPrincipalName + '<br>密码：' + r.data.password;
                 lightyear.loading('hide');
                 $.alert({

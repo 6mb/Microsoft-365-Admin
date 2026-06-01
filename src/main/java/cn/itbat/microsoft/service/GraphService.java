@@ -92,11 +92,11 @@ public interface GraphService {
      * 取消许可证
      *
      * @param appName 组织类型
-     * @param skuId   许可证
      * @param userId  用户
+     * @param skuId   许可证
      * @return 用户信息
      */
-    User cancelLicense(String appName, String skuId, String userId);
+    User cancelLicense(String appName, String userId, String skuId);
 
     /**
      * 启用禁用账户

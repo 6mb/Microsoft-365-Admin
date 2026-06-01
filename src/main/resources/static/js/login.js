@@ -1,10 +1,15 @@
 let delay = 2000;
+
+$.ajaxSetup({
+    beforeSend: function (xhr) {
+        attachCsrfToken(xhr);
+    }
+});
+
 function loginClick() {
     // lightyear.loading('show');
     let username = $("#username").val();
     let password = $("#password").val();
-    console.log(username + "   "+password)
-    // 对密码加密
 
     // 提交请求
     $.ajax({
@@ -12,7 +17,7 @@ function loginClick() {
         url: url + "/login",
         data: {
             "userName": username,
-            "password": md5(password)
+            "password": password
         },
         dataType: "json",
         success: function (r) {
@@ -20,7 +25,6 @@ function loginClick() {
                 lightyear.loading('hide');
                 lightyear.notify(r.message, 'danger', delay);
             } else {
-                console.log(r);
                 lightyear.loading('hide');
                 lightyear.notify('登陆成功！', 'success', delay);
                 window.location.href = "index.html";
