@@ -1,0 +1,157 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: "Release tag. Leave empty to use v<project.version> from pom.xml."
+        required: false
+        type: string
+      prerelease:
+        description: "Mark this GitHub release as a prerelease."
+        required: false
+        default: false
+        type: boolean
+      draft:
+        description: "Create this GitHub release as a draft."
+        required: false
+        default: false
+        type: boolean
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ github.workflow }}-${{ github.ref_name || github.run_id }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Build and publish release
+    runs-on: ubuntu-latest
+
+    env:
+      RELEASE_TAG_INPUT: ${{ github.event_name == 'workflow_dispatch' && inputs.release_tag || '' }}
+      DRAFT: ${{ github.event_name == 'workflow_dispatch' && inputs.draft || false }}
+      PRERELEASE: ${{ github.event_name == 'workflow_dispatch' && inputs.prerelease || false }}
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Set up Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "8"
+          cache: maven
+
+      - name: Resolve release metadata
+        id: meta
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          pom_version="$(mvn -q -DforceStdout help:evaluate -Dexpression=project.version)"
+          artifact_id="$(mvn -q -DforceStdout help:evaluate -Dexpression=project.artifactId)"
+
+          if [[ "${GITHUB_EVENT_NAME}" == "push" ]]; then
+            tag="${GITHUB_REF_NAME}"
+          elif [[ -n "${RELEASE_TAG_INPUT}" ]]; then
+            tag="${RELEASE_TAG_INPUT}"
+          else
+            tag="v${pom_version}"
+          fi
+
+          if [[ "${tag}" != v* ]]; then
+            tag="v${tag}"
+          fi
+
+          release_version="${tag#v}"
+          if [[ -z "${release_version}" ]]; then
+            echo "::error::Release tag cannot be empty."
+            exit 1
+          fi
+
+          if [[ "${release_version}" != "${pom_version}" ]]; then
+            echo "::error::Release tag ${tag} does not match pom.xml version ${pom_version}."
+            echo "::error::Update pom.xml first, then release v${pom_version}."
+            exit 1
+          fi
+
+          jar_name="${artifact_id}-${pom_version}.jar"
+          checksum_name="${jar_name}.sha256"
+
+          {
+            echo "artifact_id=${artifact_id}"
+            echo "pom_version=${pom_version}"
+            echo "tag=${tag}"
+            echo "jar_name=${jar_name}"
+            echo "checksum_name=${checksum_name}"
+          } >> "${GITHUB_OUTPUT}"
+
+      - name: Build application
+        shell: bash
+        run: mvn -B -DskipTests clean package
+
+      - name: Prepare release assets
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          jar_path="target/${{ steps.meta.outputs.jar_name }}"
+          if [[ ! -f "${jar_path}" ]]; then
+            echo "::error::Expected build artifact not found: ${jar_path}"
+            exit 1
+          fi
+
+          mkdir -p dist
+          cp "${jar_path}" "dist/${{ steps.meta.outputs.jar_name }}"
+          (
+            cd dist
+            sha256sum "${{ steps.meta.outputs.jar_name }}" > "${{ steps.meta.outputs.checksum_name }}"
+          )
+
+      - name: Upload workflow artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: ${{ steps.meta.outputs.artifact_id }}-${{ steps.meta.outputs.pom_version }}
+          path: dist/*
+          if-no-files-found: error
+
+      - name: Create GitHub release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+
+          tag="${{ steps.meta.outputs.tag }}"
+          if gh release view "${tag}" >/dev/null 2>&1; then
+            echo "::error::GitHub release ${tag} already exists."
+            exit 1
+          fi
+
+          args=(
+            release create "${tag}"
+            "dist/${{ steps.meta.outputs.jar_name }}"
+            "dist/${{ steps.meta.outputs.checksum_name }}"
+            --title "Microsoft 365 Admin ${tag}"
+            --generate-notes
+            --target "${GITHUB_SHA}"
+          )
+
+          if [[ "${DRAFT}" == "true" ]]; then
+            args+=(--draft)
+          fi
+
+          if [[ "${PRERELEASE}" == "true" ]]; then
+            args+=(--prerelease)
+          fi
+
+          gh "${args[@]}"
